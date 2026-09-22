@@ -1,4 +1,6 @@
-# Detektif Bahasa — CASE 001
+# Detektif Bahasa — KES 001
+
+Format kredit versi untuk setiap keluaran: `vX.X.X by Zil-el-Saif`.
 
 Permainan Bahasa Melayu Tahun 2. Buka `index.html` dalam pelayar moden. Tiada pemasangan diperlukan. Untuk pratonton melalui HTTP: `node server.js`, kemudian buka http://localhost:4173.
 
