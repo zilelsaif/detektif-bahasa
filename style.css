@@ -28,3 +28,5 @@ body{position:relative}body:before{height:650px;background:url('assets/agency-de
 .scene-choice-fallback{display:flex;flex-wrap:wrap;gap:10px;padding:18px;border:2px solid var(--color-teal);border-radius:14px;background:#eaf4e5}.scene-choice-fallback p{flex-basis:100%}
 .panel:has(.investigation-scene)>.eyebrow{margin-bottom:7px}.panel:has(.investigation-scene)>.quote{margin:10px 0;padding:10px 16px}.panel:has(.investigation-scene) .scene-heading h2{margin-top:4px;margin-bottom:8px}.panel:has(.investigation-scene) .scene-instruction{margin:8px 0}
 .scene-hotspot{min-width:44px;min-height:44px}
+.case-card>svg:not(.icon){width:44px;height:55px;flex:0 0 44px;background:var(--color-sky);border-radius:5px}
+.case-card:not(.locked){background:var(--surface);color:var(--color-navy)}

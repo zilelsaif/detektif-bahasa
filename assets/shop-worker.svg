@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 300" role="img" aria-labelledby="t d">
+<title id="t">Pekerja Kedai Matematik</title><desc id="d">Pekerja muda yang mesra memakai visor kuning dan apron ungu Kedai Matematik.</desc>
+<defs><linearGradient id="apron" x2="0" y2="1"><stop stop-color="#7138c9"/><stop offset="1" stop-color="#48209a"/></linearGradient></defs>
+<path fill="#f8ecd7" d="M0 0h260v300H0z" opacity="0"/>
+<g stroke="#0f2d4a" stroke-width="5" stroke-linejoin="round">
+<path fill="#3a2530" d="M61 77q-9-51 25-60 45-31 91 2 39 2 31 59-12-20-30-26-57 35-117 25z"/>
+<circle cx="130" cy="88" r="57" fill="#e9a77a"/><path fill="#3a2530" d="M74 70q17-45 58-43 53 2 59 48-29-10-42-30-34 25-75 25z"/>
+<path fill="#f7b239" d="M70 48q60-28 120 0l-9 25q-51-19-102 0z"/><path fill="#6a2fb8" d="M75 66q54-18 110 0l-4 16q-51-13-102 0z"/>
+<path d="M99 51h18m-9-9v18m30-12 15 15m0-15-15 15m30-12h18" fill="none" stroke="#0b6e7b" stroke-linecap="round"/>
+<ellipse cx="108" cy="90" rx="10" ry="14" fill="#fff"/><ellipse cx="153" cy="90" rx="10" ry="14" fill="#fff"/><circle cx="110" cy="92" r="6" fill="#3c2418" stroke="none"/><circle cx="155" cy="92" r="6" fill="#3c2418" stroke="none"/><path d="M112 119q19 17 38 0" fill="#fff"/>
+<path fill="#f7b239" d="M76 149q54-25 108 0l16 112H59z"/><path fill="url(#apron)" d="M89 139h82l20 131H69z"/><path fill="#fff8e8" d="M93 160h74v31H93z"/><text x="130" y="174" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700" fill="#48209a" stroke="none">KEDAI</text><text x="130" y="186" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700" fill="#48209a" stroke="none">MATEMATIK</text>
+<rect x="99" y="208" width="62" height="48" rx="8" fill="#5c2caf"/><path d="M113 221h13m-7-7v14m20-12 12 12m0-12-12 12m-25 15h36" fill="none" stroke="#f7b239" stroke-linecap="round"/>
+<path fill="#e9a77a" d="M75 156q-32 7-45 35l20 10q13-19 35-22zm109 0q31 6 46 33l-20 12q-13-20-35-22z"/><path d="M34 189q-8-20 3-31m190 29q8-17-1-29" fill="none" stroke="#e9a77a" stroke-width="16" stroke-linecap="round"/>
+<path fill="#315f86" d="M78 266h45v28H70zm59 0h45l8 28h-53z"/>
+</g></svg>
