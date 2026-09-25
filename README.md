@@ -1,13 +1,13 @@
 # Detektif Bahasa
 
-Versi setempat: **v0.5.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
+Versi setempat: **v0.6.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
 
 Permainan misteri Bahasa Melayu di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Tiada pemasangan atau sambungan luar diperlukan.
 
-Kemajuan, pilihan bunyi dan rekod terbaik disimpan berasingan bagi setiap kes dalam localStorage pelayar. Save lama dinaik taraf secara automatik. Main semula memulakan kes aktif tanpa memadam rekod atau kemajuan kes lain. KES 002 dibuka selepas KES 001 selesai, manakala KES 003 dibuka selepas KES 002 selesai.
+Kemajuan, pilihan bunyi dan rekod terbaik disimpan berasingan bagi setiap kes dalam localStorage pelayar. Save lama dinaik taraf secara automatik. Main semula memulakan kes aktif tanpa memadam rekod atau kemajuan kes lain. KES 002–004 dibuka secara berurutan selepas kes sebelumnya selesai.
 
-Kawalan menggunakan elemen HTML asli untuk papan kekunci, tetikus dan sentuhan. Bunyi dijana secara setempat. Fon menggunakan Segoe UI/Arial sistem. KLU, watak, Bayuraya dan semua lokasi ialah SVG setempat. Kelas, perpustakaan, Kedai Matematik dan Sudut Bacaan berkongsi `renderScene()` serta butang hotspot semantik dengan koordinat peratusan dan bantuan tiga tahap yang menghormati `prefers-reduced-motion`. KES 003 menambah tugasan susunan cebisan menggunakan butang, tanpa seret dan lepas.
+Kawalan menggunakan elemen HTML asli untuk papan kekunci, tetikus dan sentuhan. Bunyi dijana secara setempat. Fon menggunakan Segoe UI/Arial sistem. KLU, watak, Bayuraya dan semua lokasi ialah SVG setempat. Kelas, perpustakaan, Kedai Matematik, Sudut Bacaan dan Taman Bayuraya berkongsi `renderScene()` serta butang hotspot semantik dengan koordinat peratusan dan bantuan tiga tahap yang menghormati `prefers-reduced-motion`. KES 004 menambah `Semak Kenyataan`, tugasan perbandingan berasaskan pilihan yang menekankan masa dan tempat.
 
 Jalankan ujian regresi: `node test-game.cjs`.
 
-Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.5.0-local-qa.md`.
+Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.6.0-local-qa.md`.
