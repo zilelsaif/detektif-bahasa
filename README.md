@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v0.8.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
+Versi setempat: **v0.9.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
 
 Permainan misteri Bahasa Melayu di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Tiada pemasangan atau sambungan luar diperlukan.
 
@@ -14,4 +14,6 @@ KES 005, **Misteri Persiapan Hari Bayuraya**, ialah mini-finale pertama. Kes ini
 
 v0.8.0 menyelaraskan status Fail Kes, butang mula/sambung, paparan keputusan, notis kes baharu dan pengiktirafan **Fail Pertama Lengkap** tanpa menambah kes atau mekanik utama.
 
-Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.8.0-local-qa.md`.
+v0.9.0 membuka **Peta Bayuraya** melalui navigasi bawah. Enam lokasi penting memaparkan status Belum ditemui, Ditemui atau Disiasat berdasarkan save dan rekod C001–C005 yang sedia ada. Peta tidak mengubah skema save dan tidak melancarkan kes secara terus.
+
+Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.9.0-local-qa.md`.
