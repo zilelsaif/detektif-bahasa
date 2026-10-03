@@ -130,5 +130,16 @@ g.run('guideOpen=false;mapOpen=true;render()');assert.equal(g.nodes['#app'].inne
 g.run('mapOpen=false;achievementsOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('PENCAPAIAN DETEKTIF'),true);
 g.run('achievementsOpen=false;charactersOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('FAIL PENDUDUK'),true);
 store={'detektif-bahasa-v1':v10save};g=boot();assert.equal(g.run('activeCase'),'C003');assert.equal(g.run('muted'),true);g.nodes['#guide-nav'].onclick();assert.equal(g.nodes['#app'].innerHTML.includes('Panduan Detektif'),true);assert.equal(g.run('getDiscoveredCharacterCount()'),14);
-assert.equal(fs.readFileSync('index.html','utf8').includes('v0.12.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.12.0 by Zil-el-Saif'),true);
-console.log('PASS: v0.12.0 Panduan, spoiler safety, save compatibility, navigation and C001–C005 regression.');
+// v0.13.0 release-candidate invariants
+assert.deepEqual(JSON.parse(g.run('JSON.stringify(firstArcCases.map(c=>c.difficulty))')),['⭐ Jejak Awal','⭐⭐ Jejak Tajam','⭐⭐⭐ Jejak Cermat','⭐⭐⭐⭐ Jejak Teliti','⭐⭐⭐⭐⭐ Jejak Utama']);
+assert.deepEqual(JSON.parse(g.run('JSON.stringify(firstArcCases.map(c=>c.maxStars))')),[3,3,3,4,5]);assert.equal(g.run('getMaximumStars()'),18);
+assert.deepEqual(JSON.parse(g.run('JSON.stringify([clues1.length,clues2.length,clues3.length,clues4.length,clues5.length])')),[5,5,5,5,5]);
+assert.deepEqual(JSON.parse(g.run('JSON.stringify(Object.keys(scenes))')),['classroom','library','mathShop','park','readingCorner','bayurayaFestival']);
+assert.equal(g.run(`typeof renderLibraryScene==='undefined'&&typeof renderFestivalScene==='undefined'`),true);
+assert.equal(g.run(`caseStatusText('C001',0).includes('SELESAI')`),true);assert.equal(g.run(`caseStatusText('C002',1).includes('SELESAI')`),true);
+g.run(`[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>{cases[id].record={status:'completed',stars,xpEarned};cases[id].run.status='completed'})`);
+assert.equal(g.run(`getTotalBestXP()`),970);assert.equal(g.run(`getTotalBestStars()`),18);assert.equal(g.run(`achievementDefinitions.filter(a=>a.unlocked()).length`),9);
+assert.equal(g.run(`getExplorationCount()`),6);assert.equal(g.run(`getDiscoveredCharacterCount()`),14);assert.equal(g.run(`isFirstArcComplete()`),true);
+const playerCopy=fs.readFileSync('game.js','utf8')+fs.readFileSync('index.html','utf8');assert.equal(/\bAina\b/.test(playerCopy),false);assert.equal(/Tahun\s+[0-9]/i.test(playerCopy),false);assert.equal(/Agensi Bayuraya/i.test(playerCopy),false);
+assert.equal(fs.readFileSync('index.html','utf8').includes('v0.13.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.13.0 by Zil-el-Saif'),true);
+console.log('PASS: v0.13.0 release-candidate audit, save compatibility, navigation and C001–C005 regression.');
