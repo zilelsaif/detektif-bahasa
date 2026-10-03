@@ -115,4 +115,20 @@ assert.deepEqual(JSON.parse(g.run('JSON.stringify(characters.aynaa.relatedCases)
 assert.equal(g.run(`characterDetail('aynaa').includes('Sekolah Bayuraya')&&characterDetail('aynaa').includes('Dataran Bayuraya')`),true);assert.equal(g.run(`characterDetail('librarian').includes('KES 001')&&characterDetail('librarian').includes('KES 003')`),true);assert.equal(g.run(`characterDetail('azzam').includes('Taman Bayuraya')&&characterDetail('azzam').includes('Dataran Bayuraya')`),true);
 for(const f of ['assets/cikgu-farah.svg','assets/hakim.svg','assets/mei-ling.svg','assets/pustakawan.svg'])assert.equal(fs.existsSync(f),true);const serverSource=fs.readFileSync('server.js','utf8');for(const route of ['/assets/cikgu-farah.svg','/assets/hakim.svg','/assets/mei-ling.svg','/assets/pustakawan.svg','/assets/locations/peta-bayuraya.svg'])assert.equal(serverSource.includes(route),true);
 const v10save=JSON.stringify({version:2,activeCase:'C003',cases:JSON.parse(g.run('JSON.stringify(cases)')),muted:true});store={'detektif-bahasa-v1':v10save};g=boot();assert.equal(g.run('activeCase'),'C003');assert.equal(g.run('muted'),true);assert.equal(g.run('getDiscoveredCharacterCount()'),14);g.run('charactersOpen=false;achievementsOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('PENCAPAIAN DETEKTIF'),true);g.run('achievementsOpen=false;mapOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('PETA BAYURAYA'),true);
-console.log('PASS: v0.11.0 characters, derived discovery, relationships, assets, v0.10 saves, Peta, Pencapaian and C001–C005 regression.');
+
+// v0.12.0 Panduan: content, spoiler safety, navigation state and save compatibility
+store={};g=boot();
+const guideStateBefore=g.run("JSON.stringify({activeCase,cases,muted})");g.nodes['#guide-nav'].onclick();const guideHtml=g.nodes['#app'].innerHTML;
+assert.equal(g.run('guideOpen'),true);assert.equal(guideHtml.includes('PANDUAN DETEKTIF'),true);assert.equal(g.run('guideSections.length'),6);
+for(const heading of ['Cara Bermain','Siasatan Lokasi','KLU & Bantuan','Mekanik Siasatan','Dunia Bayuraya','Simpanan & Kawalan'])assert.equal(guideHtml.includes(heading),true);
+for(const word of ['CARI','BACA','SAMBUNG','FIKIR','0/3','1/3','2/3','3/3','Tab','Enter','Space','Tetikus','sentuhan','Bunyi: Hidup','Main semula'])assert.equal(guideHtml.includes(word),true);
+assert.equal(guideHtml.includes('Kemajuan dan pilihan bunyi disimpan secara automatik pada peranti dan pelayar ini.'),true);
+for(const spoiler of ['Misteri Label Tertukar','Misteri Nota Terpotong','Misteri Jejak di Taman','Misteri Persiapan Hari Bayuraya','telah dicuri','label dua pesanan telah tertukar'])assert.equal(guideHtml.includes(spoiler),false);
+assert.equal(g.run("JSON.stringify({activeCase,cases,muted})"),guideStateBefore);
+assert.equal(fs.readFileSync('index.html','utf8').includes('id="guide-nav"')&&!fs.readFileSync('index.html','utf8').includes('Panduan<small>Akan datang'),true);
+g.run('guideOpen=false;mapOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('PETA BAYURAYA'),true);
+g.run('mapOpen=false;achievementsOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('PENCAPAIAN DETEKTIF'),true);
+g.run('achievementsOpen=false;charactersOpen=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('FAIL PENDUDUK'),true);
+store={'detektif-bahasa-v1':v10save};g=boot();assert.equal(g.run('activeCase'),'C003');assert.equal(g.run('muted'),true);g.nodes['#guide-nav'].onclick();assert.equal(g.nodes['#app'].innerHTML.includes('Panduan Detektif'),true);assert.equal(g.run('getDiscoveredCharacterCount()'),14);
+assert.equal(fs.readFileSync('index.html','utf8').includes('v0.12.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.12.0 by Zil-el-Saif'),true);
+console.log('PASS: v0.12.0 Panduan, spoiler safety, save compatibility, navigation and C001–C005 regression.');

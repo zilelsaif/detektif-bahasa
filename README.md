@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v0.11.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
+Versi setempat: **v0.12.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
 
 Permainan misteri Bahasa Melayu di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Tiada pemasangan atau sambungan luar diperlukan.
 
@@ -20,4 +20,6 @@ v0.10.0 membuka **Pencapaian** dengan sembilan lencana, lima kemahiran detektif,
 
 v0.11.0 membuka **Fail Penduduk Bayuraya** dengan 14 watak pertama, hubungan kes dan lokasi serta penemuan yang diterbitkan daripada progres sedia ada.
 
-Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.11.0-local-qa.md`.
+v0.12.0 membuka **Panduan Detektif**, rujukan mesra kanak-kanak bagi cara bermain, siasatan lokasi, bantuan KLU, mekanik siasatan, dunia Bayuraya, simpanan dan kawalan. Panduan tidak mendedahkan penyelesaian kes dan tidak mengubah save.
+
+Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.12.0-local-qa.md`.
