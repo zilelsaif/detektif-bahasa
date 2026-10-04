@@ -141,5 +141,19 @@ g.run(`[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,25
 assert.equal(g.run(`getTotalBestXP()`),970);assert.equal(g.run(`getTotalBestStars()`),18);assert.equal(g.run(`achievementDefinitions.filter(a=>a.unlocked()).length`),9);
 assert.equal(g.run(`getExplorationCount()`),6);assert.equal(g.run(`getDiscoveredCharacterCount()`),14);assert.equal(g.run(`isFirstArcComplete()`),true);
 const playerCopy=fs.readFileSync('game.js','utf8')+fs.readFileSync('index.html','utf8');assert.equal(/\bAina\b/.test(playerCopy),false);assert.equal(/Tahun\s+[0-9]/i.test(playerCopy),false);assert.equal(/Agensi Bayuraya/i.test(playerCopy),false);
-assert.equal(fs.readFileSync('index.html','utf8').includes('v0.13.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.13.0 by Zil-el-Saif'),true);
-console.log('PASS: v0.13.0 release-candidate audit, save compatibility, navigation and C001–C005 regression.');
+// v0.14.0 character asset unification
+const canonicalCharacterNames=['KLU','Aynaa','Cikgu Farah','Hakim','Mei Ling','Pustakawan Bayuraya','Ammar','Sofia','Pekerja Kedai Matematik','Ivy','Kumar','Maria','Azzam','Pak Rahim'];
+assert.deepEqual(JSON.parse(g.run('JSON.stringify(Object.values(characters).map(c=>c.name))')),canonicalCharacterNames);
+const characterPortraits=JSON.parse(g.run('JSON.stringify(Object.values(characters).map(c=>c.portrait))'));
+assert.equal(characterPortraits[0],'assets/klu.svg');
+for(const portrait of characterPortraits.slice(1)){assert.equal(portrait.startsWith('assets/characters/')&&portrait.endsWith('.webp'),true);assert.equal(fs.existsSync(portrait),true);assert.ok(fs.statSync(portrait).size>20000);assert.equal(fs.readFileSync(portrait).subarray(0,4).toString('ascii'),'RIFF')}
+assert.equal(new Set(characterPortraits).size,14);
+assert.equal(g.run(`tasks1[4].portrait`),'assets/characters/aynaa.webp');assert.equal(g.run(`tasks1[5].portrait`),'assets/characters/hakim.webp');assert.equal(g.run(`tasks1[6].portrait`),'assets/characters/mei-ling.webp');assert.equal(g.run(`tasks1[8].portrait`),'assets/characters/pustakawan.webp');assert.equal(g.run(`tasks1[8].name`),'Pustakawan Bayuraya');
+assert.equal(g.run(`tasks3[3].name`),'Ivy');assert.equal(g.run(`tasks3[8].portrait`),'assets/characters/pustakawan.webp');
+const runtimeSource=fs.readFileSync('game.js','utf8');
+for(const obsolete of ['aynaa','ammar','sofia','ivy','kumar','maria','azzam','pak-rahim','shop-worker','cikgu-farah','hakim','mei-ling','pustakawan'])assert.equal(runtimeSource.includes(`assets/${obsolete}.svg`),false);
+assert.equal(runtimeSource.includes('Ivy Chian'),false);assert.equal(/\bAina\b/.test(runtimeSource),false);assert.equal(runtimeSource.includes('kedai-matematik\\assets')||runtimeSource.includes('kedai-matematik/assets'),false);
+for(const portrait of characterPortraits.slice(1))assert.equal(serverSource.includes('/'+portrait),true);assert.equal(serverSource.includes("name.endsWith('.webp')?'image/webp'"),true);
+const characterCss=fs.readFileSync('style.css','utf8');assert.equal(characterCss.includes('.character-card.klu-card img{object-fit:contain}'),true);assert.equal(characterCss.includes('.character-detail>img[src$="klu.svg"]{object-fit:contain}'),true);
+assert.equal(fs.readFileSync('index.html','utf8').includes('v0.14.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.14.0 by Zil-el-Saif'),true);
+console.log('PASS: v0.14.0 character assets, save compatibility, navigation and C001–C005 regression.');

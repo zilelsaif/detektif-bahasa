@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v0.13.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
+Versi setempat: **v0.14.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
 
 Permainan misteri Bahasa Melayu di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Tiada pemasangan atau sambungan luar diperlukan.
 
@@ -24,4 +24,6 @@ v0.12.0 membuka **Panduan Detektif**, rujukan mesra kanak-kanak bagi cara bermai
 
 v0.13.0 ialah calon keluaran pra-v1.0.0. Versi ini mengaudit regresi lima kes, progres, save dan replay, permukaan dunia, aksesibiliti, bahasa, aset dan susun atur responsif tanpa menambah kandungan gameplay.
 
-Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.13.0-release-candidate-qa.md`.
+v0.14.0 menyatukan potret watak dengan karya rasmi Kedai Matematik dan potret baharu yang sepadan untuk watak khusus Detektif Bahasa. Semua potret runtime menggunakan WebP telus setempat dengan bingkai yang konsisten; logik permainan dan save kekal sama.
+
+Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.14.0-character-assets-qa.md`.
