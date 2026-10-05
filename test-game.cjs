@@ -155,5 +155,19 @@ for(const obsolete of ['aynaa','ammar','sofia','ivy','kumar','maria','azzam','pa
 assert.equal(runtimeSource.includes('Ivy Chian'),false);assert.equal(/\bAina\b/.test(runtimeSource),false);assert.equal(runtimeSource.includes('kedai-matematik\\assets')||runtimeSource.includes('kedai-matematik/assets'),false);
 for(const portrait of characterPortraits.slice(1))assert.equal(serverSource.includes('/'+portrait),true);assert.equal(serverSource.includes("name.endsWith('.webp')?'image/webp'"),true);
 const characterCss=fs.readFileSync('style.css','utf8');assert.equal(characterCss.includes('.character-card.klu-card img{object-fit:contain}'),true);assert.equal(characterCss.includes('.character-detail>img[src$="klu.svg"]{object-fit:contain}'),true);
-assert.equal(fs.readFileSync('index.html','utf8').includes('v0.14.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.14.0 by Zil-el-Saif'),true);
-console.log('PASS: v0.14.0 character assets, save compatibility, navigation and C001–C005 regression.');
+assert.equal(g.run(`characterCard(characters.shopWorker).includes('character-portrait')`),true);assert.equal(g.run(`characterDetail('shopWorker').includes('character-detail-portrait')`),true);assert.equal(characterCss.includes('img[src$="shop-worker.webp"]{transform:scale(1.23)}'),true);assert.equal(g.run(`characters.ivy.name`),'Ivy');
+assert.equal(fs.readFileSync('index.html','utf8').includes('v0.15.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.15.0 by Zil-el-Saif'),true);
+
+// v0.15.0 Peta Bayuraya visual redesign: cohesive WebP, independent controls and fallback
+const mapAsset='assets/locations/peta-bayuraya.webp';
+assert.equal(fs.existsSync(mapAsset),true);assert.equal(fs.readFileSync(mapAsset).subarray(0,4).toString('ascii'),'RIFF');assert.ok(fs.statSync(mapAsset).size>150000);
+assert.equal(runtimeSource.includes(mapAsset),true);assert.equal(runtimeSource.includes('<img src="assets/locations/peta-bayuraya.svg"'),false);assert.equal(serverSource.includes('/'+mapAsset),true);
+store={};g=boot();g.nodes['#map-nav'].onclick();const redesignedMapHtml=g.nodes['#app'].innerHTML;
+assert.equal((redesignedMapHtml.match(/data-location=/g)||[]).length,6);assert.equal(redesignedMapHtml.includes('map-art-fallback'),true);assert.equal(redesignedMapHtml.includes('map-hotspot-layer'),true);assert.equal(redesignedMapHtml.includes(mapAsset),true);assert.equal(g.run('getExplorationCount()'),1);
+g.click({location:'agency'});assert.equal(g.run('selectedLocation'),'agency');assert.equal(g.nodes['#app'].innerHTML.includes('Agensi Detektif Bahasa'),true);
+const mapCoordinates=JSON.parse(g.run('JSON.stringify(Object.values(locations).map(({id,x,y,w,h})=>({id,x,y,w,h})))'));
+for(const area of mapCoordinates){for(const key of ['x','y','w','h'])assert.ok(area[key]>=0&&area[key]<=100);assert.ok(area.x+area.w<=100&&area.y+area.h<=100)}
+for(let i=0;i<mapCoordinates.length;i++)for(let j=i+1;j<mapCoordinates.length;j++){const a=mapCoordinates[i],b=mapCoordinates[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`${a.id} overlaps ${b.id}`)}
+const mapCss=fs.readFileSync('style.css','utf8');assert.equal(mapCss.includes('.map-art-fallback')&&mapCss.includes('pointer-events:none'),true);assert.equal(mapCss.includes('touch-action:pan-x pan-y'),true);
+g.run("for(const id of ['C001','C002','C003','C004','C005']){cases[id].record={status:'completed'};cases[id].run.status='completed'}");assert.equal(g.run('getExplorationCount()'),6);assert.equal(g.run('isFirstArcComplete()'),true);
+console.log('PASS: v0.15.0 map artwork, semantic markers, fallback, save compatibility, navigation and C001–C005 regression.');

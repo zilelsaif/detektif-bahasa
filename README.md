@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v0.14.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
+Versi setempat: **v0.15.0 by Zil-el-Saif**. Format kredit setiap keluaran: `vX.X.X by Zil-el-Saif`.
 
 Permainan misteri Bahasa Melayu di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Tiada pemasangan atau sambungan luar diperlukan.
 
@@ -26,4 +26,6 @@ v0.13.0 ialah calon keluaran pra-v1.0.0. Versi ini mengaudit regresi lima kes, p
 
 v0.14.0 menyatukan potret watak dengan karya rasmi Kedai Matematik dan potret baharu yang sepadan untuk watak khusus Detektif Bahasa. Semua potret runtime menggunakan WebP telus setempat dengan bingkai yang konsisten; logik permainan dan save kekal sama.
 
-Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.14.0-character-assets-qa.md`.
+v0.15.0 menggantikan hero Peta Bayuraya dengan satu ilustrasi bandar WebP 16:9 yang kohesif. Enam lokasi kekal sebagai butang HTML semantik dengan status terbitan, panel maklumat dan logik penemuan yang sama; latar neutral memastikan penanda masih boleh digunakan jika imej gagal dimuatkan.
+
+Rujukan visual: `docs/detektif-bahasa-north-star.png` (dokumentasi sahaja, tidak dimuatkan oleh permainan). Nota QA terdahulu kekal dalam `docs/`; nota semasa: `docs/v0.15.0-map-redesign-qa.md`.
