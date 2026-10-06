@@ -156,7 +156,7 @@ assert.equal(runtimeSource.includes('Ivy Chian'),false);assert.equal(/\bAina\b/.
 for(const portrait of characterPortraits.slice(1))assert.equal(serverSource.includes('/'+portrait),true);assert.equal(serverSource.includes("name.endsWith('.webp')?'image/webp'"),true);
 const characterCss=fs.readFileSync('style.css','utf8');assert.equal(characterCss.includes('.character-card.klu-card img{object-fit:contain}'),true);assert.equal(characterCss.includes('.character-detail>img[src$="klu.svg"]{object-fit:contain}'),true);
 assert.equal(g.run(`characterCard(characters.shopWorker).includes('character-portrait')`),true);assert.equal(g.run(`characterDetail('shopWorker').includes('character-detail-portrait')`),true);assert.equal(characterCss.includes('img[src$="shop-worker.webp"]{transform:scale(1.23)}'),true);assert.equal(g.run(`characters.ivy.name`),'Ivy');
-assert.equal(fs.readFileSync('index.html','utf8').includes('v0.15.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v0.15.0 by Zil-el-Saif'),true);
+assert.equal(fs.readFileSync('index.html','utf8').includes('v1.0.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v1.0.0 by Zil-el-Saif'),true);
 
 // v0.15.0 Peta Bayuraya visual redesign: cohesive WebP, independent controls and fallback
 const mapAsset='assets/locations/peta-bayuraya.webp';
@@ -170,4 +170,4 @@ for(const area of mapCoordinates){for(const key of ['x','y','w','h'])assert.ok(a
 for(let i=0;i<mapCoordinates.length;i++)for(let j=i+1;j<mapCoordinates.length;j++){const a=mapCoordinates[i],b=mapCoordinates[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`${a.id} overlaps ${b.id}`)}
 const mapCss=fs.readFileSync('style.css','utf8');assert.equal(mapCss.includes('.map-art-fallback')&&mapCss.includes('pointer-events:none'),true);assert.equal(mapCss.includes('touch-action:pan-x pan-y'),true);
 g.run("for(const id of ['C001','C002','C003','C004','C005']){cases[id].record={status:'completed'};cases[id].run.status='completed'}");assert.equal(g.run('getExplorationCount()'),6);assert.equal(g.run('isFirstArcComplete()'),true);
-console.log('PASS: v0.15.0 map artwork, semantic markers, fallback, save compatibility, navigation and C001–C005 regression.');
+console.log('PASS: v1.0.0 release version, map artwork, semantic markers, fallback, save compatibility, navigation and C001–C005 regression.');
