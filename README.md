@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.0.0 by Zil-el-Saif**. Ini ialah keluaran stabil pertama dan keluaran **First Arc** Detektif Bahasa.
+Versi setempat: **v1.1.0 by Zil-el-Saif**. Keluaran ini membina di atas keluaran stabil First Arc dengan Muka Depan premium, Ruang Ibu Bapa dan lencana Pencapaian bergambar.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
@@ -15,6 +15,8 @@ Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayura
 Lima kes ini membentuk First Arc, termasuk kemajuan kes berurutan, adegan siasatan interaktif, bantuan KLU tiga tahap, perbandingan maklumat, susunan cebisan, Semak Kenyataan, papan bukti, deduksi, rekod setiap kes, main semula dan penamat First Arc.
 
 Permukaan permainan merangkumi Agensi Detektif Bahasa, Fail Kes, Peta Bayuraya, Pencapaian, Fail Penduduk Bayuraya dan Panduan Detektif. Enam lokasi pada Peta Bayuraya serta sembilan pencapaian diterbitkan daripada kemajuan dan rekod pemain.
+
+Muka Depan menjadi pintu masuk produk dan menawarkan Masuk Agensi atau Sambung Siasatan berdasarkan run aktif. Ruang Ibu Bapa memaparkan ringkasan kemajuan terbitan, penerangan simpanan setempat, poster sokongan QR yang dibekalkan dan reset kemajuan dua langkah. Sembilan syarat Pencapaian kekal sama; hanya persembahan lencananya dinaik taraf.
 
 ## Simpanan dan kawalan
 
@@ -35,4 +37,4 @@ node test-game.cjs
 git diff --check
 ```
 
-Nota keluaran: `docs/v1.0.0-release-notes.md`. Dokumentasi QA versi terdahulu kekal dalam `docs/`.
+Nota QA semasa: `docs/v1.1.0-local-qa.md`. Nota keluaran v1.0.0 dan dokumentasi QA terdahulu kekal dalam `docs/`.
