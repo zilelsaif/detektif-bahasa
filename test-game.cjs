@@ -156,7 +156,7 @@ assert.equal(runtimeSource.includes('Ivy Chian'),false);assert.equal(/\bAina\b/.
 for(const portrait of characterPortraits.slice(1))assert.equal(serverSource.includes('/'+portrait),true);assert.equal(serverSource.includes("name.endsWith('.webp')?'image/webp'"),true);
 const characterCss=fs.readFileSync('style.css','utf8');assert.equal(characterCss.includes('.character-card.klu-card img{object-fit:contain}'),true);assert.equal(characterCss.includes('.character-detail>img[src$="klu.svg"]{object-fit:contain}'),true);
 assert.equal(g.run(`characterCard(characters.shopWorker).includes('character-portrait')`),true);assert.equal(g.run(`characterDetail('shopWorker').includes('character-detail-portrait')`),true);assert.equal(characterCss.includes('img[src$="shop-worker.webp"]{transform:scale(1.23)}'),true);assert.equal(g.run(`characters.ivy.name`),'Ivy');
-assert.equal(fs.readFileSync('index.html','utf8').includes('v1.1.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v1.1.0 by Zil-el-Saif'),true);
+assert.equal(fs.readFileSync('index.html','utf8').includes('v1.2.0 by Zil-el-Saif'),true);assert.equal(fs.readFileSync('README.md','utf8').includes('v1.2.0 by Zil-el-Saif'),true);
 
 // v0.15.0 Peta Bayuraya visual redesign: cohesive WebP, independent controls and fallback
 const mapAsset='assets/locations/peta-bayuraya.webp';
@@ -180,4 +180,5 @@ g.run('parentOpen=true;titleOpen=false;render()');assert.equal(g.nodes['#app'].i
 g.run('resetConfirm=true;render()');assert.equal(g.nodes['#app'].innerHTML.includes('Padam Kemajuan'),true);store['permainan-lain']='kekal';g.run('resetDetektifProgress()');assert.equal(store['permainan-lain'],'kekal');assert.equal(g.run('getCompletedCaseCount()'),0);assert.equal(g.run('getExplorationCount()'),1);assert.equal(g.run('getDiscoveredCharacterCount()'),1);assert.equal(g.run('achievementDefinitions.filter(a=>a.unlocked()).length'),0);
 for(const item of JSON.parse(g.run('JSON.stringify(achievementDefinitions.map(a=>({id:a.id,title:a.title})))'))){const file=`assets/achievements/${item.id.toLowerCase()}.webp`;assert.equal(fs.existsSync(file),true);assert.equal(g.run(`achievementCard(achievementDefinitions.find(a=>a.id==='${item.id}')).includes('${file}')`),true)}
 assert.equal(fs.existsSync('assets/ui/title-bayuraya.webp'),true);assert.equal(fs.existsSync('assets/support/sokong-detektif-bahasa.png'),true);
-console.log('PASS: v1.1.0 title, Parent Hub, achievement artwork, save compatibility, navigation and C001–C005 regression.');
+for(const name of ['classroom','library','mathShop','readingCorner','park','bayurayaFestival']){assert.equal(g.run(`scenes.${name}.image.endsWith('.webp')`),true);assert.equal(fs.existsSync(g.run(`scenes.${name}.image`)),true)}
+console.log('PASS: v1.2.0 premium WebP scenes, title, Parent Hub, save compatibility, navigation and C001–C005 regression.');
