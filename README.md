@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.3.0 by Zil-el-Saif**. Keluaran ini menambah Fail Kedua: lima kes baharu, empat lokasi komuniti, empat penduduk dan enam pencapaian sambil mengekalkan rekod First Arc.
+Versi setempat: **v1.4.0 by Zil-el-Saif**. Keluaran asas ini menyelaraskan identiti visual Pustakawan Bayuraya dan menyediakan tiga mekanik siasatan generik untuk kes akan datang, tanpa menambah KES 011 atau mengubah progres sedia ada.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
@@ -41,4 +41,4 @@ node test-game.cjs
 git diff --check
 ```
 
-Nota QA semasa: `docs/v1.3.0-local-qa.md`. Nota keluaran dan dokumentasi QA terdahulu kekal dalam `docs/`.
+Nota QA semasa: `docs/v1.4.0-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
