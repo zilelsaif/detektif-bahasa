@@ -12,6 +12,8 @@ Gunakan teka-teki pendek apabila jawapan boleh disimpulkan daripada bukti kes. S
 
 Gunakan soalan kefahaman selepas pemain membaca dokumen, kenyataan atau pemerhatian. Teks sumber pilihan boleh dipaparkan bersama soalan. Trivia mesti mengukuhkan siasatan dan bukan kuiz pengetahuan am.
 
+KES 012 ialah penggunaan produksi pertama mekanik ini. Setiap soalan merujuk terus kepada kad maklumat atau catatan sejarah Galeri Warisan Bayuraya, mengekalkan bantuan tiga tahap dan tidak memerlukan pengetahuan luar.
+
 ## Padanan Petunjuk
 
 Gunakan dua hingga empat pasangan untuk menghubungkan orang, objek, lokasi, masa atau penerangan. Pemain memilih satu kad kiri dan satu kad kanan. Pasangan betul dikunci; pasangan salah kekal boleh dicuba. Drag-and-drop tidak diperlukan.

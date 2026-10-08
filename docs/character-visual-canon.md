@@ -10,6 +10,8 @@ Potret dalam Fail Penduduk ialah sumber identiti visual untuk watak bernama. Ade
 | Hakim | Murid | `assets/characters/hakim.webp` | Tiada | PASS |
 | Mei Ling | Saksi | `assets/characters/mei-ling.webp` | Tiada | PASS |
 | Pustakawan Bayuraya | Pustakawan | `assets/characters/pustakawan.webp` | `library-bayuraya.webp` | PASS selepas pembetulan v1.4.0 |
+| Ayyash | Penduduk Bayuraya | `assets/characters/ayyash.webp` | Tidak dibakar dalam latar | Diperkenalkan dalam C011; aset rasmi Kedai Matematik |
+| Affan | Pelawat galeri | `assets/characters/affan.webp` | Tidak dibakar dalam latar | Diperkenalkan dalam C012; aset rasmi Kedai Matematik |
 | Ammar | Pelanggan Kedai Matematik | `assets/characters/ammar.webp` | Tiada | PASS |
 | Sofia | Pelanggan Kedai Matematik | `assets/characters/sofia.webp` | Tiada | PASS |
 | Pekerja Kedai Matematik | Pekerja kedai | `assets/characters/shop-worker.webp` | `kedai-matematik-bayuraya.webp` | MINOR DIFFERENCE — pakaian dan peranan masih mudah dikenal |
@@ -35,7 +37,7 @@ Watak rasmi yang sudah mempunyai padanan dalam Detektif Bahasa: Aynaa, Ammar, So
 
 | Nama paparan kanon | Aset sumber Kedai Matematik | Pengenal visual | Status Detektif Bahasa |
 |---|---|---|---|
-| Ayyash | `assets/customers/Ayyash.webp` | Kanak-kanak lelaki berbaju biru dan bersongkok hitam | NOT YET INTRODUCED |
-| Affan | `assets/customers/Affan.webp` | Kanak-kanak lelaki berambut hitam dan berbaju hijau terang | NOT YET INTRODUCED |
+| Ayyash | `assets/customers/Ayyash.webp` | Kanak-kanak lelaki berbaju biru dan bersongkok hitam | INTRODUCED IN C011 |
+| Affan | `assets/customers/Affan.webp` | Kanak-kanak lelaki berambut hitam dan berbaju hijau terang | INTRODUCED IN C012 |
 
-Calon ini tidak disalin ke runtime dan tidak ditambah pada Watak atau discovery.
+Aset rasmi ini disalin terus ke runtime tanpa penjanaan semula dan penemuannya diterbitkan daripada kemajuan kes masing-masing.

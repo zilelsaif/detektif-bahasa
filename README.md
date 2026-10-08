@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.4.0 by Zil-el-Saif**. Keluaran asas ini menyelaraskan identiti visual Pustakawan Bayuraya dan menyediakan tiga mekanik siasatan generik untuk kes akan datang, tanpa menambah KES 011 atau mengubah progres sedia ada.
+Versi setempat: **v1.6.0 by Zil-el-Saif**. Keluaran ini menambah KES 012, “Misteri Label Pameran”, dengan Trivia Siasatan di Galeri Warisan Bayuraya serta melengkapkan peta untuk Stesen Bas dan Galeri Warisan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
@@ -20,7 +20,9 @@ Muka Depan menjadi pintu masuk produk dan menawarkan Masuk Agensi atau Sambung S
 
 Enam adegan siasatan—kelas, perpustakaan, Kedai Matematik, Sudut Bacaan, Taman Bayuraya dan Dataran Hari Bayuraya—menggunakan latar WebP 1600×900. Semua adegan masih menggunakan `renderScene()`, hotspot HTML semantik, bantuan tiga tahap, fallback berlabel dan tatal dalaman mudah alih.
 
-Fail Kedua merangkumi KES 006–010: Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan di Dataran Bayuraya. Permainan kini mempunyai 10 kes, 10 lokasi peta, 18 watak, 15 pencapaian, maksimum 40 bintang dan 2580 XP terbaik.
+Fail Kedua merangkumi KES 006–010: Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan di Dataran Bayuraya. Fail Ketiga kini merangkumi KES 011 di Stesen Bas Bayuraya dan KES 012 di Galeri Warisan Bayuraya. KES 012 menggunakan Trivia Siasatan untuk membaca sumber, mencari fakta dan menentukan label pameran yang tepat.
+
+Permainan kini mempunyai 12 kes, 12 lokasi peta, 20 watak, 17 pencapaian, maksimum 48 bintang dan 3260 XP terbaik.
 
 ## Simpanan dan kawalan
 
@@ -41,4 +43,4 @@ node test-game.cjs
 git diff --check
 ```
 
-Nota QA semasa: `docs/v1.4.0-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
+Nota QA semasa: `docs/v1.6.0-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
