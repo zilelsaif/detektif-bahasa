@@ -8,15 +8,21 @@ Mulai KES 011, setiap kes baharu perlu mempunyai sekurang-kurangnya satu mekanik
 
 Gunakan teka-teki pendek apabila jawapan boleh disimpulkan daripada bukti kes. Sediakan tiga atau empat pilihan semantik, cubaan semula lembut dan bantuan tiga tahap. Elakkan teka-teki helah atau pengetahuan luar yang kabur.
 
+**PRODUCTION — C011**
+
 ## Trivia Siasatan
 
 Gunakan soalan kefahaman selepas pemain membaca dokumen, kenyataan atau pemerhatian. Teks sumber pilihan boleh dipaparkan bersama soalan. Trivia mesti mengukuhkan siasatan dan bukan kuiz pengetahuan am.
 
 KES 012 ialah penggunaan produksi pertama mekanik ini. Setiap soalan merujuk terus kepada kad maklumat atau catatan sejarah Galeri Warisan Bayuraya, mengekalkan bantuan tiga tahap dan tidak memerlukan pengetahuan luar.
 
+**PRODUCTION — C012**
+
 ## Padanan Petunjuk
 
 Gunakan dua hingga empat pasangan untuk menghubungkan orang, objek, lokasi, masa atau penerangan. Pemain memilih satu kad kiri dan satu kad kanan. Pasangan betul dikunci; pasangan salah kekal boleh dicuba. Drag-and-drop tidak diperlukan.
+
+**PRODUCTION — C013.** KES 013 menggunakan tiga pasangan bungkusan–destinasi. Bantuan tahap kedua sengaja menjadi petunjuk praktikal utama, dan pemain kembali ke adegan selepas padanan untuk mengesahkan tag yang tercabut.
 
 ## Kontrak bersama
 
