@@ -31,6 +31,7 @@ Gunakan dua hingga empat pasangan untuk menghubungkan orang, objek, lokasi, masa
 - Status dipilih, dipadankan dan salah diterangkan melalui teks serta ikon, bukan warna sahaja.
 - Bantuan 0/3–3/3, kiraan cubaan, reaksi KLU dan callback selesai sekali sahaja.
 - Animasi menghormati `prefers-reduced-motion`.
+- Semua kes semasa dan kes baharu C014+ mesti memperoleh **Semak Petunjuk** dan **Mulakan Semula Kes** melalui infrastruktur pemulihan bersama. Semakan menggunakan petunjuk rasmi kanonik dan tidak boleh mendedahkan petunjuk yang belum ditemui. Restart hanya mengganti run aktif melalui factory kes serta mengekalkan rekod sejarah, buka kunci, pencapaian dan tetapan global.
 
 ## Elakkan
 
