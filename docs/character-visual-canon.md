@@ -23,7 +23,8 @@ Potret dalam Fail Penduduk ialah sumber identiti visual untuk watak bernama. Ade
 | Kak Suri | Pemilik Kedai Roti | `assets/characters/kak-suri.webp` | `kedai-roti-bayuraya.webp` | MINOR DIFFERENCE — tudung dan apron mengekalkan identiti peranan |
 | Encik Hafiz | Peniaga pasar | `assets/characters/encik-hafiz.webp` | `pasar-bayuraya.webp` | MINOR DIFFERENCE — pakaian peniaga dan rupa umur konsisten |
 | Dr. Hana | Doktor veterinar | `assets/characters/dr-hana.webp` | `klinik-haiwan-bayuraya.webp` | MINOR DIFFERENCE — tudung, kot dan isyarat veterinar konsisten |
-| Puan Suraya | Penyelaras komuniti | `assets/characters/puan-suraya.webp` | `balai-komuniti-bayuraya.webp` | MINOR DIFFERENCE — tudung dan identiti penyelaras konsisten |
+| Puan Suraya | Penyelaras komuniti | `assets/characters/puan-suraya.webp` | `balai-komuniti-bayuraya.webp` · `balai-komuniti-bilik-persediaan.webp` | MINOR DIFFERENCE — tudung dan identiti penyelaras konsisten |
+| Xiao Feng | Pemerhati corak | `assets/characters/xiao-feng.webp` | `balai-komuniti-bilik-persediaan.webp` | PASS — rambut hitam berlapis, uniform teal/krim, reben amber dan kad simbol |
 
 ## Pembetulan Pustakawan
 

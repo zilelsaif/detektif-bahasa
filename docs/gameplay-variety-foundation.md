@@ -24,6 +24,12 @@ Gunakan dua hingga empat pasangan untuk menghubungkan orang, objek, lokasi, masa
 
 **PRODUCTION — C013.** KES 013 menggunakan tiga pasangan bungkusan–destinasi. Bantuan tahap kedua sengaja menjadi petunjuk praktikal utama, dan pemain kembali ke adegan selepas padanan untuk mengesahkan tag yang tercabut.
 
+
+## Kod Simbol
+
+Gunakan urutan simbol apabila setiap lambang boleh dipelajari daripada bukti visual yang telah ditemui. Pemain mesti mencari rujukan, membina legenda, membaca urutan dari kiri ke kanan dan mengesahkan tafsiran pada lokasi sebenar. Pilihan salah boleh dicuba semula dan bantuan tiga tahap tidak memilih jawapan secara automatik.
+
+**PRODUCTION — C014.** KES 014 menggunakan empat kad rujukan untuk memetakan ◆ → BELAKANG, ▣ → PAPAN, ● → BIRU dan ★ → UTAMA. Tafsiran kod membawa pemain kembali ke adegan untuk mengesahkan Papan Biru Utama; komponen generik berada dalam `renderSymbolCodeTask()`.
 ## Kontrak bersama
 
 - Butang HTML semantik dengan Tab, Enter, Space, tetikus dan sentuhan.

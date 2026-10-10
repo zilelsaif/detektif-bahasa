@@ -152,3 +152,31 @@ body.product-entry{background:#0f2d4a}.product-entry>.site-header,.product-entry
 .case-utility-bar{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:13px;border-top:1px dashed var(--line)}.case-utility-bar>span{margin-right:auto;color:var(--muted);font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.case-utility-bar button{min-height:44px;padding:9px 12px;background:#fffdf6;font-size:12px}.case-utility-dialog{position:fixed;z-index:90;inset:0;display:grid;place-items:center;padding:18px;background:#0f2d4ac7}.case-utility-card{width:min(620px,100%);max-height:min(720px,calc(100dvh - 36px));overflow-y:auto;padding:clamp(20px,4vw,34px);border:3px solid var(--color-teal);border-radius:20px;background:#fffdf6;box-shadow:0 18px 55px #061d3066}.case-utility-card h2{margin:5px 0 18px;font-size:clamp(23px,4vw,34px)}.clue-review-list{display:grid;gap:9px;margin:0 0 20px;padding-left:30px}.clue-review-list li{padding:11px 13px;border-radius:10px;background:#e8f3ee;line-height:1.5}.clue-review-list li.undiscovered{border:1px dashed #a9b7b4;background:#f2f3ef;color:#647274;font-style:italic}.empty-clues{display:grid;gap:5px;margin:0 0 20px;padding:18px;border-radius:12px;background:#eef7f6}.empty-clues span{color:var(--muted)}.case-utility-card>button,.case-restart-actions button{min-height:46px}.restart-card{max-width:540px;border-color:#c58a22}.restart-card p{line-height:1.55}.case-restart-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;margin-top:22px}.case-utility-dialog :focus-visible{outline:4px solid var(--color-amber);outline-offset:3px}
 @media(max-width:540px){.case-utility-bar{display:grid;grid-template-columns:1fr 1fr}.case-utility-bar>span{grid-column:1/-1}.case-utility-bar button{width:100%;padding-inline:8px}.case-utility-dialog{padding:10px}.case-utility-card{max-height:calc(100dvh - 20px);padding:18px 15px;border-radius:15px}.case-utility-card h2{font-size:22px}.clue-review-list{padding-left:25px}.clue-review-list li{padding:9px 10px}.case-restart-actions{display:grid;grid-template-columns:1fr}.case-restart-actions button{width:100%}}
 @media(max-height:500px) and (min-width:541px){.case-utility-dialog{align-items:start;padding:8px}.case-utility-card{max-height:calc(100dvh - 16px);padding:16px 20px}.case-utility-card h2{margin-bottom:9px;font-size:24px}.clue-review-list{gap:5px;margin-bottom:10px}.clue-review-list li{padding:6px 10px}.case-restart-actions{margin-top:10px}}
+
+/* v1.8.0 · reusable symbol-code mechanic */
+.symbol-code-task{margin-top:8px}
+.symbol-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.symbol-map article{display:grid;place-items:center;gap:5px;min-height:104px;padding:10px;border:2px solid var(--line);border-radius:14px;background:#fffdf6;text-align:center}
+.symbol-map b,.symbol-sequence span{font-size:40px;line-height:1;color:var(--color-teal)}
+.symbol-map span{font-size:12px;font-weight:900;letter-spacing:.05em}
+.symbol-map .unknown{border-style:dashed;color:var(--muted)}
+.symbol-map .unknown b{color:#7f8d8e}
+.symbol-sequence{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:6px 0;padding:15px;border-radius:14px;background:#e8f3ee}
+.symbol-sequence span{display:grid;place-items:center;min-width:58px;min-height:58px;border:2px solid var(--color-teal);border-radius:12px;background:white}
+.symbol-code-task .mechanic-choices button{min-height:52px}
+.symbol-code-task .mechanic-choices button:focus-visible{outline:4px solid var(--color-amber);outline-offset:3px}
+@media(max-width:540px){.symbol-map{grid-template-columns:repeat(2,minmax(0,1fr))}.symbol-map article{min-height:88px}.symbol-map b,.symbol-sequence span{font-size:34px}}
+@media(max-height:500px) and (min-width:541px){.symbol-map article{min-height:76px;padding:6px}.symbol-map b,.symbol-sequence span{font-size:30px}.symbol-sequence{padding:8px;margin:4px 0}}
+
+/* v1.8.0 · narrow title-screen overflow guard */
+@media(max-width:400px){
+ html,body{max-width:100%;overflow-x:hidden}
+ .title-screen{width:100%;max-width:100%;padding:118px 14px 48px}
+ .title-copy{width:100%;max-width:100%}
+ .title-copy h1{max-width:100%;font-size:clamp(39px,12vw,48px);letter-spacing:-1px}
+ .title-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));left:8px;right:8px;top:10px}
+ .title-controls button{width:100%;min-width:0;padding:8px 6px;font-size:10px;white-space:normal}
+ .title-controls button:last-of-type{grid-column:1/-1}
+ .title-actions{width:min(100%,300px)}
+ .title-actions button{width:100%}
+}

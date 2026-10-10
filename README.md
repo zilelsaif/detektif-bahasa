@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.7.1 by Zil-el-Saif**. Keluaran pemulihan ini menyediakan **Semak Petunjuk** dan **Mulakan Semula Kes** secara generik untuk semua KES 001–013 tanpa mengubah cerita, ganjaran atau rekod terbaik.
+Versi setempat: **v1.8.0 by Zil-el-Saif**. Keluaran ini menambah **KES 014 — Misteri Kod Empat Simbol**, mekanik generik **Kod Simbol**, Xiao Feng dan pencapaian Pembaca Kod. Kemudahan **Semak Petunjuk** dan **Mulakan Semula Kes** kekal tersedia untuk semua kes.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
@@ -20,9 +20,9 @@ Muka Depan menjadi pintu masuk produk dan menawarkan Masuk Agensi atau Sambung S
 
 Enam adegan siasatan—kelas, perpustakaan, Kedai Matematik, Sudut Bacaan, Taman Bayuraya dan Dataran Hari Bayuraya—menggunakan latar WebP 1600×900. Semua adegan masih menggunakan `renderScene()`, hotspot HTML semantik, bantuan tiga tahap, fallback berlabel dan tatal dalaman mudah alih.
 
-Fail Kedua merangkumi KES 006–010: Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan di Dataran Bayuraya. Fail Ketiga kini merangkumi KES 011 di Stesen Bas Bayuraya, KES 012 di Galeri Warisan Bayuraya dan KES 013 di Kedai Matematik. KES 013 menggunakan Padanan Petunjuk untuk menghubungkan bungkusan dengan destinasi berdasarkan bukti.
+Fail Kedua merangkumi KES 006–010: Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan di Dataran Bayuraya. Fail Ketiga kini merangkumi KES 011 di Stesen Bas Bayuraya, KES 012 di Galeri Warisan Bayuraya, KES 013 di Kedai Matematik dan KES 014 di Bilik Persediaan Balai Komuniti. KES 014 menggunakan Kod Simbol untuk mentafsir ◆ ▣ ● ★ sebagai BELAKANG PAPAN BIRU UTAMA sebelum lokasi itu disahkan dalam adegan.
 
-Permainan kini mempunyai 13 kes, 12 lokasi peta, 20 watak, 18 pencapaian, maksimum 53 bintang dan 3640 XP terbaik.
+Permainan kini mempunyai 14 kes, 12 lokasi peta, 21 watak, 19 pencapaian, maksimum 58 bintang dan 4050 XP terbaik.
 
 ## Simpanan dan kawalan
 
@@ -45,4 +45,4 @@ node test-game.cjs
 git diff --check
 ```
 
-Nota QA semasa: `docs/v1.7.1-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
+Nota QA semasa: `docs/v1.8.0-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
