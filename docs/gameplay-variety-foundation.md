@@ -49,3 +49,7 @@ Gunakan urutan simbol apabila setiap lambang boleh dipelajari daripada bukti vis
 - drag-and-drop wajib;
 - timer, nyawa atau game over kerana kesalahan bahasa;
 - mekanik yang membocorkan jawapan sebelum siasatan.
+
+## v1.9.0 — Finale empat mekanik
+
+KES 015 menggunakan semula empat mekanik Fail Ketiga dalam satu rantaian bukti: teka-teki menunjukkan kawasan pentas, trivia membezakan arahan akhir, padanan memulihkan makna empat simbol, dan kod simbol menghasilkan lokasi fizikal kunci. Setiap bahagian pendek dan menyumbang kepada misteri yang sama. Pemain masih perlu mengesahkan lokasi di dalam adegan, menyusun papan bukti dan membuat deduksi akhir.

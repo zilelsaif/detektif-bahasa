@@ -42,3 +42,13 @@ Watak rasmi yang sudah mempunyai padanan dalam Detektif Bahasa: Aynaa, Ammar, So
 | Affan | `assets/customers/Affan.webp` | Kanak-kanak lelaki berambut hitam dan berbaju hijau terang | INTRODUCED IN C012 |
 
 Aset rasmi ini disalin terus ke runtime tanpa penjanaan semula dan penemuannya diterbitkan daripada kemajuan kes masing-masing.
+
+## v1.9.0 — Arissa
+
+- **Nama kanonik:** Arissa
+- **Umur visual:** murid sekolah rendah, Darjah 4
+- **Siluet utama:** hijab kuning, pakaian teal-kuning ringkas, pin bintang
+- **Peranan:** peserta/pembantu Jejak Rahsia yang mengingati tanda bintang kuning pada kad arahan akhir
+- **Aset kanonik:** `assets/characters/arissa.webp` (512×512, latar telus)
+
+Arissa perlu kekal jelas berbeza daripada Aynaa dan Maria melalui tema kuning, pin bintang dan bingkai potret yang sama dengan keluarga watak Bayuraya. Namanya tidak didedahkan sebelum C015 bermula.

@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.8.3 by Zil-el-Saif**. Hotfix ini membaiki naratif dan sintesis bukti **KES 010**, menyelaraskan hotspot platform **KES 011**, serta memberi arah kes seterusnya yang jelas pada keputusan KES 010–014. Jumlah kandungan, ganjaran, simpanan dan pembaikan v1.8.2 kekal sama.
+Versi setempat: **v1.9.0 by Zil-el-Saif**. KES 015 menutup Fail Ketiga melalui satu siasatan meta yang menggabungkan teka-teki, trivia berasaskan sumber, padanan petunjuk dan kod simbol untuk mencari Kunci Peti Jejak Bayuraya. Versi ini menambah Arissa, A20–A21 dan jumlah baharu 15 kes, 22 watak, 21 pencapaian, 63 bintang serta 4500 XP terbaik.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
