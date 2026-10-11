@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.8.0 by Zil-el-Saif**. Keluaran ini menambah **KES 014 — Misteri Kod Empat Simbol**, mekanik generik **Kod Simbol**, Xiao Feng dan pencapaian Pembaca Kod. Kemudahan **Semak Petunjuk** dan **Mulakan Semula Kes** kekal tersedia untuk semua kes.
+Versi setempat: **v1.8.1 by Zil-el-Saif**. Hotfix ini membaiki papan bukti **KES 006 — Misteri Kad Pesanan Pagi** supaya pilihan hubungan dropdown disimpan dan boleh disahkan. KES 014, jumlah kandungan, ganjaran serta kemudahan **Semak Petunjuk** dan **Mulakan Semula Kes** kekal sama.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
@@ -45,4 +45,4 @@ node test-game.cjs
 git diff --check
 ```
 
-Nota QA semasa: `docs/v1.8.0-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
+Nota QA semasa: `docs/v1.8.1-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
