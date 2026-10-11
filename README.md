@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.8.2 by Zil-el-Saif**. Hotfix ini menyelaraskan hotspot adegan dan ketepatan papan bukti untuk **KES 007–009** dengan karya Pasar Bayuraya, Klinik Haiwan Bayuraya dan Balai Komuniti Bayuraya. Tanda **Bilik Rehat 2** kini jelas pada adegan klinik; kandungan kes, ganjaran, simpanan dan jumlah kemajuan kekal sama.
+Versi setempat: **v1.8.3 by Zil-el-Saif**. Hotfix ini membaiki naratif dan sintesis bukti **KES 010**, menyelaraskan hotspot platform **KES 011**, serta memberi arah kes seterusnya yang jelas pada keputusan KES 010–014. Jumlah kandungan, ganjaran, simpanan dan pembaikan v1.8.2 kekal sama.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
 
@@ -45,4 +45,4 @@ node test-game.cjs
 git diff --check
 ```
 
-Nota QA semasa: `docs/v1.8.2-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
+Nota QA semasa: `docs/v1.8.3-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
