@@ -1,48 +1,38 @@
 # Detektif Bahasa
 
-Versi setempat: **v1.9.1 by Zil-el-Saif**. Hotfix ini membaiki skrin pembukaan C015 dan kontrak klik Mula Siasatan, kemudian menambah Kad Rujukan Simbol, arahan padanan, bantuan khusus serta peralihan pemetaan-ke-decoder yang membolehkan semua makna simbol disimpulkan daripada bukti. Kandungan, ganjaran dan jumlah v1.9.0 kekal sama.
+Versi setempat: **v2.0.0 by Zil-el-Saif**. Keluaran ini menumpukan audit seluruh permainan dan pembaikan aksesibiliti yang tidak mengubah cerita, petunjuk, ganjaran atau aturan kes.
 
-Detektif Bahasa ialah permainan misteri Bahasa Melayu yang berlangsung di Bayuraya. Buka `index.html` dalam pelayar moden, atau jalankan `node server.js` dan buka http://localhost:4173. Permainan tidak memerlukan pemasangan, rangka kerja atau sambungan luar.
+Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
-## Kandungan First Arc
+## Kandungan
 
-- **KES 001 — Misteri Beg Merah:** ⭐ Jejak Awal
-- **KES 002 — Misteri Label Tertukar:** ⭐⭐ Jejak Tajam
-- **KES 003 — Misteri Nota Terpotong:** ⭐⭐⭐ Jejak Cermat
-- **KES 004 — Misteri Jejak di Taman:** ⭐⭐⭐⭐ Jejak Teliti
-- **KES 005 — Misteri Persiapan Hari Bayuraya:** ⭐⭐⭐⭐⭐ Jejak Utama
+Permainan mempunyai 15 kes dalam tiga fail:
 
-Lima kes ini membentuk First Arc, termasuk kemajuan kes berurutan, adegan siasatan interaktif, bantuan KLU tiga tahap, perbandingan maklumat, susunan cebisan, Semak Kenyataan, papan bukti, deduksi, rekod setiap kes, main semula dan penamat First Arc.
+- **Fail Pertama:** KES 001–005, Misteri Beg Merah hingga Misteri Persiapan Hari Bayuraya.
+- **Fail Kedua:** KES 006–010, Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan.
+- **Fail Ketiga — Jejak Rahsia Bayuraya:** KES 011–015, Stesen Bas, Galeri Warisan, Kedai Matematik, Bilik Persediaan dan finale Peti Jejak.
 
-Permukaan permainan merangkumi Agensi Detektif Bahasa, Fail Kes, Peta Bayuraya, Pencapaian, Fail Penduduk Bayuraya dan Panduan Detektif. Enam lokasi pada Peta Bayuraya serta sembilan pencapaian diterbitkan daripada kemajuan dan rekod pemain.
+Jumlah maksimum yang ditetapkan ialah 12 lokasi, 22 watak, 21 pencapaian, 63 bintang dan 4500 XP terbaik. Kes dibuka mengikut urutan; kemajuan setiap kes dan rekod terbaik disimpan berasingan.
 
-Muka Depan menjadi pintu masuk produk dan menawarkan Masuk Agensi atau Sambung Siasatan berdasarkan run aktif. Ruang Ibu Bapa memaparkan ringkasan kemajuan terbitan, penerangan simpanan setempat, poster sokongan QR yang dibekalkan dan reset kemajuan dua langkah. Sembilan syarat Pencapaian kekal sama; hanya persembahan lencananya dinaik taraf.
+Permainan menggunakan adegan siasatan, dialog saksi, susunan, Semak Kenyataan, teka-teki, trivia, padanan, kod simbol, papan bukti dan deduksi. Setiap kes mempunyai lima petunjuk rasmi dan bantuan KLU tiga tahap. Alat Siasatan membolehkan pemain menyemak petunjuk yang telah ditemui atau memulakan semula run semasa.
 
-Enam adegan siasatan—kelas, perpustakaan, Kedai Matematik, Sudut Bacaan, Taman Bayuraya dan Dataran Hari Bayuraya—menggunakan latar WebP 1600×900. Semua adegan masih menggunakan `renderScene()`, hotspot HTML semantik, bantuan tiga tahap, fallback berlabel dan tatal dalaman mudah alih.
+## Kemajuan dan kawalan
 
-Fail Kedua merangkumi KES 006–010: Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan di Dataran Bayuraya. Fail Ketiga kini merangkumi KES 011 di Stesen Bas Bayuraya, KES 012 di Galeri Warisan Bayuraya, KES 013 di Kedai Matematik dan KES 014 di Bilik Persediaan Balai Komuniti. KES 014 menggunakan Kod Simbol untuk mentafsir ◆ ▣ ● ★ sebagai BELAKANG PAPAN BIRU UTAMA sebelum lokasi itu disahkan dalam adegan.
+Kemajuan, bunyi dan rekod disimpan secara setempat menggunakan kunci `detektif-bahasa-v1`; save lama dimuat tanpa menukar kunci. Mulakan semula kes hanya mengosongkan run kes itu. Tetapan, rekod terbaik dan kes lain kekal.
 
-Permainan kini mempunyai 14 kes, 12 lokasi peta, 21 watak, 19 pencapaian, maksimum 58 bintang dan 4050 XP terbaik.
+Kawalan HTML semantik menyokong papan kekunci, tetikus dan sentuhan. Fokus papan kekunci kelihatan, dialog Alat Siasatan kini mengekalkan Tab di dalam dialog, dan animasi bantuan menghormati `prefers-reduced-motion`. Ilustrasi disimpan secara setempat; kesan bunyi dijana dalam pelayar. Aplikasi tiada dependensi runtime luaran.
 
-## Simpanan dan kawalan
-
-Kemajuan, pilihan bunyi dan rekod terbaik disimpan dalam `localStorage` pada peranti dan pelayar yang digunakan. Save serasi daripada versi terdahulu dinaik taraf secara automatik. Main semula menetapkan semula kes aktif tanpa memadam rekod terbaik, sejarah penyelesaian atau kemajuan kes lain.
-
-Semasa siasatan aktif, kawasan **Alat Siasatan** membolehkan pemain membaca semula hanya petunjuk yang sudah ditemui. Restart kes memerlukan pengesahan dan menetapkan semula run aktif sahaja; rekod terbaik, buka kunci, pencapaian dan kemajuan kes lain kekal.
-
-Kawalan menyokong papan kekunci, tetikus dan sentuhan melalui elemen HTML semantik. Antara muka responsif menyokong telefon, tablet dan desktop. Bantuan visual menghormati `prefers-reduced-motion`, status tidak bergantung pada warna sahaja, dan fokus papan kekunci kekal kelihatan.
-
-Semua bunyi, ilustrasi, potret watak dan adegan lokasi disimpan secara setempat. Peta Bayuraya menggunakan ilustrasi WebP dengan penanda HTML semantik. Adegan interaktif berkongsi enjin `renderScene()` dan menggunakan fallback berlabel jika imej lokasi gagal dimuatkan.
-
-## Ujian
-
-Jalankan regresi tempatan:
+## Ujian setempat
 
 ```text
 node --check game.js
+node --check arc2.js
+node --check arc3.js
+node --check arc4.js
+node --check mechanics.js
 node --check server.js
 node test-game.cjs
 git diff --check
 ```
 
-Nota QA semasa: `docs/v1.8.3-local-qa.md`. Rujukan identiti watak berada dalam `docs/character-visual-canon.md` dan kontrak mekanik dalam `docs/gameplay-variety-foundation.md`.
+Laporan audit dan QA berada dalam `docs/v2.0.0-full-audit.md`, `docs/v2.0.0-local-qa.md` dan `docs/v2.0.0-changelog.md`.
