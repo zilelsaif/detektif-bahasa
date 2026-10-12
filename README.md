@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.0.0 by Zil-el-Saif**. Keluaran ini menumpukan audit seluruh permainan dan pembaikan aksesibiliti yang tidak mengubah cerita, petunjuk, ganjaran atau aturan kes.
+Versi setempat: **v2.1.0 by Zil-el-Saif**. Keluaran ini menumpukan audit seluruh permainan dan pembaikan aksesibiliti yang tidak mengubah cerita, petunjuk, ganjaran atau aturan kes.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -35,4 +35,7 @@ node test-game.cjs
 git diff --check
 ```
 
-Laporan audit dan QA berada dalam `docs/v2.0.0-full-audit.md`, `docs/v2.0.0-local-qa.md` dan `docs/v2.0.0-changelog.md`.
+Laporan audit dan QA berada dalam `docs/v2.1.0-full-audit.md`, `docs/v2.1.0-local-qa.md` dan `docs/v2.1.0-changelog.md`.
+
+## v2.1.0
+Fail Keempat diperkenalkan melalui KES 016 — Misteri Pesanan Yang Terputus. C016 menggunakan Susun Mesej, lima petunjuk, Emah dan syarat buka selepas C015.
