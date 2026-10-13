@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.1.0 by Zil-el-Saif**. Keluaran ini menumpukan audit seluruh permainan dan pembaikan aksesibiliti yang tidak mengubah cerita, petunjuk, ganjaran atau aturan kes.
+Versi setempat: **v2.1.1 by Zil-el-Saif**. Keluaran ini memuktamadkan visual canonical Emah, scene Ruang Latihan dan ketepatan interaksi C016 tanpa mengubah cerita, petunjuk, ganjaran atau aturan kes terdahulu.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -39,3 +39,7 @@ Laporan audit dan QA berada dalam `docs/v2.1.0-full-audit.md`, `docs/v2.1.0-loca
 
 ## v2.1.0
 Fail Keempat diperkenalkan melalui KES 016 — Misteri Pesanan Yang Terputus. C016 menggunakan Susun Mesej, lima petunjuk, Emah dan syarat buka selepas C015.
+
+## v2.1.1
+
+C016 kini menggunakan potret WebP canonical Emah dan scene WebP 1600×900. Hotspot dipadankan dengan objek sebenar, cebisan mesej dipersembahkan dalam susunan rawak dengan label neutral A–E, dan keadaan selesai menyediakan satu tindakan jelas untuk mencari bekas bahan.
