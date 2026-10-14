@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.1.1 by Zil-el-Saif**. Keluaran ini memuktamadkan visual canonical Emah, scene Ruang Latihan dan ketepatan interaksi C016 tanpa mengubah cerita, petunjuk, ganjaran atau aturan kes terdahulu.
+Versi setempat: **v2.2.0 by Zil-el-Saif**. Keluaran ini menambah KES 017, Jagjit dan mekanik Cari Percanggahan sambil mengekalkan semua pembaikan C001–C016.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -43,3 +43,7 @@ Fail Keempat diperkenalkan melalui KES 016 — Misteri Pesanan Yang Terputus. C0
 ## v2.1.1
 
 C016 kini menggunakan potret WebP canonical Emah dan scene WebP 1600×900. Hotspot dipadankan dengan objek sebenar, cebisan mesej dipersembahkan dalam susunan rawak dengan label neutral A–E, dan keadaan selesai menyediakan satu tindakan jelas untuk mencari bekas bahan.
+
+## v2.2.0
+
+Fail Keempat diteruskan dengan **KES 017 — Misteri Nota Pekerja Baharu**. Jagjit menyiasat dua masa penghantaran KB-17 menggunakan tag kotak, semakan stok, log penghantaran dan resit Balai Komuniti. Mekanik Cari Percanggahan membezakan maklumat yang disokong, bercanggah dan belum cukup dibuktikan.
