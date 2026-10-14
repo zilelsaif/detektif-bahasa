@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.2.1 by Zil-el-Saif**. Keluaran ini menyatukan semua empat fail kes dalam satu accordion boleh tatal tanpa mengubah permainan atau rekod kemajuan.
+Versi setempat: **v2.3.0 by Zil-el-Saif**. Keluaran ini menambah KES 018, mekanik Inti Mesej dan thumbnail scene yang konsisten untuk C001–C005 sambil mengekalkan accordion v2.2.1.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -51,3 +51,7 @@ Fail Keempat diteruskan dengan **KES 017 — Misteri Nota Pekerja Baharu**. Jagj
 ## v2.2.1
 
 Panel **Fail Kes** kini menggunakan satu kawasan tatal dengan empat kumpulan accordion. Arc kes aktif dibuka secara automatik apabila pemain menukar kes, sementara pilihan manual dikekalkan sepanjang paparan semula kes yang sama. Kiraan arc menggunakan rekod sejarah, termasuk 2/5 untuk Fail Keempat apabila C016 dan C017 telah selesai.
+
+## v2.3.0
+
+**KES 018 — Misteri Poster Tanpa Tajuk** membawa pemain ke Sudut Hebahan Perpustakaan Bayuraya untuk membaca poster, mengenal pasti inti mesej, memilih tajuk yang sesuai dan menyokong pilihan dengan bukti. C001–C005 kini menggunakan thumbnail WebP yang dipotong daripada scene premium masing-masing.
