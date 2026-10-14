@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.2.0 by Zil-el-Saif**. Keluaran ini menambah KES 017, Jagjit dan mekanik Cari Percanggahan sambil mengekalkan semua pembaikan C001–C016.
+Versi setempat: **v2.2.1 by Zil-el-Saif**. Keluaran ini menyatukan semua empat fail kes dalam satu accordion boleh tatal tanpa mengubah permainan atau rekod kemajuan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -47,3 +47,7 @@ C016 kini menggunakan potret WebP canonical Emah dan scene WebP 1600×900. Hotsp
 ## v2.2.0
 
 Fail Keempat diteruskan dengan **KES 017 — Misteri Nota Pekerja Baharu**. Jagjit menyiasat dua masa penghantaran KB-17 menggunakan tag kotak, semakan stok, log penghantaran dan resit Balai Komuniti. Mekanik Cari Percanggahan membezakan maklumat yang disokong, bercanggah dan belum cukup dibuktikan.
+
+## v2.2.1
+
+Panel **Fail Kes** kini menggunakan satu kawasan tatal dengan empat kumpulan accordion. Arc kes aktif dibuka secara automatik apabila pemain menukar kes, sementara pilihan manual dikekalkan sepanjang paparan semula kes yang sama. Kiraan arc menggunakan rekod sejarah, termasuk 2/5 untuk Fail Keempat apabila C016 dan C017 telah selesai.
