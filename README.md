@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.4.1 by Zil-el-Saif**. Hotfix ini mengukuhkan navigasi skrin tajuk, ketahanan data simpanan dan konsistensi aset silang pelayar sambil mengekalkan semua kandungan v2.4.0.
+Versi setempat: **v2.4.2 by Zil-el-Saif**. Keluaran ini membina semula navigasi utama skrin tajuk sebagai komponen berasingan dengan kawalan yang lebih besar dan pengendalian input yang stabil, sambil mengekalkan semua kandungan v2.4.0 dan ketahanan save v2.4.1.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -65,3 +65,7 @@ Panel **Fail Kes** kini menggunakan satu kawasan tatal dengan empat kumpulan acc
 ## v2.4.1
 
 Skrin tajuk kini memeriksa semula run aktif sebelum menyambung, pulih dengan selamat daripada bentuk localStorage yang tidak sah dan dirender semula selepas pemulihan back-forward cache. URL CSS dan JavaScript menggunakan versi keluaran supaya HTML baharu tidak bercampur dengan aset runtime lama dalam cache pelayar.
+
+## v2.4.2
+
+Butang **Sambung Siasatan** dan **Masuk Agensi** kini berada dalam panel 	itle-navigation baharu di bawah pengenalan permainan. Kedua-duanya menggunakan butang semantik, listener delegasi khusus dan pengesahan semula destinasi; Masuk Agensi sentiasa tersedia tanpa memadam siasatan aktif.
