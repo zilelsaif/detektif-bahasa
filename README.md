@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.4.0 by Zil-el-Saif**. Keluaran ini menambah KES 019, mekanik Banding Perspektif dan pembetulan sumber poster C018 sambil mengekalkan semua KES 001–018 serta accordion v2.2.1.
+Versi setempat: **v2.4.1 by Zil-el-Saif**. Hotfix ini mengukuhkan navigasi skrin tajuk, ketahanan data simpanan dan konsistensi aset silang pelayar sambil mengekalkan semua kandungan v2.4.0.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -61,3 +61,7 @@ Panel **Fail Kes** kini menggunakan satu kawasan tatal dengan empat kumpulan acc
 ## v2.4.0
 
 **KES 019 — Misteri Dua Cerita** membawa Xiao Feng dan Ayyash ke Pondok Aktiviti Taman Bayuraya. Mekanik **Banding Perspektif** membandingkan masa, tempat dan had pemerhatian melalui pelan kawasan serta garis masa rasmi. C018 kini menggunakan tajuk sumber neutral **Maklumat Aktiviti Komuniti** sebelum pemain memilih tajuk sebenar poster.
+
+## v2.4.1
+
+Skrin tajuk kini memeriksa semula run aktif sebelum menyambung, pulih dengan selamat daripada bentuk localStorage yang tidak sah dan dirender semula selepas pemulihan back-forward cache. URL CSS dan JavaScript menggunakan versi keluaran supaya HTML baharu tidak bercampur dengan aset runtime lama dalam cache pelayar.
