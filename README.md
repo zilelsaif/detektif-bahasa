@@ -1,18 +1,19 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.3.0 by Zil-el-Saif**. Keluaran ini menambah KES 018, mekanik Inti Mesej dan thumbnail scene yang konsisten untuk C001–C005 sambil mengekalkan accordion v2.2.1.
+Versi setempat: **v2.4.0 by Zil-el-Saif**. Keluaran ini menambah KES 019, mekanik Banding Perspektif dan pembetulan sumber poster C018 sambil mengekalkan semua KES 001–018 serta accordion v2.2.1.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
 ## Kandungan
 
-Permainan mempunyai 15 kes dalam tiga fail:
+Permainan mempunyai 19 kes yang boleh dimainkan dalam empat fail:
 
 - **Fail Pertama:** KES 001–005, Misteri Beg Merah hingga Misteri Persiapan Hari Bayuraya.
 - **Fail Kedua:** KES 006–010, Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan.
 - **Fail Ketiga — Jejak Rahsia Bayuraya:** KES 011–015, Stesen Bas, Galeri Warisan, Kedai Matematik, Bilik Persediaan dan finale Peti Jejak.
+- **Fail Keempat — Jejak Mesej Bayuraya:** KES 016–019, daripada pesanan terputus hingga dua pemerhatian yang kelihatan berbeza.
 
-Jumlah maksimum yang ditetapkan ialah 12 lokasi, 22 watak, 21 pencapaian, 63 bintang dan 4500 XP terbaik. Kes dibuka mengikut urutan; kemajuan setiap kes dan rekod terbaik disimpan berasingan.
+Jumlah semasa ialah 19 kes, 12 lokasi, 24 watak dan 25 pencapaian, dengan maksimum 81 bintang dan 6470 XP terbaik. Kes dibuka mengikut urutan; kemajuan setiap kes dan rekod terbaik disimpan berasingan.
 
 Permainan menggunakan adegan siasatan, dialog saksi, susunan, Semak Kenyataan, teka-teki, trivia, padanan, kod simbol, papan bukti dan deduksi. Setiap kes mempunyai lima petunjuk rasmi dan bantuan KLU tiga tahap. Alat Siasatan membolehkan pemain menyemak petunjuk yang telah ditemui atau memulakan semula run semasa.
 
@@ -55,3 +56,8 @@ Panel **Fail Kes** kini menggunakan satu kawasan tatal dengan empat kumpulan acc
 ## v2.3.0
 
 **KES 018 — Misteri Poster Tanpa Tajuk** membawa pemain ke Sudut Hebahan Perpustakaan Bayuraya untuk membaca poster, mengenal pasti inti mesej, memilih tajuk yang sesuai dan menyokong pilihan dengan bukti. C001–C005 kini menggunakan thumbnail WebP yang dipotong daripada scene premium masing-masing.
+
+
+## v2.4.0
+
+**KES 019 — Misteri Dua Cerita** membawa Xiao Feng dan Ayyash ke Pondok Aktiviti Taman Bayuraya. Mekanik **Banding Perspektif** membandingkan masa, tempat dan had pemerhatian melalui pelan kawasan serta garis masa rasmi. C018 kini menggunakan tajuk sumber neutral **Maklumat Aktiviti Komuniti** sebelum pemain memilih tajuk sebenar poster.
