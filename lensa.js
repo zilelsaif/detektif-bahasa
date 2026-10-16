@@ -1,4 +1,4 @@
-// v2.4.5 — shared, optional contextual Bahasa Melayu enrichment for C006–C019.
+// v2.4.6 — shared, optional contextual Bahasa Melayu enrichment for C006–C019.
 const lensaActivities={
  C006:{caseId:'C006',skillId:'kata-kerja',skillName:'Kata kerja',sourceReference:'Kenyataan Kak Suri · Petunjuk 2',sourceExcerpt:'Selepas menyemak pesanan, Kak Suri meletakkan kad itu di sebelah dulang biru.',learningObjective:'Mengenal pasti kata yang menunjukkan perbuatan.',interactionType:'select-word',question:'Pilih kata kerja yang menunjukkan perbuatan Kak Suri.',answerData:{tokens:['Selepas','menyemak','pesanan,','Kak Suri','meletakkan','kad itu','di sebelah','dulang biru.'],correct:4},wrongAnswerFeedback:'Belum tepat. Cari perkataan yang menunjukkan perbuatan Kak Suri terhadap kad.',successExplanation:'“Meletakkan” ialah kata kerja kerana perkataan itu menunjukkan perbuatan Kak Suri.',unlockCondition:{clues:2}},
  C007:{caseId:'C007',skillId:'penjodoh-bilangan',skillName:'Penjodoh bilangan',sourceReference:'Senarai belian · Petunjuk 2',sourceExcerpt:'Senarai itu juga menyebut seikat sayur hijau.',learningObjective:'Memahami penjodoh bilangan untuk benda yang diikat bersama.',interactionType:'choice',question:'Mengapakah perkataan “seikat” sesuai digunakan?',answerData:{options:['Sayur itu dikumpulkan dan diikat bersama.','Sayur itu berbentuk bulat.','Sayur itu berada di dalam tin.'],correct:0},wrongAnswerFeedback:'Belum tepat. Fikirkan cara beberapa batang sayur dikumpulkan bersama.',successExplanation:'“Seikat” digunakan untuk benda seperti sayur yang dikumpulkan dan diikat bersama.',unlockCondition:{clues:2}},
@@ -81,6 +81,6 @@ const renderBeforeLensa=render;render=function(){renderBeforeLensa();injectLensa
 app.addEventListener('click',event=>{const button=event.target.closest?.('[data-lensa-action],[data-lensa-answer],[data-lensa-order]');if(!button)return;event.preventDefault?.();event.stopImmediatePropagation?.();handleLensaAction(button)},true);
 document.addEventListener?.('keydown',event=>{if(lensaView&&event.key==='Escape'){event.preventDefault();closeLensa()}},true);
 const resetBeforeLensa=resetDetektifProgress;resetDetektifProgress=function(){lensaBahasa={};lensaView=false;resetBeforeLensa()};
-document.querySelector('footer span:last-child').textContent='v2.4.5 by Zil-el-Saif';
+document.querySelector('footer span:last-child').textContent='v2.4.6 by Zil-el-Saif';
 render();
 

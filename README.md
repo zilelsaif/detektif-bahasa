@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.4.5 by Zil-el-Saif**. C018 kini memberikan paparan poster siap yang boleh dibuka semula, sementara potret dan adegan Cikgu Farah menggunakan kanon hijab yang menutup rambut serta leher sepenuhnya. Semua kemajuan, ganjaran dan pembaikan navigasi v2.4.3 dikekalkan.
+Versi setempat: **v2.4.6 by Zil-el-Saif**. Galeri Pencapaian kini menggunakan empat seksyen bebas dengan grid responsif yang stabil pada telefon, tablet dan desktop. Semua kemajuan, ganjaran, Lensa Bahasa dan pembaikan terdahulu dikekalkan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -77,6 +77,11 @@ Listener capture KES 003–005 kini berhenti ketika Muka Depan atau Ruang Ibu Ba
 
 ## v2.4.4
 C018 kini mendedahkan poster WebP **Jom Bertukar Buku Cerita!** selepas tajuk dipasang, dengan animasi lembut, sokongan reduced motion dan akses semakan semula daripada deduksi atau rekod selesai. Potret canonical serta adegan Sudut Hebahan Cikgu Farah kini menutup rambut dan leher sepenuhnya tanpa mengubah identiti atau gameplay.
+
+
+## v2.4.6
+
+Galeri Pencapaian kini membina setiap fail sebagai seksyen bebas dengan grid responsif yang seimbang pada telefon, tablet dan desktop. Susun atur tidak lagi rosak apabila tetingkap dimaksimumkan atau dipulihkan, sementara semua 25 pencapaian dan rekod pemain dikekalkan.
 
 ## v2.4.5
 

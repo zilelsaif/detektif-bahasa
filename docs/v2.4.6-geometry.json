@@ -1,0 +1,302 @@
+{
+  "Chrome": {
+    "viewports": {
+      "360x640": {
+        "scrollWidth": 360,
+        "columns": 1,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "390x844": {
+        "scrollWidth": 390,
+        "columns": 1,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "502x868": {
+        "scrollWidth": 502,
+        "columns": 1,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "800x450": {
+        "scrollWidth": 800,
+        "columns": 2,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1024x768": {
+        "scrollWidth": 1024,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1280x720": {
+        "scrollWidth": 1280,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1366x768": {
+        "scrollWidth": 1366,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1600x900": {
+        "scrollWidth": 1600,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1920x1080": {
+        "scrollWidth": 1920,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      }
+    },
+    "resizeCycles": 3,
+    "refreshMaximized": "pass",
+    "agencyReopen": "pass",
+    "zoom125": {
+      "viewport": [
+        1600,
+        900
+      ],
+      "scrollWidth": 1600,
+      "status": "pass"
+    }
+  },
+  "Edge": {
+    "viewports": {
+      "360x640": {
+        "scrollWidth": 360,
+        "columns": 1,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "390x844": {
+        "scrollWidth": 390,
+        "columns": 1,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "502x868": {
+        "scrollWidth": 502,
+        "columns": 1,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "800x450": {
+        "scrollWidth": 800,
+        "columns": 2,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1024x768": {
+        "scrollWidth": 1024,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1280x720": {
+        "scrollWidth": 1280,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1366x768": {
+        "scrollWidth": 1366,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1600x900": {
+        "scrollWidth": 1600,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      },
+      "1920x1080": {
+        "scrollWidth": 1920,
+        "columns": 3,
+        "sections": 4,
+        "grids": 4,
+        "cards": 25,
+        "uniqueIds": 25,
+        "counters": [
+          "0 / 19",
+          "1 / 12",
+          "0 / 81",
+          "0"
+        ],
+        "status": "pass"
+      }
+    },
+    "resizeCycles": 3,
+    "refreshMaximized": "pass",
+    "agencyReopen": "pass",
+    "zoom125": {
+      "viewport": [
+        1600,
+        900
+      ],
+      "scrollWidth": 1600,
+      "status": "pass"
+    }
+  }
+}
