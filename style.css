@@ -230,3 +230,8 @@ body.product-entry{background:#0f2d4a}.product-entry>.site-header,.product-entry
 .case-utility-bar [data-lensa-action="open"]{border-color:#f7b239;background:#fff8df}.lensa-entry{margin-top:12px}
 @media(max-width:540px){.lensa-dialog{padding:8px}.lensa-card{max-height:94vh;border-radius:18px;padding:16px}.lensa-card header img{width:58px;height:58px}.lensa-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.lensa-word-grid{grid-template-columns:1fr}}
+
+/* v2.5.0 — C020 verified-message finale */
+.official-source{border-color:#0b6e7b;background:linear-gradient(135deg,#f8fff9,#e7f7f2)}.official-source>b{color:#075864}.c020-source-review{margin-top:14px}.c020-finale{position:relative;overflow:hidden}.verification-seal{display:grid;place-items:center;width:88px;height:88px;margin:0 auto 12px;border:7px double #fff4cb;border-radius:50%;background:#0b6e7b;color:#fff;font-size:50px;font-weight:1000;box-shadow:0 0 0 7px #f7b239,0 12px 28px #0f2d4a35;animation:c020-seal-in .55s cubic-bezier(.2,.85,.3,1.25) both}.c020-finale .milestone{border-color:#f7b239;background:linear-gradient(135deg,#fff8dc,#e7f7f2)}
+@keyframes c020-seal-in{from{opacity:0;transform:scale(.35) rotate(-16deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.verification-seal{animation:none!important}}

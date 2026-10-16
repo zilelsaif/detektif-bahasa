@@ -1,0 +1,1027 @@
+{
+  "Chrome": {
+    "completion": {
+      "status": "completed",
+      "clues": 5,
+      "xp": 550,
+      "stars": 5,
+      "record": 550,
+      "a26": true,
+      "a27": true
+    },
+    "replay": {
+      "runClues": 0,
+      "recordXp": 550,
+      "total": 554,
+      "lensa": true
+    },
+    "gallery": {
+      "viewport": [
+        1600,
+        900
+      ],
+      "scrollWidth": 1600,
+      "scene": null,
+      "buttons": [
+        {
+          "w": 154.921875,
+          "h": 53.890625,
+          "text": "⌂ Muka Depan"
+        },
+        {
+          "w": 134.46875,
+          "h": 48,
+          "text": "♪ Bunyi: Hidup"
+        },
+        {
+          "w": 97.6875,
+          "h": 48,
+          "text": "← Agensi"
+        },
+        {
+          "w": 95.5,
+          "h": 48,
+          "text": "▤ Fail Kes"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "Peta BayurayaTeroka"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "PencapaianRekod"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "WatakPenduduk"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "PanduanCara bermain"
+        }
+      ],
+      "sections": 4,
+      "cards": 27,
+      "achievementCounts": [
+        "0/9 dicapai",
+        "0/6 dicapai",
+        "0/6 dicapai",
+        "6/6 dicapai"
+      ]
+    },
+    "viewports": {
+      "360x640": {
+        "viewport": [
+          360,
+          640
+        ],
+        "scrollWidth": 360,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 89.71875,
+            "h": 109.671875,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 50.390625,
+            "h": 69.140625,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 87.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 85.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "390x844": {
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 105.984375,
+            "h": 78.6875,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 64.65625,
+            "h": 52.09375,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 87.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 85.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "800x450": {
+        "viewport": [
+          800,
+          450
+        ],
+        "scrollWidth": 800,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 148.421875,
+            "h": 52.34375,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1024x768": {
+        "viewport": [
+          1024,
+          768
+        ],
+        "scrollWidth": 1024,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 148.421875,
+            "h": 52.34375,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1366x768": {
+        "viewport": [
+          1366,
+          768
+        ],
+        "scrollWidth": 1366,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1600x900": {
+        "viewport": [
+          1600,
+          900
+        ],
+        "scrollWidth": 1600,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1920x1080": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "scrollWidth": 1920,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "6/6 dicapai"
+        ],
+        "smallTargets": 0
+      }
+    },
+    "rotation": {
+      "viewport": [
+        844,
+        390
+      ],
+      "scrollWidth": 844,
+      "scene": null,
+      "buttons": [
+        {
+          "w": 148.421875,
+          "h": 52.34375,
+          "text": "⌂ Muka Depan"
+        },
+        {
+          "w": 134.46875,
+          "h": 48,
+          "text": "♪ Bunyi: Hidup"
+        },
+        {
+          "w": 97.6875,
+          "h": 48,
+          "text": "← Agensi"
+        },
+        {
+          "w": 95.5,
+          "h": 48,
+          "text": "▤ Fail Kes"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "Peta BayurayaTeroka"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "PencapaianRekod"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "WatakPenduduk"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "PanduanCara bermain"
+        }
+      ],
+      "sections": 4,
+      "cards": 27,
+      "achievementCounts": [
+        "0/9 dicapai",
+        "0/6 dicapai",
+        "0/6 dicapai",
+        "6/6 dicapai"
+      ]
+    },
+    "errors": []
+  },
+  "Edge": {
+    "viewports": {
+      "360x640": {
+        "viewport": [
+          360,
+          640
+        ],
+        "scrollWidth": 360,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 89.71875,
+            "h": 109.671875,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 50.390625,
+            "h": 69.140625,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 87.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 85.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 156,
+            "h": 51.890625,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "390x844": {
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 105.984375,
+            "h": 78.6875,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 64.65625,
+            "h": 52.09375,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 87.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 85.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 171,
+            "h": 51.890625,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "800x450": {
+        "viewport": [
+          800,
+          450
+        ],
+        "scrollWidth": 800,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 148.421875,
+            "h": 52.34375,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1024x768": {
+        "viewport": [
+          1024,
+          768
+        ],
+        "scrollWidth": 1024,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1366x768": {
+        "viewport": [
+          1366,
+          768
+        ],
+        "scrollWidth": 1366,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1600x900": {
+        "viewport": [
+          1600,
+          900
+        ],
+        "scrollWidth": 1600,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      },
+      "1920x1080": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "scrollWidth": 1920,
+        "scene": null,
+        "buttons": [
+          {
+            "w": 154.921875,
+            "h": 53.890625,
+            "text": "⌂ Muka Depan"
+          },
+          {
+            "w": 134.46875,
+            "h": 48,
+            "text": "♪ Bunyi: Hidup"
+          },
+          {
+            "w": 97.6875,
+            "h": 48,
+            "text": "← Agensi"
+          },
+          {
+            "w": 95.5,
+            "h": 48,
+            "text": "▤ Fail Kes"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "Peta BayurayaTeroka"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PencapaianRekod"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "WatakPenduduk"
+          },
+          {
+            "w": 177.5,
+            "h": 48,
+            "text": "PanduanCara bermain"
+          }
+        ],
+        "sections": 4,
+        "cards": 27,
+        "achievementCounts": [
+          "0/9 dicapai",
+          "0/6 dicapai",
+          "0/6 dicapai",
+          "4/6 dicapai"
+        ],
+        "smallTargets": 0
+      }
+    },
+    "rotation": {
+      "viewport": [
+        844,
+        390
+      ],
+      "scrollWidth": 844,
+      "scene": null,
+      "buttons": [
+        {
+          "w": 148.421875,
+          "h": 52.34375,
+          "text": "⌂ Muka Depan"
+        },
+        {
+          "w": 134.46875,
+          "h": 48,
+          "text": "♪ Bunyi: Hidup"
+        },
+        {
+          "w": 97.6875,
+          "h": 48,
+          "text": "← Agensi"
+        },
+        {
+          "w": 95.5,
+          "h": 48,
+          "text": "▤ Fail Kes"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "Peta BayurayaTeroka"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "PencapaianRekod"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "WatakPenduduk"
+        },
+        {
+          "w": 177.5,
+          "h": 48,
+          "text": "PanduanCara bermain"
+        }
+      ],
+      "sections": 4,
+      "cards": 27,
+      "achievementCounts": [
+        "0/9 dicapai",
+        "0/6 dicapai",
+        "0/6 dicapai",
+        "4/6 dicapai"
+      ]
+    },
+    "errors": []
+  }
+}
