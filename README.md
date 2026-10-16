@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.4.2 by Zil-el-Saif**. Keluaran ini membina semula navigasi utama skrin tajuk sebagai komponen berasingan dengan kawalan yang lebih besar dan pengendalian input yang stabil, sambil mengekalkan semua kandungan v2.4.0 dan ketahanan save v2.4.1.
+Versi setempat: **v2.4.3 by Zil-el-Saif**. Hotfix ini memastikan listener kes tidak memintas navigasi skrin tajuk apabila save lama memilih C003, C004 atau C005, sambil mengekalkan komponen navigasi v2.4.2 dan semua kemajuan pemain.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -68,4 +68,9 @@ Skrin tajuk kini memeriksa semula run aktif sebelum menyambung, pulih dengan sel
 
 ## v2.4.2
 
-Butang **Sambung Siasatan** dan **Masuk Agensi** kini berada dalam panel 	itle-navigation baharu di bawah pengenalan permainan. Kedua-duanya menggunakan butang semantik, listener delegasi khusus dan pengesahan semula destinasi; Masuk Agensi sentiasa tersedia tanpa memadam siasatan aktif.
+Butang **Sambung Siasatan** dan **Masuk Agensi** kini berada dalam panel `title-navigation` baharu di bawah pengenalan permainan. Kedua-duanya menggunakan butang semantik, listener delegasi khusus dan pengesahan semula destinasi; Masuk Agensi sentiasa tersedia tanpa memadam siasatan aktif.
+
+
+## v2.4.3
+
+Listener capture KES 003–005 kini berhenti ketika Muka Depan atau Ruang Ibu Bapa aktif. Ini membolehkan **Masuk Agensi** dan **Sambung Siasatan** menerima klik bagi save replay lama tanpa menukar `activeCase`, rekod sejarah atau run separa kes lain.
