@@ -6,7 +6,7 @@ Potret dalam Fail Penduduk ialah sumber identiti visual untuk watak bernama. Ade
 |---|---|---|---|---|
 | KLU | Rakan detektif | `assets/klu.svg` | UI seluruh permainan | PASS |
 | Aynaa | Penduduk Bayuraya | `assets/characters/aynaa.webp` | Tiada penampilan jelas dalam latar lokasi | PASS |
-| Cikgu Farah | Guru | `assets/characters/cikgu-farah.webp` | Tiada | PASS |
+| Cikgu Farah | Guru | `assets/characters/cikgu-farah.webp` | `perpustakaan-sudut-hebahan.webp` | PASS selepas pembetulan v2.4.4 |
 | Hakim | Murid | `assets/characters/hakim.webp` | Tiada | PASS |
 | Mei Ling | Saksi | `assets/characters/mei-ling.webp` | Tiada | PASS |
 | Pustakawan Bayuraya | Pustakawan | `assets/characters/pustakawan.webp` | `library-bayuraya.webp` | PASS selepas pembetulan v1.4.0 |
@@ -29,6 +29,12 @@ Potret dalam Fail Penduduk ialah sumber identiti visual untuk watak bernama. Ade
 ## Pembetulan Pustakawan
 
 Adegan perpustakaan sebelum v1.4.0 menampilkan wanita bertudung yang jelas tidak sepadan dengan potret kanon. Figur di belakang kaunter kini berambut perang gelap separas bahu, berkaca mata teal, berbaju krim dan berjaket tanpa lengan hijau sage. Komposisi, kaunter, beg merah dan objek hotspot dikekalkan.
+
+## Kanon Cikgu Farah
+
+**Cikgu Farah: hijab fully covers hair and neck in all canonical and scene depictions.**
+
+Potret `assets/characters/cikgu-farah.webp` ialah sumber identiti utama. Hijab teal menutup semua rambut dan bersambung melepasi rahang hingga ke bahagian dada tanpa jurang kulit pada leher. Adegan `assets/locations/perpustakaan-sudut-hebahan.webp` mesti mengekalkan wajah, kaca mata navy, ekspresi mesra, warna hijab dan pakaian biru muda yang sama. Aset SVG lama `assets/cikgu-farah.svg` tidak digunakan oleh paparan watak atau dialog runtime.
 
 ## Shared-Universe Candidates
 

@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.4.3 by Zil-el-Saif**. Hotfix ini memastikan listener kes tidak memintas navigasi skrin tajuk apabila save lama memilih C003, C004 atau C005, sambil mengekalkan komponen navigasi v2.4.2 dan semua kemajuan pemain.
+Versi setempat: **v2.4.4 by Zil-el-Saif**. C018 kini memberikan paparan poster siap yang boleh dibuka semula, sementara potret dan adegan Cikgu Farah menggunakan kanon hijab yang menutup rambut serta leher sepenuhnya. Semua kemajuan, ganjaran dan pembaikan navigasi v2.4.3 dikekalkan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -74,3 +74,7 @@ Butang **Sambung Siasatan** dan **Masuk Agensi** kini berada dalam panel `title-
 ## v2.4.3
 
 Listener capture KES 003–005 kini berhenti ketika Muka Depan atau Ruang Ibu Bapa aktif. Ini membolehkan **Masuk Agensi** dan **Sambung Siasatan** menerima klik bagi save replay lama tanpa menukar `activeCase`, rekod sejarah atau run separa kes lain.
+
+## v2.4.4
+
+C018 kini mendedahkan poster WebP **Jom Bertukar Buku Cerita!** selepas tajuk dipasang, dengan animasi lembut, sokongan reduced motion dan akses semakan semula daripada deduksi atau rekod selesai. Potret canonical serta adegan Sudut Hebahan Cikgu Farah kini menutup rambut dan leher sepenuhnya tanpa mengubah identiti atau gameplay.
