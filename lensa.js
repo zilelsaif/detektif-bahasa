@@ -22,7 +22,7 @@ function validateLensaActivities(){
 }
 if(!validateLensaActivities())throw new Error('Takrif Lensa Bahasa tidak lengkap.');
 let lensaBahasa=saved?.lensaBahasa&&typeof saved.lensaBahasa==='object'?JSON.parse(JSON.stringify(saved.lensaBahasa)):{};
-let lensaView=false,lensaFeedback='',lensaWrong=false,lensaOrder=[],lensaReturnFocus=null;
+let lensaView=false,lensaFeedback='',lensaWrong=false,lensaOrder=[],lensaReturnFocus=null,lensaScrollY=0;
 function lensaCaseState(id=activeCase){return cases[id]?.run||{}}
 function isLensaCase(id=activeCase){return Object.prototype.hasOwnProperty.call(lensaActivities,id)}
 function isLensaUnlocked(id=activeCase){
@@ -52,36 +52,38 @@ function lensaDialogHtml(){
  const activity=lensaActivities[activeCase],unlocked=isLensaUnlocked();
  return `<section class="lensa-dialog" role="dialog" aria-modal="true" aria-labelledby="lensa-title"><div class="lensa-card" tabindex="-1"><header><img src="assets/klu.svg" alt="" aria-hidden="true"><div><div class="eyebrow">LENSA BAHASA · ${activeCase.replace('C','KES ')}</div><h2 id="lensa-title">${unlocked?activity.skillName:'Sumber belum ditemui'}</h2></div></header>${unlocked?`<article class="lensa-source"><small>${activity.sourceReference}</small><blockquote>${activity.sourceExcerpt}</blockquote></article><p class="lensa-objective"><b>Fokus:</b> ${activity.learningObjective}</p><h3>${activity.question}</h3>${lensaInteractionHtml(activity)}${lensaFeedback?`<div class="lensa-feedback ${lensaWrong?'wrong':''}" role="status">${lensaFeedback}</div>`:''}`:`<div class="lensa-locked"><span aria-hidden="true">🔒</span><p>Temui sumber berkaitan dalam siasatan ini dahulu. Lensa tidak akan membuka petunjuk yang belum dijumpai.</p></div>`}<button type="button" data-lensa-action="close" class="lensa-close">${isLensaCompleted()?'Kembali ke kes':'Tutup'}</button></div></section>`;
 }
+function renderLensaOverlay(){
+ document.querySelector?.('.lensa-dialog')?.remove?.();if(!lensaView||!isLensaCase())return;const host=document.body?.insertAdjacentHTML?document.body:app;host.insertAdjacentHTML('beforeend',lensaDialogHtml());Promise.resolve().then(()=>document.querySelector?.('.lensa-card')?.focus?.())
+}
 function openLensa(){
- lensaReturnFocus=document.activeElement;lensaView=true;lensaFeedback='';lensaWrong=false;lensaOrder=[];render();
- queueMicrotask(()=>app.querySelector?.('.lensa-card')?.focus())
+ lensaReturnFocus=document.activeElement;lensaScrollY=window.scrollY||0;lensaView=true;lensaFeedback='';lensaWrong=false;lensaOrder=[];document.documentElement?.classList?.add('lensa-modal-open');document.body?.classList?.add('lensa-modal-open');renderLensaOverlay()
 }
 function closeLensa(){
- lensaView=false;lensaFeedback='';lensaWrong=false;lensaOrder=[];render();
- queueMicrotask(()=>{if(lensaReturnFocus?.isConnected)lensaReturnFocus.focus();else app.querySelector?.('[data-lensa-action="open"]')?.focus()})
+ lensaView=false;lensaFeedback='';lensaWrong=false;lensaOrder=[];document.documentElement?.classList?.remove('lensa-modal-open');document.body?.classList?.remove('lensa-modal-open');document.querySelector?.('.lensa-dialog')?.remove?.();const entry=app.querySelector?.('[data-lensa-action="open"]');if(entry)entry.textContent=lensaEntryLabel();
+ Promise.resolve().then(()=>{const target=lensaReturnFocus?.isConnected?lensaReturnFocus:entry;target?.focus?.({preventScroll:true});window.scrollTo?.(0,lensaScrollY)})
 }
 function completeLensa(activity){
  lensaBahasa[activeCase]={completed:true,completedAt:new Date().toISOString(),skillId:activity.skillId};
- lensaWrong=false;lensaFeedback='✓ '+activity.successExplanation;sound('correct');persist();render()
+ lensaWrong=false;lensaFeedback='✓ '+activity.successExplanation;sound('correct');persist();renderLensaOverlay()
 }
 function answerLensa(index){
  const activity=lensaActivities[activeCase];if(!activity||isLensaCompleted())return;
  const correct=Number(index)===activity.answerData.correct;
- if(correct)completeLensa(activity);else{lensaWrong=true;lensaFeedback=activity.wrongAnswerFeedback;render()}
+ if(correct)completeLensa(activity);else{lensaWrong=true;lensaFeedback=activity.wrongAnswerFeedback;renderLensaOverlay()}
 }
 function handleLensaAction(button){
  const action=button.dataset.lensaAction;
  if(action==='open'){openLensa();return}
  if(action==='close'){closeLensa();return}
- if(action==='reset-order'){lensaOrder=[];lensaFeedback='';lensaWrong=false;render();return}
- if(action==='check-order'){const activity=lensaActivities[activeCase],right=activity.answerData.correct.every((v,i)=>lensaOrder[i]===v);if(right)completeLensa(activity);else{lensaWrong=true;lensaFeedback=activity.wrongAnswerFeedback;render()}return}
+ if(action==='reset-order'){lensaOrder=[];lensaFeedback='';lensaWrong=false;renderLensaOverlay();return}
+ if(action==='check-order'){const activity=lensaActivities[activeCase],right=activity.answerData.correct.every((v,i)=>lensaOrder[i]===v);if(right)completeLensa(activity);else{lensaWrong=true;lensaFeedback=activity.wrongAnswerFeedback;renderLensaOverlay()}return}
  if(button.dataset.lensaAnswer!==undefined){answerLensa(button.dataset.lensaAnswer);return}
- if(button.dataset.lensaOrder!==undefined&&!lensaOrder.includes(Number(button.dataset.lensaOrder))){lensaOrder.push(Number(button.dataset.lensaOrder));lensaFeedback='';lensaWrong=false;render()}
+ if(button.dataset.lensaOrder!==undefined&&!lensaOrder.includes(Number(button.dataset.lensaOrder))){lensaOrder.push(Number(button.dataset.lensaOrder));lensaFeedback='';lensaWrong=false;renderLensaOverlay()}
 }
-const renderBeforeLensa=render;render=function(){renderBeforeLensa();injectLensaEntry();if(lensaView&&isLensaCase())app.insertAdjacentHTML('beforeend',lensaDialogHtml())};
-app.addEventListener('click',event=>{const button=event.target.closest?.('[data-lensa-action],[data-lensa-answer],[data-lensa-order]');if(!button)return;event.preventDefault?.();event.stopImmediatePropagation?.();handleLensaAction(button)},true);
-document.addEventListener?.('keydown',event=>{if(lensaView&&event.key==='Escape'){event.preventDefault();closeLensa()}},true);
+const renderBeforeLensa=render;render=function(){document.querySelector?.('.lensa-dialog')?.remove?.();renderBeforeLensa();injectLensaEntry();renderLensaOverlay()};
+document.addEventListener?.('click',event=>{const button=event.target.closest?.('[data-lensa-action],[data-lensa-answer],[data-lensa-order]');if(!button)return;event.preventDefault?.();event.stopImmediatePropagation?.();handleLensaAction(button)},true);
+document.addEventListener?.('keydown',event=>{if(!lensaView)return;if(event.key==='Escape'){event.preventDefault();closeLensa();return}if(event.key!=='Tab')return;const dialog=document.querySelector?.('.lensa-dialog'),focusable=[...(dialog?.querySelectorAll?.('button:not([disabled]),[href],select:not([disabled]),[tabindex]:not([tabindex="-1"])')||[])];if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}},true);
 const resetBeforeLensa=resetDetektifProgress;resetDetektifProgress=function(){lensaBahasa={};lensaView=false;resetBeforeLensa()};
-document.querySelector('footer span:last-child').textContent='v2.5.0 by Zil-el-Saif';
+document.querySelector('footer span:last-child').textContent='v2.5.1 by Zil-el-Saif';
 render();
 

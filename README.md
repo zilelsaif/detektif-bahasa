@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.5.0 by Zil-el-Saif**. KES 020 menutup Fail Keempat melalui penyiasatan mesej rasmi, masa, sumber dan perspektif. Semua kemajuan, galeri Pencapaian responsif, Lensa Bahasa dan pembaikan terdahulu dikekalkan.
+Versi setempat: **v2.5.1 by Zil-el-Saif**. Modal Lensa Bahasa kini berpusat pada viewport, boleh ditatal secara dalaman pada skrin pendek dan memulihkan kedudukan halaman selepas ditutup. KES 020, semua kemajuan dan pembaikan terdahulu dikekalkan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -79,6 +79,12 @@ Listener capture KES 003–005 kini berhenti ketika Muka Depan atau Ruang Ibu Ba
 C018 kini mendedahkan poster WebP **Jom Bertukar Buku Cerita!** selepas tajuk dipasang, dengan animasi lembut, sokongan reduced motion dan akses semakan semula daripada deduksi atau rekod selesai. Potret canonical serta adegan Sudut Hebahan Cikgu Farah kini menutup rambut dan leher sepenuhnya tanpa mengubah identiti atau gameplay.
 
 
+
+## v2.5.1
+
+- Membetulkan modal Lensa Bahasa supaya dipasang terus pada viewport, berpusat pada semua saiz skrin dan boleh ditatal secara dalaman.
+- Mengunci skrol latar semasa modal terbuka, memulihkan kedudukan halaman selepas ditutup, serta menambah perangkap fokus, Escape dan pemulangan fokus.
+- Mengekalkan kandungan 15 aktiviti Lensa Bahasa, kemajuan kes, ganjaran dan struktur simpanan tanpa perubahan.
 
 ## v2.5.0
 

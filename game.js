@@ -1,4 +1,4 @@
-const KEY='detektif-bahasa-v1',RELEASE='v2.5.0 by Zil-el-Saif';
+const KEY='detektif-bahasa-v1',RELEASE='v2.5.1 by Zil-el-Saif';
 const clues1=['Beg masih berada di kelas ketika rehat bermula.','Aynaa ialah pemilik beg merah.','Cikgu Farah membawa sebuah beg merah selepas rehat.','Beg merah dilihat di Perpustakaan Bayuraya.','Cikgu Farah menemui beg yang tertinggal lalu menyerahkannya kepada pustakawan.'];
 const clues2=['Pesanan Ammar berada di dalam beg biru kecil dengan pelekat roket.','Pesanan Sofia berada di dalam beg merah jambu besar dengan reben putih.','Beg biru kecil berpelekat roket kini berlabel SOFIA.','Beg merah jambu besar bereben putih kini berlabel AMMAR.','Dua label terjatuh berhampiran rak pengambilan lalu dipasang semula tanpa memeriksa penerangan beg.'];
 const fragments=['Letakkan kotak kad cerita','di atas meja kecil','di belakang rak biru','selepas waktu rehat.'];
