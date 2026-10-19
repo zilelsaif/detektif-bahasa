@@ -1,5 +1,13 @@
 # Kanon Visual Watak Bayuraya
 
+## Persembahan galeri v2.5.2
+
+Fail Penduduk membezakan mugshot kepala/bahu (`assets/characters/mugshots/{id}.webp`) daripada pose berasingan (`assets/characters/poses/{id}.webp`). KLU terus menggunakan `assets/klu.svg` untuk pose. Potret asal di bawah kekal sebagai rujukan identiti dan untuk paparan kes; salinan galeri tidak menggantikan fail asal.
+
+24 padanan, sumber dan pakaian dicatat dalam [audit aset v2.5.2](v2.5.2-character-asset-audit.md). Pose mesti mengekalkan identiti wajah, warna kulit, umur anggaran dan pakaian rujukan. Aynaa kekal bertudung biru, Ivy kekal Ivy, Affan berbaju hijau, Arissa bertudung kuning, Emah sedikit berisi tanpa hijab, Jagjit lelaki Punjabi muda sekitar 18 dengan misai nipis, dan hijab Farah menutup rambut serta leher. Lambang jersi Ammar, reben Sofia dan poket Affan turut dikekalkan.
+
+Dialog showcase ialah teks HTML individu, bukan teks dalam gambar dan bukan kandungan kes baharu. Rujuk [kanon dialog](v2.5.2-character-dialogue-canon.md). Penemuan, biodata dan kaitan kes tidak berubah.
+
 Potret dalam Fail Penduduk ialah sumber identiti visual untuk watak bernama. Adegan boleh menggunakan skala atau rendering berbeza, tetapi wajah, umur anggaran, rambut atau tudung, aksesori dan pakaian utama perlu kekal mudah dikenali.
 
 | Nama kanon | Peranan | Potret kanon | Adegan diketahui | Status |

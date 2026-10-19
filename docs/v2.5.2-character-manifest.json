@@ -1,0 +1,333 @@
+{
+  "klu": {
+    "id": "klu",
+    "name": "KLU",
+    "role": "Rakan Detektif",
+    "portrait": "assets/klu.svg",
+    "relatedCases": [],
+    "relatedLocations": [
+      "agency"
+    ],
+    "shortBio": "Rakan detektif yang membantu mencari petunjuk dan memberi bantuan semasa siasatan."
+  },
+  "aynaa": {
+    "id": "aynaa",
+    "name": "Aynaa",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/aynaa.webp",
+    "relatedCases": [
+      "C001",
+      "C005"
+    ],
+    "relatedLocations": [
+      "school",
+      "square"
+    ],
+    "shortBio": "Seorang murid Bayuraya yang menjadi pemilik beg dalam kes pertama dan membantu persiapan Hari Bayuraya."
+  },
+  "farah": {
+    "id": "farah",
+    "name": "Cikgu Farah",
+    "role": "Guru Sekolah Bayuraya",
+    "portrait": "assets/characters/cikgu-farah.webp",
+    "relatedCases": [
+      "C001",
+      "C018"
+    ],
+    "relatedLocations": [
+      "school",
+      "library"
+    ],
+    "shortBio": "Guru Sekolah Bayuraya yang memastikan beg yang ditemui disimpan dengan selamat."
+  },
+  "hakim": {
+    "id": "hakim",
+    "name": "Hakim",
+    "role": "Murid Sekolah Bayuraya",
+    "portrait": "assets/characters/hakim.webp",
+    "relatedCases": [
+      "C001"
+    ],
+    "relatedLocations": [
+      "school"
+    ],
+    "shortBio": "Salah seorang saksi dalam Misteri Beg Merah."
+  },
+  "meiLing": {
+    "id": "meiLing",
+    "name": "Mei Ling",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/mei-ling.webp",
+    "relatedCases": [
+      "C001"
+    ],
+    "relatedLocations": [
+      "school",
+      "library"
+    ],
+    "shortBio": "Saksi yang melihat beg merah di Perpustakaan Bayuraya."
+  },
+  "librarian": {
+    "id": "librarian",
+    "name": "Pustakawan Bayuraya",
+    "role": "Pustakawan",
+    "portrait": "assets/characters/pustakawan.webp",
+    "relatedCases": [
+      "C001",
+      "C003"
+    ],
+    "relatedLocations": [
+      "library"
+    ],
+    "shortBio": "Menjaga Perpustakaan Bayuraya dan membantu beberapa penyiasatan."
+  },
+  "ammar": {
+    "id": "ammar",
+    "name": "Ammar",
+    "role": "Pelanggan Kedai Matematik",
+    "portrait": "assets/characters/ammar.webp",
+    "relatedCases": [
+      "C002"
+    ],
+    "relatedLocations": [
+      "mathShop"
+    ],
+    "shortBio": "Pelanggan yang menerangkan pesanannya melalui warna, saiz dan tanda khas."
+  },
+  "sofia": {
+    "id": "sofia",
+    "name": "Sofia",
+    "role": "Pelanggan Kedai Matematik",
+    "portrait": "assets/characters/sofia.webp",
+    "relatedCases": [
+      "C002"
+    ],
+    "relatedLocations": [
+      "mathShop"
+    ],
+    "shortBio": "Pelanggan yang membantu membuktikan bahawa label dua pesanan telah tertukar."
+  },
+  "shopWorker": {
+    "id": "shopWorker",
+    "name": "Pekerja Kedai Matematik",
+    "role": "Pekerja Kedai Matematik",
+    "portrait": "assets/characters/shop-worker.webp",
+    "relatedCases": [
+      "C002"
+    ],
+    "relatedLocations": [
+      "mathShop"
+    ],
+    "shortBio": "Membantu pelanggan dan menerangkan bagaimana label pesanan boleh tertukar."
+  },
+  "ivy": {
+    "id": "ivy",
+    "name": "Ivy",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/ivy.webp",
+    "relatedCases": [
+      "C003"
+    ],
+    "relatedLocations": [
+      "library"
+    ],
+    "shortBio": "Membantu menemui salah satu cebisan nota di Sudut Bacaan."
+  },
+  "kumar": {
+    "id": "kumar",
+    "name": "Kumar",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/kumar.webp",
+    "relatedCases": [
+      "C003"
+    ],
+    "relatedLocations": [
+      "library"
+    ],
+    "shortBio": "Membantu menemui cebisan nota berhampiran troli buku."
+  },
+  "maria": {
+    "id": "maria",
+    "name": "Maria",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/maria.webp",
+    "relatedCases": [
+      "C004"
+    ],
+    "relatedLocations": [
+      "park"
+    ],
+    "shortBio": "Saksi di Taman Bayuraya yang melihat bakul sebelum hujan."
+  },
+  "azzam": {
+    "id": "azzam",
+    "name": "Azzam",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/azzam.webp",
+    "relatedCases": [
+      "C004",
+      "C005"
+    ],
+    "relatedLocations": [
+      "park",
+      "square"
+    ],
+    "shortBio": "Membantu di Taman Bayuraya dan semasa persiapan Hari Bayuraya."
+  },
+  "pakRahim": {
+    "id": "pakRahim",
+    "name": "Pak Rahim",
+    "role": "Penjaga Taman Bayuraya",
+    "portrait": "assets/characters/pak-rahim.webp",
+    "relatedCases": [
+      "C004"
+    ],
+    "relatedLocations": [
+      "park"
+    ],
+    "shortBio": "Penjaga Taman Bayuraya yang memindahkan bakul ketika hujan."
+  },
+  "kakSuri": {
+    "id": "kakSuri",
+    "name": "Kak Suri",
+    "role": "Pemilik Kedai Roti Bayuraya",
+    "portrait": "assets/characters/kak-suri.webp",
+    "relatedCases": [
+      "C006",
+      "C010"
+    ],
+    "relatedLocations": [
+      "bakery"
+    ],
+    "shortBio": "Menyediakan pesanan pagi dan membantu menjejaki kad pesanan Balai Komuniti."
+  },
+  "encikHafiz": {
+    "id": "encikHafiz",
+    "name": "Encik Hafiz",
+    "role": "Peniaga Pasar Bayuraya",
+    "portrait": "assets/characters/encik-hafiz.webp",
+    "relatedCases": [
+      "C007",
+      "C010"
+    ],
+    "relatedLocations": [
+      "market"
+    ],
+    "shortBio": "Peniaga yang membantu mengenal pasti bakul melalui senarai belian."
+  },
+  "drHana": {
+    "id": "drHana",
+    "name": "Dr. Hana",
+    "role": "Doktor Veterinar Klinik Haiwan Bayuraya",
+    "portrait": "assets/characters/dr-hana.webp",
+    "relatedCases": [
+      "C008",
+      "C010"
+    ],
+    "relatedLocations": [
+      "vet"
+    ],
+    "shortBio": "Doktor veterinar yang menerangkan rekod dan pemindahan pesakit dengan selamat."
+  },
+  "puanSuraya": {
+    "id": "puanSuraya",
+    "name": "Puan Suraya",
+    "role": "Penyelaras Balai Komuniti Bayuraya",
+    "portrait": "assets/characters/puan-suraya.webp",
+    "relatedCases": [
+      "C009",
+      "C010"
+    ],
+    "relatedLocations": [
+      "community",
+      "square"
+    ],
+    "shortBio": "Penyelaras yang memastikan maklumat aktiviti komuniti sentiasa dikemas kini."
+  },
+  "ayyash": {
+    "id": "ayyash",
+    "name": "Ayyash",
+    "role": "Penduduk Bayuraya",
+    "portrait": "assets/characters/ayyash.webp",
+    "relatedCases": [
+      "C011",
+      "C019"
+    ],
+    "relatedLocations": [
+      "station",
+      "park"
+    ],
+    "shortBio": "Membantu mengingati tanda tempat di Stesen Bas Bayuraya semasa Jejak Rahsia Bayuraya."
+  },
+  "affan": {
+    "id": "affan",
+    "name": "Affan",
+    "role": "Pelawat galeri",
+    "portrait": "assets/characters/affan.webp",
+    "relatedCases": [
+      "C012"
+    ],
+    "relatedLocations": [
+      "gallery"
+    ],
+    "shortBio": "Membaca fakta pameran dan menunjukkan foto arkib yang membantu siasatan di Galeri Warisan Bayuraya."
+  },
+  "xiaoFeng": {
+    "id": "xiaoFeng",
+    "name": "Xiao Feng",
+    "role": "Pemerhati corak",
+    "portrait": "assets/characters/xiao-feng.webp",
+    "relatedCases": [
+      "C014",
+      "C019"
+    ],
+    "relatedLocations": [
+      "community",
+      "park"
+    ],
+    "shortBio": "Murid Bayuraya yang peka terhadap corak visual dan membantu mengesan simbol berulang di Bilik Persediaan."
+  },
+  "arissa": {
+    "id": "arissa",
+    "name": "Arissa",
+    "role": "Peserta Jejak Rahsia",
+    "portrait": "assets/characters/arissa.webp",
+    "relatedCases": [
+      "C015",
+      "C018"
+    ],
+    "relatedLocations": [
+      "square",
+      "library"
+    ],
+    "shortBio": "Peserta yang mengingati tanda bintang kuning pada kad arahan akhir."
+  },
+  "emah": {
+    "id": "emah",
+    "name": "Emah",
+    "role": "Penyusun mesej",
+    "portrait": "assets/characters/emah.webp",
+    "relatedCases": [
+      "C016",
+      "C020"
+    ],
+    "relatedLocations": [
+      "community"
+    ],
+    "shortBio": "Pemerhati yang menyimpan cebisan pesanan Bengkel Kreatif Bayuraya."
+  },
+  "jagjit": {
+    "id": "jagjit",
+    "name": "Jagjit",
+    "role": "Pekerja baharu Kedai Matematik",
+    "portrait": "assets/characters/jagjit.webp",
+    "relatedCases": [
+      "C017",
+      "C020"
+    ],
+    "relatedLocations": [
+      "mathShop"
+    ],
+    "shortBio": "Pekerja baharu yang teliti ketika menyemak rekod penghantaran KB-17."
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "Chrome": {
+    "characters": 24,
+    "viewports": {
+      "360x640": {
+        "viewport": [
+          360,
+          640
+        ],
+        "rect": {
+          "x": 8,
+          "y": 28.796875,
+          "width": 344,
+          "height": 582.40625,
+          "right": 352,
+          "bottom": 611.203125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "390x844": {
+        "viewport": [
+          390,
+          844
+        ],
+        "rect": {
+          "x": 8,
+          "y": 81.828125,
+          "width": 374,
+          "height": 680.328125,
+          "right": 382,
+          "bottom": 762.15625
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "430x932": {
+        "viewport": [
+          430,
+          932
+        ],
+        "rect": {
+          "x": 8,
+          "y": 108.390625,
+          "width": 414,
+          "height": 715.21875,
+          "right": 422,
+          "bottom": 823.609375
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "800x450": {
+        "viewport": [
+          800,
+          450
+        ],
+        "rect": {
+          "x": 12,
+          "y": 53.671875,
+          "width": 776,
+          "height": 342.640625,
+          "right": 788,
+          "bottom": 396.3125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1024x768": {
+        "viewport": [
+          1024,
+          768
+        ],
+        "rect": {
+          "x": 32,
+          "y": 53.609375,
+          "width": 960,
+          "height": 660.765625,
+          "right": 992,
+          "bottom": 714.375
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1366x768": {
+        "viewport": [
+          1366,
+          768
+        ],
+        "rect": {
+          "x": 203,
+          "y": 53.609375,
+          "width": 960,
+          "height": 660.765625,
+          "right": 1163,
+          "bottom": 714.375
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1600x900": {
+        "viewport": [
+          1600,
+          900
+        ],
+        "rect": {
+          "x": 320,
+          "y": 76.703125,
+          "width": 960,
+          "height": 746.578125,
+          "right": 1280,
+          "bottom": 823.28125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1920x1080": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "rect": {
+          "x": 480,
+          "y": 129.203125,
+          "width": 960,
+          "height": 821.578125,
+          "right": 1440,
+          "bottom": 950.78125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      }
+    },
+    "errors": []
+  },
+  "Edge": {
+    "characters": 24,
+    "viewports": {
+      "360x640": {
+        "viewport": [
+          360,
+          640
+        ],
+        "rect": {
+          "x": 8,
+          "y": 28.796875,
+          "width": 344,
+          "height": 582.40625,
+          "right": 352,
+          "bottom": 611.203125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "390x844": {
+        "viewport": [
+          390,
+          844
+        ],
+        "rect": {
+          "x": 8,
+          "y": 81.828125,
+          "width": 374,
+          "height": 680.328125,
+          "right": 382,
+          "bottom": 762.15625
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "430x932": {
+        "viewport": [
+          430,
+          932
+        ],
+        "rect": {
+          "x": 8,
+          "y": 108.390625,
+          "width": 414,
+          "height": 715.21875,
+          "right": 422,
+          "bottom": 823.609375
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "800x450": {
+        "viewport": [
+          800,
+          450
+        ],
+        "rect": {
+          "x": 12,
+          "y": 53.671875,
+          "width": 776,
+          "height": 342.640625,
+          "right": 788,
+          "bottom": 396.3125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1024x768": {
+        "viewport": [
+          1024,
+          768
+        ],
+        "rect": {
+          "x": 32,
+          "y": 53.609375,
+          "width": 960,
+          "height": 660.765625,
+          "right": 992,
+          "bottom": 714.375
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1366x768": {
+        "viewport": [
+          1366,
+          768
+        ],
+        "rect": {
+          "x": 203,
+          "y": 53.609375,
+          "width": 960,
+          "height": 660.765625,
+          "right": 1163,
+          "bottom": 714.375
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1600x900": {
+        "viewport": [
+          1600,
+          900
+        ],
+        "rect": {
+          "x": 320,
+          "y": 76.703125,
+          "width": 960,
+          "height": 746.578125,
+          "right": 1280,
+          "bottom": 823.28125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      },
+      "1920x1080": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "rect": {
+          "x": 480,
+          "y": 129.203125,
+          "width": 960,
+          "height": 821.578125,
+          "right": 1440,
+          "bottom": 950.78125
+        },
+        "overflow": false,
+        "internalScroll": false,
+        "imageBubbleOverlap": false
+      }
+    },
+    "errors": []
+  }
+}

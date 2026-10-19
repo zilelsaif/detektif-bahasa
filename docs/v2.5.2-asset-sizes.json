@@ -1,0 +1,334 @@
+{
+  "totalNewBytes": 2546790,
+  "assets": [
+    {
+      "path": "assets/characters/mugshots/affan.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 17792,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/ammar.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 23002,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/arissa.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 31282,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/aynaa.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 23966,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/ayyash.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 16258,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/azzam.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 18112,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/drHana.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 26276,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/emah.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 44022,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/encikHafiz.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 26876,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/farah.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 34396,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/hakim.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 27908,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/ivy.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 21064,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/jagjit.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 30554,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/kakSuri.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 25594,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/klu.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 26008,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/kumar.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 21078,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/librarian.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 37290,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/maria.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 22404,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/meiLing.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 29672,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/pakRahim.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 31448,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/puanSuraya.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 25834,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/shopWorker.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 44640,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/sofia.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 29402,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/mugshots/xiaoFeng.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 48530,
+      "alpha": false
+    },
+    {
+      "path": "assets/characters/poses/affan.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 86414,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/ammar.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 94110,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/arissa.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 79790,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/aynaa.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 70592,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/ayyash.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 68396,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/azzam.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 73088,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/drHana.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 68246,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/emah.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 101842,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/encikHafiz.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 74174,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/farah.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 79232,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/hakim.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 77118,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/ivy.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 70664,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/jagjit.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 70918,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/kakSuri.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 87446,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/kumar.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 86212,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/librarian.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 75810,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/maria.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 81596,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/meiLing.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 116012,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/pakRahim.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 92830,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/puanSuraya.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 65262,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/shopWorker.webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 53290,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/sofia.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 93404,
+      "alpha": true
+    },
+    {
+      "path": "assets/characters/poses/xiaoFeng.webp",
+      "width": 768,
+      "height": 1024,
+      "bytes": 96936,
+      "alpha": true
+    }
+  ]
+}

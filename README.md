@@ -1,6 +1,6 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.5.1 by Zil-el-Saif**. Modal Lensa Bahasa kini berpusat pada viewport, boleh ditatal secara dalaman pada skrin pendek dan memulihkan kedudukan halaman selepas ditutup. KES 020, semua kemajuan dan pembaikan terdahulu dikekalkan.
+Versi setempat: **v2.5.2 by Zil-el-Saif**. Fail Penduduk kini menggunakan 24 mugshot seragam, pose berasingan dan dialog watak yang boleh dibesarkan. Identiti watak, penemuan, simpanan dan C001–C020 dikekalkan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
@@ -97,3 +97,11 @@ Galeri Pencapaian kini membina setiap fail sebagai seksyen bebas dengan grid res
 ## v2.4.5
 
 Lensa Bahasa menambah aktiviti Bahasa Melayu kontekstual pilihan untuk KES 006–019. Aktiviti dibuka selepas sumber berkaitan ditemui, kekal berasingan daripada petunjuk, bintang dan XP, serta boleh dibuka semula melalui Alat Siasatan atau rekod kes yang selesai.
+
+## v2.5.2 — Character Portrait & Pose Gallery
+
+- Kad menggunakan mugshot 512×512; panel butiran menggunakan pose telus berasingan.
+- LIHAT POSE membuka showcase dengan dialog Bahasa Melayu individu, Escape, fokus/skrol dipulihkan dan reduced motion.
+- 15 mugshot digunakan semula/dinormalkan, 9 mugshot baharu; 2 pose digunakan semula dan 22 pose berasaskan rujukan. Semua fail asal dikekalkan.
+- Tambahan WebP: 2,546,790 bait (2.43 MiB), dimuatkan mengikut keperluan. Tiada dependency baharu.
+- [Audit aset](docs/v2.5.2-character-asset-audit.md), [kanon dialog](docs/v2.5.2-character-dialogue-canon.md), [QA setempat](docs/v2.5.2-local-qa.md).

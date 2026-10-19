@@ -84,6 +84,6 @@ const renderBeforeLensa=render;render=function(){document.querySelector?.('.lens
 document.addEventListener?.('click',event=>{const button=event.target.closest?.('[data-lensa-action],[data-lensa-answer],[data-lensa-order]');if(!button)return;event.preventDefault?.();event.stopImmediatePropagation?.();handleLensaAction(button)},true);
 document.addEventListener?.('keydown',event=>{if(!lensaView)return;if(event.key==='Escape'){event.preventDefault();closeLensa();return}if(event.key!=='Tab')return;const dialog=document.querySelector?.('.lensa-dialog'),focusable=[...(dialog?.querySelectorAll?.('button:not([disabled]),[href],select:not([disabled]),[tabindex]:not([tabindex="-1"])')||[])];if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}},true);
 const resetBeforeLensa=resetDetektifProgress;resetDetektifProgress=function(){lensaBahasa={};lensaView=false;resetBeforeLensa()};
-document.querySelector('footer span:last-child').textContent='v2.5.1 by Zil-el-Saif';
+document.querySelector('footer span:last-child').textContent='v2.5.2 by Zil-el-Saif';
 render();
 
