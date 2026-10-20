@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2026-10-20T06:30:45.935Z",
+  "assetCount": 149,
+  "assetBytes": 12564509,
+  "runtimeBytes": 554827,
+  "runtime": [
+    {
+      "path": "index.html",
+      "bytes": 3633
+    },
+    {
+      "path": "style.css",
+      "bytes": 93910
+    },
+    {
+      "path": "character-gallery.css",
+      "bytes": 3609
+    },
+    {
+      "path": "mechanics.js",
+      "bytes": 7253
+    },
+    {
+      "path": "game.js",
+      "bytes": 151744
+    },
+    {
+      "path": "arc2.js",
+      "bytes": 42831
+    },
+    {
+      "path": "arc3.js",
+      "bytes": 64960
+    },
+    {
+      "path": "arc4.js",
+      "bytes": 24533
+    },
+    {
+      "path": "arc5.js",
+      "bytes": 98319
+    },
+    {
+      "path": "arc6.js",
+      "bytes": 27760
+    },
+    {
+      "path": "lensa.js",
+      "bytes": 20200
+    },
+    {
+      "path": "character-gallery.js",
+      "bytes": 5473
+    },
+    {
+      "path": "server.js",
+      "bytes": 10602
+    }
+  ],
+  "largestAssets": [
+    {
+      "path": "assets/support/sokong-detektif-bahasa.png",
+      "bytes": 1789080
+    },
+    {
+      "path": "assets/locations/taman-bayuraya.webp",
+      "bytes": 485314
+    },
+    {
+      "path": "assets/locations/peta-bayuraya.webp",
+      "bytes": 433298
+    },
+    {
+      "path": "assets/locations/taman-pondok-aktiviti.webp",
+      "bytes": 379866
+    },
+    {
+      "path": "assets/posters/c018-poster-siap.webp",
+      "bytes": 354856
+    },
+    {
+      "path": "assets/locations/dataran-hari-bayuraya.webp",
+      "bytes": 314076
+    },
+    {
+      "path": "assets/ui/title-bayuraya.webp",
+      "bytes": 306680
+    },
+    {
+      "path": "assets/locations/dataran-jejak-rahsia.webp",
+      "bytes": 283404
+    },
+    {
+      "path": "assets/locations/ruang-latihan-bayuraya.webp",
+      "bytes": 279412
+    },
+    {
+      "path": "assets/locations/perpustakaan-sudut-hebahan.webp",
+      "bytes": 263184
+    },
+    {
+      "path": "assets/locations/stesen-bas-bayuraya.webp",
+      "bytes": 262478
+    },
+    {
+      "path": "assets/locations/pasar-bayuraya.webp",
+      "bytes": 252794
+    },
+    {
+      "path": "assets/locations/kedai-roti-bayuraya.webp",
+      "bytes": 242918
+    },
+    {
+      "path": "assets/locations/galeri-warisan-bayuraya.webp",
+      "bytes": 219938
+    },
+    {
+      "path": "assets/locations/balai-komuniti-bilik-persediaan.webp",
+      "bytes": 218922
+    }
+  ],
+  "byteIdenticalDuplicates": []
+}

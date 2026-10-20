@@ -1,19 +1,19 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.5.2 by Zil-el-Saif**. Fail Penduduk kini menggunakan 24 mugshot seragam, pose berasingan dan dialog watak yang boleh dibesarkan. Identiti watak, penemuan, simpanan dan C001–C020 dikekalkan.
+Versi setempat: **v2.6.0 by Zil-el-Saif**. Fail Penduduk kini menggunakan 24 mugshot seragam, pose berasingan dan dialog watak yang boleh dibesarkan. Identiti watak, penemuan, simpanan dan C001–C020 dikekalkan.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 
 ## Kandungan
 
-Permainan mempunyai 19 kes yang boleh dimainkan dalam empat fail:
+Permainan mempunyai 20 kes yang boleh dimainkan dalam empat fail:
 
 - **Fail Pertama:** KES 001–005, Misteri Beg Merah hingga Misteri Persiapan Hari Bayuraya.
 - **Fail Kedua:** KES 006–010, Kedai Roti, Pasar, Klinik Haiwan, Balai Komuniti dan finale Kotak Kenangan.
 - **Fail Ketiga — Jejak Rahsia Bayuraya:** KES 011–015, Stesen Bas, Galeri Warisan, Kedai Matematik, Bilik Persediaan dan finale Peti Jejak.
-- **Fail Keempat — Jejak Mesej Bayuraya:** KES 016–019, daripada pesanan terputus hingga dua pemerhatian yang kelihatan berbeza.
+- **Fail Keempat — Jejak Mesej Bayuraya:** KES 016–020, daripada pesanan terputus hingga Misteri Mesej Terakhir Bayuraya.
 
-Jumlah semasa ialah 19 kes, 12 lokasi, 24 watak dan 25 pencapaian, dengan maksimum 81 bintang dan 6470 XP terbaik. Kes dibuka mengikut urutan; kemajuan setiap kes dan rekod terbaik disimpan berasingan.
+Jumlah semasa ialah 20 kes, 12 lokasi, 24 watak dan 27 pencapaian, dengan maksimum 86 bintang dan 7,020 XP terbaik. Kes dibuka mengikut urutan; kemajuan setiap kes dan rekod terbaik disimpan berasingan.
 
 Permainan menggunakan adegan siasatan, dialog saksi, susunan, Semak Kenyataan, teka-teki, trivia, padanan, kod simbol, papan bukti dan deduksi. Setiap kes mempunyai lima petunjuk rasmi dan bantuan KLU tiga tahap. Alat Siasatan membolehkan pemain menyemak petunjuk yang telah ditemui atau memulakan semula run semasa.
 
@@ -98,6 +98,13 @@ Galeri Pencapaian kini membina setiap fail sebagai seksyen bebas dengan grid res
 
 Lensa Bahasa menambah aktiviti Bahasa Melayu kontekstual pilihan untuk KES 006–019. Aktiviti dibuka selepas sumber berkaitan ditemui, kekal berasingan daripada petunjuk, bintang dan XP, serta boleh dibuka semula melalui Alat Siasatan atau rekod kes yang selesai.
 
+
+## v2.6.0 — Full Game Quality & Educational Content Audit
+
+- Mengesahkan 20 kes, 15 aktiviti Lensa Bahasa, 24 watak, 27 pencapaian, 12 lokasi, 86 bintang maksimum dan 7,020 XP maksimum terus daripada takrif runtime.
+- Membetulkan istilah KES 008 daripada `temujanji`/`temu janji` kepada bentuk baku `janji temu` tanpa mengubah mekanik atau jawapan.
+- Menambah pakej audit kes, bahasa, visual, UI/kebolehcapaian, prestasi, regresi dan daftar isu dalam `docs/`.
+- Mengekalkan kunci simpanan `detektif-bahasa-v1`, keserasian rekod lama, semua ganjaran dan semua kandungan C001–C020.
 ## v2.5.2 — Character Portrait & Pose Gallery
 
 - Kad menggunakan mugshot 512×512; panel butiran menggunakan pose telus berasingan.

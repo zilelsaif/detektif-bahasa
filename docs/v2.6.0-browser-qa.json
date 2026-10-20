@@ -1,0 +1,281 @@
+{
+  "generatedAt": "2026-10-20T06:38:05.914Z",
+  "browsers": {
+    "Chrome": {
+      "viewports": {
+        "360x640": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "390x844": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "430x932": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "800x450": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1024x768": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1366x768": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1600x900": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1920x1080": {
+          "noPageOverflow": true,
+          "majorViews": true
+        }
+      },
+      "pageErrors": []
+    },
+    "Edge": {
+      "viewports": {
+        "360x640": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "390x844": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "430x932": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "800x450": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1024x768": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1366x768": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1600x900": {
+          "noPageOverflow": true,
+          "majorViews": true
+        },
+        "1920x1080": {
+          "noPageOverflow": true,
+          "majorViews": true
+        }
+      },
+      "pageErrors": []
+    }
+  },
+  "casePaths": {
+    "C001": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C002": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C003": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C004": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C005": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C006": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C007": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C008": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C009": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C010": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C011": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C012": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C013": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C014": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C015": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C016": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C017": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C018": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C019": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    },
+    "C020": {
+      "Chrome": {
+        "renderedDeduction": true,
+        "completed": true
+      },
+      "Edge": {
+        "renderedDeduction": true,
+        "completed": true
+      }
+    }
+  }
+}

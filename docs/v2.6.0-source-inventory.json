@@ -1,0 +1,301 @@
+{
+  "generatedAt": "2026-10-20",
+  "cases": [
+    {
+      "id": "C001",
+      "title": "Misteri Beg Merah",
+      "maxStars": 3,
+      "maxXP": 150,
+      "clues": [
+        "Beg masih berada di kelas ketika rehat bermula.",
+        "Aynaa ialah pemilik beg merah.",
+        "Cikgu Farah membawa sebuah beg merah selepas rehat.",
+        "Beg merah dilihat di Perpustakaan Bayuraya.",
+        "Cikgu Farah menemui beg yang tertinggal lalu menyerahkannya kepada pustakawan."
+      ]
+    },
+    {
+      "id": "C002",
+      "title": "Misteri Label Tertukar",
+      "maxStars": 3,
+      "maxXP": 170,
+      "clues": [
+        "Pesanan Ammar berada di dalam beg biru kecil dengan pelekat roket.",
+        "Pesanan Sofia berada di dalam beg merah jambu besar dengan reben putih.",
+        "Beg biru kecil berpelekat roket kini berlabel SOFIA.",
+        "Beg merah jambu besar bereben putih kini berlabel AMMAR.",
+        "Dua label terjatuh berhampiran rak pengambilan lalu dipasang semula tanpa memeriksa penerangan beg."
+      ]
+    },
+    {
+      "id": "C003",
+      "title": "Misteri Nota Terpotong",
+      "maxStars": 3,
+      "maxXP": 190,
+      "clues": [
+        "Cebisan A menyebut “Letakkan kotak kad cerita”.",
+        "Cebisan B menyebut “di atas meja kecil”.",
+        "Cebisan C menyebut “di belakang rak biru”.",
+        "Cebisan D menyebut “selepas waktu rehat”.",
+        "Pustakawan mengesahkan keempat-empat cebisan berasal daripada satu nota arahan."
+      ]
+    },
+    {
+      "id": "C004",
+      "title": "Misteri Jejak di Taman",
+      "maxStars": 4,
+      "maxXP": 210,
+      "clues": [
+        "Sebelum hujan, bakul hijau berada di bawah bangku.",
+        "Ketika hujan, Pak Rahim memindahkan bakul ke pondok.",
+        "Selepas hujan, Azzam memindahkan bakul ke sebelah pokok besar.",
+        "Papan aktiviti mengesahkan aktiviti selepas hujan berlangsung di kawasan pokok besar.",
+        "Bakul aktiviti hijau ditemui di sebelah pokok besar."
+      ]
+    },
+    {
+      "id": "C005",
+      "title": "Misteri Persiapan Hari Bayuraya",
+      "maxStars": 5,
+      "maxXP": 250,
+      "clues": [
+        "Kotak lencana peserta ialah kotak biru kecil dengan lambang Bayuraya berwarna emas.",
+        "Arahan lengkap berbunyi: “Selepas meja pendaftaran dipindahkan, bawa kotak lencana ke khemah biru.”",
+        "Aynaa melihat kotak di meja pendaftaran lama sebelum meja dipindahkan, manakala Azzam melihatnya menuju khemah biru selepas meja dipindahkan.",
+        "Papan maklumat Hari Bayuraya mengesahkan pendaftaran telah berpindah ke Khemah Biru.",
+        "Kotak biru kecil dengan lambang Bayuraya berwarna emas ditemui di meja pendaftaran baharu berhampiran Khemah Biru."
+      ]
+    },
+    {
+      "id": "C006",
+      "title": "Misteri Kad Pesanan Pagi",
+      "location": "Kedai Roti Bayuraya",
+      "maxStars": 4,
+      "maxXP": 250,
+      "scene": "bakery",
+      "clues": [
+        "Kad pesanan Balai Komuniti asalnya dikepit pada papan pesanan.",
+        "Selepas menyemak pesanan, Kak Suri meletakkan kad itu di sebelah dulang biru.",
+        "Dulang biru dipindahkan ke rak penyejuk sebelum roti dibungkus.",
+        "Pembantu penghantaran hanya mengambil kotak yang sudah siap dan tidak mengambil kad pesanan.",
+        "Kad pesanan ditemui di bawah dulang biru pada rak penyejuk."
+      ]
+    },
+    {
+      "id": "C007",
+      "title": "Misteri Bakul Tanpa Nama",
+      "location": "Pasar Bayuraya",
+      "maxStars": 4,
+      "maxXP": 290,
+      "scene": "market",
+      "clues": [
+        "Senarai belian menyebut dua tomato merah.",
+        "Senarai itu juga menyebut seikat sayur hijau.",
+        "Tiga limau kecil termasuk dalam senarai.",
+        "Tiada minuman berbungkus atau makanan dalam tin dalam pesanan tersebut.",
+        "Resit gerai mengesahkan pesanan itu untuk Balai Komuniti."
+      ]
+    },
+    {
+      "id": "C008",
+      "title": "Misteri Kucing Kolar Biru",
+      "location": "Klinik Haiwan Bayuraya",
+      "maxStars": 4,
+      "maxXP": 310,
+      "scene": "vetClinic",
+      "clues": [
+        "Label bekas menyatakan kucing oren berkolar biru mempunyai janji temu pada pukul 10:00.",
+        "Rekod menyatakan ia datang untuk pemeriksaan biasa.",
+        "Selepas pemeriksaan, Dr. Hana mengarahkan kucing itu berehat di Bilik Rehat 2.",
+        "Seorang pembantu melihat kucing berkolar biru dibawa melalui pintu hijau.",
+        "Kad Bilik Rehat 2 sepadan dengan pesakit pukul 10:00."
+      ]
+    },
+    {
+      "id": "C009",
+      "title": "Misteri Notis Berganda",
+      "location": "Balai Komuniti Bayuraya",
+      "maxStars": 5,
+      "maxXP": 340,
+      "scene": "communityHall",
+      "clues": [
+        "Notis A ialah versi lama dan menunjukkan masa serta lokasi asal.",
+        "Notis B mempunyai tanda kemas kini dan masa serta lokasi baharu.",
+        "Puan Suraya menerangkan bahawa tempat aktiviti berubah kerana penyelenggaraan.",
+        "Log pejabat menunjukkan notis baharu dicetak selepas perubahan dibuat.",
+        "Jadual Dewan Utama sepadan dengan maklumat Notis B."
+      ]
+    },
+    {
+      "id": "C010",
+      "title": "Misteri Kotak Kenangan",
+      "location": "Dataran Bayuraya",
+      "maxStars": 5,
+      "maxXP": 420,
+      "scene": "memoryFinale",
+      "clues": [
+        "Rekod Kedai Roti menunjukkan kotak kenangan meninggalkan kedai dengan reben kuning.",
+        "Kad laluan pasar mengesahkan kotak dikutip selepas singgah di Pasar Bayuraya.",
+        "Nota serahan klinik merekodkan kotak diteruskan menuju Balai Komuniti.",
+        "Log Balai Komuniti menyatakan kotak dihantar ke Dataran Bayuraya sebelum acara.",
+        "Ketika hujan renyai, barang kertas dialihkan ke kawasan berbumbung dan kotak bereben kuning berada di sisi pentas."
+      ]
+    },
+    {
+      "id": "C011",
+      "title": "Misteri Simbol di Papan Tanda",
+      "location": "Stesen Bas Bayuraya",
+      "maxStars": 4,
+      "maxXP": 330,
+      "scene": "busStation",
+      "clues": [
+        "Papan Jejak Rahsia berada berhampiran jam besar.",
+        "Ayyash nampak bangku panjang di sebelah papan itu.",
+        "Papan itu bukan berhampiran kaunter tiket.",
+        "Peta stesen menunjukkan hanya Platform 2 mempunyai jam besar dan bangku panjang bersebelahan.",
+        "Jalur tulisan daripada papan Jejak Rahsia ditemui di belakang papan tanda Platform 2."
+      ]
+    },
+    {
+      "id": "C012",
+      "title": "Misteri Label Pameran",
+      "location": "Galeri Warisan Bayuraya",
+      "maxStars": 4,
+      "maxXP": 350,
+      "scene": "heritageGallery",
+      "clues": [
+        "Struktur itu dibina merentasi Sungai Bayuraya.",
+        "Struktur itu digunakan oleh pejalan kaki dan penunggang basikal.",
+        "Bahan utama struktur itu ialah kayu.",
+        "Struktur itu tidak lagi digunakan selepas jambatan baharu siap.",
+        "Foto arkib menunjukkan struktur yang sama dengan model pameran."
+      ]
+    },
+    {
+      "id": "C013",
+      "title": "Misteri Tag Penghantaran",
+      "location": "Kedai Matematik",
+      "maxStars": 5,
+      "maxXP": 380,
+      "scene": "mathPacking",
+      "clues": [
+        "Slip Perpustakaan menyatakan bahan bacaan kecil dihantar dalam bungkusan paling kecil.",
+        "Kotak biru ialah bungkusan paling kecil dan mengandungi bahan kertas atau kad yang rata.",
+        "Pesanan Balai Komuniti ialah poster yang digulung untuk satu aktiviti.",
+        "Kotak hijau mempunyai tanda haiwan, dan slip Klinik Haiwan menyebut bahan penjagaan haiwan.",
+        "Tag destinasi tercabut ketika meja pembungkusan dikemas; tiada bungkusan hilang atau ditukar."
+      ]
+    },
+    {
+      "id": "C014",
+      "title": "Misteri Kod Empat Simbol",
+      "location": "Balai Komuniti Bayuraya",
+      "maxStars": 5,
+      "maxXP": 410,
+      "scene": "communityPrep",
+      "clues": [
+        "Kad rujukan menunjukkan simbol ◆ bermaksud BELAKANG.",
+        "Catatan persediaan menunjukkan simbol ▣ digunakan untuk PAPAN.",
+        "Label warna menunjukkan simbol ● mewakili BIRU.",
+        "Panduan aktiviti menunjukkan simbol ★ bermaksud UTAMA.",
+        "Nota pada meja memaparkan urutan ◆ ▣ ● ★."
+      ]
+    },
+    {
+      "id": "C015",
+      "title": "Misteri Peti Jejak Bayuraya",
+      "location": "Dataran Bayuraya",
+      "maxStars": 5,
+      "maxXP": 450,
+      "scene": "secretFinale",
+      "clues": [
+        "Puan Suraya mengesahkan kunci Peti Jejak sengaja disimpan di kawasan persediaan Dataran.",
+        "Arissa melihat kad arahan baharu yang mempunyai tanda bintang kuning.",
+        "Catatan persediaan mengesahkan arahan akhir dicetak selepas susunan pentas berubah.",
+        "Kad rujukan menunjukkan ◆ = KUNCI, ● = BAWAH, ▣ = MEJA dan ★ = PENTAS.",
+        "Kod ◆ ● ▣ ★ membawa kepada kunci yang ditemui di bawah meja pentas."
+      ]
+    },
+    {
+      "id": "C016",
+      "title": "Misteri Pesanan Yang Terputus",
+      "location": "Balai Komuniti Bayuraya",
+      "maxStars": 4,
+      "maxXP": 470,
+      "scene": "trainingRoom",
+      "clues": [
+        "Emah menerangkan bahawa pesanan bertulis itu terputus menjadi lima cebisan.",
+        "Jadual aktiviti menunjukkan latihan tamat pada 3:20 petang dan aktiviti bermula pada 4:00 petang.",
+        "Label bekas biru mengenal pasti kandungannya sebagai bahan kraf.",
+        "Bekas bahan kraf itu berada di rak persediaan.",
+        "Papan pendaftaran menunjukkan meja pendaftaran sebagai tempat pengumpulan bahan aktiviti."
+      ]
+    },
+    {
+      "id": "C017",
+      "title": "Misteri Nota Pekerja Baharu",
+      "location": "Kedai Matematik Bayuraya",
+      "maxStars": 5,
+      "maxXP": 500,
+      "scene": "mathRecords",
+      "clues": [
+        "Tag fizikal mengenal pasti kotak pembelajaran sebagai KB-17, sama seperti kedua-dua nota.",
+        "Nota A mendakwa KB-17 sudah dihantar ke Balai Komuniti pada pukul 3:00 petang.",
+        "Semakan stok pukul 3:10 petang merekodkan KB-17 masih berada di Kedai Matematik dan belum diambil.",
+        "Log penghantaran merekodkan KB-17 bertolak untuk perjalanan penghantaran pertama dan satu-satunya pada pukul 3:20 petang.",
+        "Resit Balai Komuniti mengesahkan KB-17 diterima pada pukul 3:40 petang."
+      ]
+    },
+    {
+      "id": "C018",
+      "title": "Misteri Poster Tanpa Tajuk",
+      "location": "Perpustakaan Bayuraya",
+      "maxStars": 4,
+      "maxXP": 480,
+      "scene": "libraryNotice",
+      "clues": [
+        "Arissa mengesahkan tajuk poster hilang dan tiga calon tajuk telah disediakan.",
+        "Peserta dijemput membawa satu atau dua buku cerita yang masih dalam keadaan baik.",
+        "Peserta menukar buku yang dibawa dengan buku cerita lain.",
+        "Program ini tidak melibatkan jualan, bayaran atau pertandingan membaca.",
+        "Program berlangsung pada hari Sabtu, 10:00 pagi hingga 12:00 tengah hari di Perpustakaan Bayuraya."
+      ]
+    },
+    {
+      "id": "C019",
+      "title": "Misteri Dua Cerita",
+      "location": "Taman Bayuraya",
+      "maxStars": 5,
+      "maxXP": 520,
+      "scene": "parkPerspectives",
+      "clues": [
+        "Xiao Feng melihat meja pendaftaran di bahagian depan kosong pada 9:20 pagi.",
+        "Ayyash melihat pembantu menyediakan kerusi dan bahan melukis di belakang pondok pada 9:20 pagi.",
+        "Pelan kawasan menunjukkan meja pendaftaran di depan dan kawasan persediaan di belakang pondok ialah dua tempat berasingan.",
+        "Jadual rasmi menetapkan pendaftaran pada 9:40 pagi dan aktiviti melukis pada 10:00 pagi.",
+        "Log penganjur mengesahkan pendaftaran benar-benar dibuka pada 9:40 pagi dan aktiviti melukis bermula pada 10:00 pagi."
+      ]
+    },
+    {
+      "id": "C020",
+      "title": "Misteri Mesej Terakhir Bayuraya",
+      "location": "Balai Komuniti Bayuraya",
+      "maxStars": 5,
+      "maxXP": 550,
+      "scene": "communityInformation",
+      "clues": [
+        "Draf 1:30 petang menyebut meja hadapan pada 2.30 petang dan kemasukan Dewan Utama pada 3.00 petang.",
+        "Log Pindaan Rasmi 2:00 petang menggantikan draf lama: kaunter maklumat mulai 2.45 petang, tunggu di ruang legar dan masuk pada 3.15 petang.",
+        "Sampul mengandungi lima cebisan mesej rasmi yang perlu disusun sebelum arahan boleh digunakan.",
+        "Kad Kaunter Maklumat mengesahkan kad kumpulan di kaunter mulai 2.45 petang dan peserta menunggu di ruang legar.",
+        "Pada 2.55 petang, Jagjit melihat peserta di ruang legar manakala Emah melihat petugas menyusun kerusi di Dewan Utama."
+      ]
+    }
+  ],
+  "totals": {
+    "cases": 20,
+    "clues": 100,
+    "stars": 86,
+    "xp": 7020
+  }
+}
