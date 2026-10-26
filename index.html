@@ -1,6 +1,10 @@
 <!doctype html>
-<html lang="ms" data-release="v2.6.0"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b6e7b"><meta name="application-name" content="Detektif Bahasa v2.6.0"><title>Detektif Bahasa · Misteri Beg Merah</title><link rel="stylesheet" href="style.css?v=2.6.0"><link rel="stylesheet" href="character-gallery.css?v=2.6.0"></head>
+<html lang="ms" data-release="v2.7.0"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b6e7b"><meta name="application-name" content="Detektif Bahasa v2.7.0"><title>Detektif Bahasa · Misteri Beg Merah</title><link rel="preload" as="image" href="assets/branding/zilteroka-logo.webp" type="image/webp"><link rel="stylesheet" href="style.css?v=2.7.0"><link rel="stylesheet" href="character-gallery.css?v=2.7.0"></head>
 <body>
+<div class="zilteroka-intro" id="zilteroka-intro" role="dialog" aria-modal="true" aria-label="Intro ZilTeroka">
+<button class="zilteroka-intro-skip" id="zilteroka-intro-skip" type="button">Langkau</button>
+<div class="zilteroka-intro-stage"><img src="assets/branding/zilteroka-logo.webp" alt="ZilTeroka — EduGame Percuma MY" width="512" height="512"><p>MEMPERSEMBAHKAN</p><strong>DETEKTIF BAHASA</strong></div>
+</div>
 <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></symbol>
 <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"/></symbol>
@@ -13,7 +17,7 @@
 <a class="skip-link" href="#app">Terus ke permainan</a>
 <header class="site-header">
 <a href="#" id="brand" aria-label="Kembali ke agensi"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="27" cy="27" r="23" fill="#0f2d4a"/><circle cx="27" cy="27" r="16" fill="#8bdfeb" stroke="#f7b239" stroke-width="7"/><circle cx="23" cy="21" r="5" fill="#fff"/><path d="m44 44 14 14" stroke="#0f2d4a" stroke-width="14" stroke-linecap="round"/><path d="m44 44 14 14" stroke="#f7b239" stroke-width="9" stroke-linecap="round"/></svg><span>DETEKTIF <b>BAHASA</b><small>AGENSI DETEKTIF BAHASA</small></span></a>
-<div class="header-actions"><span class="world-label">✦ Dunia Bayuraya</span><button id="title-nav" aria-label="Kembali ke muka depan">⌂ Muka Depan</button><button id="sound" aria-label="Bunyi">♪ Bunyi</button></div>
+<div class="header-actions"><span class="world-label">✦ Dunia Bayuraya</span><button id="zilteroka-nav" type="button" aria-label="Kenali ZilTeroka">Z · ZilTeroka</button><button id="title-nav" aria-label="Kembali ke muka depan">⌂ Muka Depan</button><button id="sound" aria-label="Bunyi">♪ Bunyi</button></div>
 </header>
 <div id="app" tabindex="-1"></div>
 <nav class="secondary-nav" aria-label="Navigasi sekunder">
@@ -22,5 +26,20 @@
 <button id="characters-nav" aria-label="Buka Fail Penduduk Bayuraya"><svg class="icon" aria-hidden="true"><use href="#i-people"/></svg><span>Watak<small>Penduduk</small></span></button>
 <button id="guide-nav" aria-label="Buka Panduan"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Panduan<small>Cara bermain</small></span></button>
 </nav>
-<footer><span>Bayuraya <b>·</b> Satu bandar, banyak cerita.</span><span>Baca. Cari. Sambungkan.</span><span>v2.6.0 by Zil-el-Saif</span></footer>
-<script src="mechanics.js?v=2.6.0"></script><script src="game.js?v=2.6.0"></script><script src="arc2.js?v=2.6.0"></script><script src="arc3.js?v=2.6.0"></script><script src="arc4.js?v=2.6.0"></script><script src="arc5.js?v=2.6.0"></script><script src="arc6.js?v=2.6.0"></script><script src="lensa.js?v=2.6.0"></script><script src="character-gallery.js?v=2.6.0"></script></body></html>
+<div class="zilteroka-dialog" id="zilteroka-dialog" role="dialog" aria-modal="true" aria-labelledby="zilteroka-dialog-title" aria-describedby="zilteroka-dialog-description" hidden>
+<section class="zilteroka-dialog-card">
+<button class="zilteroka-dialog-close" type="button" data-zilteroka-close aria-label="Tutup Kenali ZilTeroka">×</button>
+<header class="zilteroka-dialog-header"><img src="assets/branding/zilteroka-icon.webp" alt="" aria-hidden="true" width="256" height="256"><div><p class="eyebrow">KELUARGA EDUGAME PERCUMA MY</p><h2 id="zilteroka-dialog-title">Kenali ZilTeroka</h2><p id="zilteroka-dialog-description">ZilTeroka menghimpunkan permainan pendidikan percuma untuk kanak-kanak. Detektif Bahasa ialah sebahagian daripada keluarga permainan ZilTeroka yang menggabungkan pembelajaran, penerokaan dan aktiviti interaktif.</p></div></header>
+<div class="zilteroka-game-grid" aria-label="Permainan lain dalam keluarga ZilTeroka">
+<article class="zilteroka-game-card"><img src="assets/branding/zilteroka-games/kedai-matematik.webp" alt="Ilustrasi Kedai Matematik" loading="lazy" decoding="async"><div><span class="zilteroka-status available">Tersedia</span><h3>Kedai Matematik</h3><p>Belajar matematik sambil membantu pelanggan di kedai.</p><a href="https://kedai-matematik.pages.dev/" target="_blank" rel="noopener noreferrer">Main di tab baharu</a></div></article>
+<article class="zilteroka-game-card"><img src="assets/branding/zilteroka-games/makmal-cilik.webp" alt="Ilustrasi Makmal Cilik" loading="lazy" decoding="async"><div><span class="zilteroka-status available">Tersedia</span><h3>Makmal Cilik</h3><p>Jalankan eksperimen dan terokai dunia sains bersama PICO.</p><a href="https://makmal-cilik.pages.dev/" target="_blank" rel="noopener noreferrer">Main di tab baharu</a></div></article>
+<article class="zilteroka-game-card"><img src="assets/branding/zilteroka-games/mata-helang.webp" alt="Ilustrasi Mata Helang Cari Kata" loading="lazy" decoding="async"><div><span class="zilteroka-status beta">Beta</span><h3>Mata Helang: Cari Kata</h3><p>Uji ketajaman mata dengan cabaran mencari perkataan.</p><a href="https://mata-helang-cari-kata.pages.dev/" target="_blank" rel="noopener noreferrer">Main versi Beta</a></div></article>
+<article class="zilteroka-game-card"><img src="assets/branding/zilteroka-games/kubikata.webp" alt="Ilustrasi KubiKata" loading="lazy" decoding="async"><div><span class="zilteroka-status development">Dalam Pembangunan</span><h3>KubiKata</h3><p>Belajar bunyi, suku kata dan ejaan bersama Kubi.</p></div></article>
+<article class="zilteroka-game-card"><img src="assets/branding/zilteroka-games/sirah-quest.webp" alt="Ilustrasi Sirah Quest" loading="lazy" decoding="async"><div><span class="zilteroka-status development">Dalam Pembangunan</span><h3>Sirah Quest</h3><p>Terokai pengembaraan pembelajaran Sirah secara interaktif.</p></div></article>
+</div>
+<aside class="zilteroka-portal"><div><h3>Ketahui lebih lanjut tentang ZilTeroka</h3><a href="https://zilteroka.pages.dev/" target="_blank" rel="noopener noreferrer">zilteroka.pages.dev</a><p>Imbas QR untuk melawat laman utama ZilTeroka.</p></div><img src="assets/branding/zilteroka-qr.webp" alt="Kod QR ke https://zilteroka.pages.dev/" width="768" height="768"></aside>
+<button class="primary zilteroka-dialog-done" type="button" data-zilteroka-close>Tutup</button>
+</section>
+</div>
+<footer><span>Bayuraya <b>·</b> Satu bandar, banyak cerita.</span><span>Baca. Cari. Sambungkan.</span><span>v2.7.0 by Zil-el-Saif</span></footer>
+<script src="mechanics.js?v=2.7.0"></script><script src="game.js?v=2.7.0"></script><script src="arc2.js?v=2.7.0"></script><script src="arc3.js?v=2.7.0"></script><script src="arc4.js?v=2.7.0"></script><script src="arc5.js?v=2.7.0"></script><script src="arc6.js?v=2.7.0"></script><script src="lensa.js?v=2.7.0"></script><script src="character-gallery.js?v=2.7.0"></script><script src="zilteroka.js?v=2.7.0"></script></body></html>

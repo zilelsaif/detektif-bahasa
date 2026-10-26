@@ -1,8 +1,15 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.6.0 by Zil-el-Saif**. Fail Penduduk kini menggunakan 24 mugshot seragam, pose berasingan dan dialog watak yang boleh dibesarkan. Identiti watak, penemuan, simpanan dan C001–C020 dikekalkan.
+Versi setempat: **v2.7.0 by Zil-el-Saif**. Integrasi ZilTeroka menambah intro persembahan sesi, identiti pada Muka Depan dan panel Kenali ZilTeroka tanpa mengubah gameplay, save atau kemajuan C001–C020.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
+
+## v2.7.0 — Integrasi Ekosistem ZilTeroka
+
+- Intro ZilTeroka ringkas pada kemasukan pertama setiap sesi tab, dengan Langkau dan auto-dismiss.
+- Lencana ZilTeroka pada Muka Depan serta pintu masuk dari Agensi.
+- Panel Kenali ZilTeroka dengan lima game lain, status disahkan, pautan selamat dan QR portal rasmi.
+- Save key kekal `detektif-bahasa-v1`; tiada akaun, analitik atau perubahan gameplay.
 
 ## Kandungan
 

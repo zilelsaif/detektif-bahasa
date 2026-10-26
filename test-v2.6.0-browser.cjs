@@ -28,6 +28,8 @@ const finals={
  C020:{fresh:'fresh20()',scene:11,solved:10,selector:'[data-c020-theory="2"]'}
 };
 
+async function skipIntro(page){await page.evaluate(()=>document.querySelector('#zilteroka-intro-skip')?.click());await page.locator('#zilteroka-intro').waitFor({state:'detached'}).catch(()=>{})}
+
 async function noOverflow(page,label){
  const geometry=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,buttons:[...document.querySelectorAll('button:not([hidden])')].filter(button=>button.offsetParent&&!function(){for(let p=button.parentElement;p;p=p.parentElement){const style=getComputedStyle(p);if(p.scrollWidth>p.clientWidth+1&&/auto|scroll/.test(style.overflowX))return true}return false}()).map(button=>{const r=button.getBoundingClientRect();return{x:r.x,right:r.right,width:r.width,height:r.height,text:button.textContent.trim().slice(0,30)}})}));
  assert.ok(geometry.scroll<=geometry.width+1,`${label}: page overflow ${geometry.scroll}/${geometry.width}`);
@@ -41,8 +43,8 @@ async function noOverflow(page,label){
   const context=await browser.newContext({viewport:{width:1366,height:768},hasTouch:true,reducedMotion:'reduce'});
   const page=await context.newPage(),errors=[];
   page.on('pageerror',error=>errors.push(error.message));
-  await page.goto(base);
-  assert.ok((await page.locator('footer').textContent()).includes('v2.6.0 by Zil-el-Saif'));
+  await page.goto(base);await skipIntro(page);
+  assert.ok((await page.locator('footer').textContent()).includes('v2.7.0 by Zil-el-Saif'));
   await page.getByRole('button',{name:/MASUK AGENSI/}).click();
   await page.evaluate(()=>{for(const item of allCases)cases[item.id].record={caseId:item.id,status:'completed',stars:item.maxStars,xpEarned:item.maxXP};persist();render()});
   for(const [id,config] of Object.entries(finals)){
@@ -61,7 +63,7 @@ async function noOverflow(page,label){
   report.browsers[browserName]={viewports:{}};
   for(const [width,height] of viewports){
    await page.setViewportSize({width,height});
-   await page.goto(base);
+   await page.goto(base);await skipIntro(page);
    await page.getByRole('button',{name:/MASUK AGENSI/}).click();
    await page.evaluate(()=>{for(const item of allCases)cases[item.id].record={caseId:item.id,status:'completed',stars:item.maxStars,xpEarned:item.maxXP};titleOpen=false;parentOpen=false;mapOpen=false;achievementsOpen=false;charactersOpen=false;guideOpen=false;home=true;render();scrollTo(0,0)});
    await noOverflow(page,`${browserName} agency ${width}x${height}`);

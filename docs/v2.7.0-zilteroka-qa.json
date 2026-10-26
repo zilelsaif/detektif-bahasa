@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-10-26T01:24:36.853Z",
+  "browser": "Google Chrome",
+  "intro": {
+    "freshSkip": "PASS",
+    "sessionNoReplay": "PASS",
+    "autoDismiss": "PASS",
+    "historicalResume": "PASS"
+  },
+  "modal": {
+    "titleTrigger": "PASS",
+    "agencyTrigger": "PASS",
+    "cards": "5/5",
+    "links": "PASS",
+    "focus": "PASS",
+    "escape": "PASS",
+    "close": "PASS",
+    "saveIsolation": "PASS"
+  },
+  "viewports": {
+    "360x640": "PASS",
+    "390x844": "PASS",
+    "430x932": "PASS",
+    "800x450": "PASS",
+    "1024x768": "PASS",
+    "1366x768": "PASS",
+    "1600x900": "PASS",
+    "1920x1080": "PASS"
+  },
+  "errors": [],
+  "qr": {
+    "displayed": "PASS",
+    "sourceByteIdentity": "PASS",
+    "destination": "https://zilteroka.pages.dev/"
+  }
+}

@@ -10,6 +10,7 @@ async function stageIndependentCase(page,target){
   await page.goto(A.URL,{waitUntil:'domcontentloaded'});
   await page.evaluate(()=>localStorage.removeItem('detektif-bahasa-v1'));
   await page.reload({waitUntil:'domcontentloaded'});
+  await A.skipIntro(page);
   await page.getByRole('button',{name:/MASUK AGENSI/}).click();
   return page.evaluate(target=>{
     const targetIndex=allCases.findIndex(item=>item.id===target);

@@ -1,96 +1,79 @@
 {
-  "generatedAt": "2026-10-25T01:02:36.537Z",
+  "generatedAt": "2026-10-25T20:07:57.386Z",
   "architecture": "Pure in-memory navigation; no History API, hash, or route changes.",
   "history": [
     {
       "id": "H01",
-      "result": "PASS",
-      "observed": "Back keluar ke about:blank; Forward kembali ke Muka Depan; kawalan Agensi kekal interaktif."
+      "result": "PASS"
     },
     {
       "id": "H02",
-      "result": "PASS",
-      "observed": "Petunjuk dan objek C001 yang dikumpul melalui UI kekal selepas Back/Forward dan Sambung Siasatan."
+      "result": "PASS"
     },
     {
       "id": "H03",
-      "result": "PASS",
-      "observed": "Modal Lensa tutup tanpa scroll lock; boleh dibuka semula selepas Back/Forward."
+      "result": "PASS"
     },
     {
       "id": "H04",
-      "result": "PASS",
-      "observed": "Pilihan watak dan aset pose kekal betul selepas keluar, Back/Forward dan buka semula galeri."
+      "result": "PASS"
     },
     {
       "id": "H05",
-      "result": "PASS",
-      "observed": "Empat seksyen/grid Pencapaian kekal; 27 kad dan kiraan berasaskan rekod tidak berubah."
+      "result": "PASS"
     },
     {
       "id": "H06",
-      "result": "PASS",
-      "observed": "Rekod lengkap, 86 bintang dan 7,020 XP terbaik kekal; tiada ganjaran berganda."
+      "result": "PASS"
     },
     {
       "id": "H07",
-      "result": "PASS",
-      "observed": "Selepas refresh, Back/Forward memulihkan Muka Depan dan Peta kekal boleh digunakan."
+      "result": "PASS"
     }
   ],
   "saveRecovery": [
     {
       "id": "S01",
-      "result": "PASS",
-      "observed": "Kemajuan C001 sebenar dipulihkan selepas refresh."
+      "result": "PASS"
     },
     {
       "id": "S02",
-      "result": "PASS",
-      "observed": "Beberapa run belum selesai wujud; activeCase C003 dipulihkan pada scene yang betul."
+      "result": "PASS"
     },
     {
       "id": "S03",
-      "result": "PASS",
-      "observed": "Rekod lengkap C006 + replay in_progress diterima; best XP 250 kekal."
+      "result": "PASS"
     },
     {
       "id": "S04",
-      "result": "PASS",
-      "observed": "Fixture legacy C005 dengan run lain dan C018 separa: tajuk/resume/refresh berulang selamat."
+      "result": "PASS"
     },
     {
       "id": "S05",
-      "result": "PASS",
-      "observed": "activeCase C999 pulih ke C001 tanpa memadam 7,020 XP sejarah."
+      "result": "PASS"
     },
     {
       "id": "S06",
-      "result": "PASS",
-      "observed": "JSON rosak dan localStorage terhad merendah secara selamat; navigasi kekal boleh digunakan."
+      "result": "PASS"
     }
   ],
   "replay": [
     {
       "id": "R01",
-      "result": "PASS",
-      "observed": "Replay C006 dengan 3 bantuan memperoleh 220 XP; rekod 250 XP, jumlah 7,020 dan 27 pencapaian kekal."
+      "result": "PASS"
     },
     {
       "id": "R02",
-      "result": "PASS",
-      "observed": "Replay setara 250 XP tidak menggandakan XP atau pencapaian."
+      "result": "PASS"
     },
     {
       "id": "R03",
       "result": "NOT APPLICABLE",
-      "reason": "No player-facing mid-case restart control exists; replay is intentionally available after completion only.",
-      "observed": "Tiada kawalan restart pertengahan kes dalam produk; replay hanya selepas selesai."
+      "reason": "No player-facing mid-case restart control exists; replay is intentionally available after completion only."
     },
     {
       "id": "R04",
-      "result": "PASS",
-      "observed": "Membuka kes siap, Lensa dan galeri watak tidak menambah XP/pencapaian."
+      "result": "PASS"
     },
     {
       "id": "R05",
@@ -101,13 +84,11 @@
         "a26": true,
         "a27": true,
         "count": 27
-      },
-      "observed": "C020 UI memberikan syarat A26/A27 dan Fail Keempat sekali sahaja; replay tidak menduplikasi."
+      }
     },
     {
       "id": "R06",
-      "result": "PASS",
-      "observed": "Dua browser context terasing menunjukkan 20 kes lawan 0 kes."
+      "result": "PASS"
     }
   ],
   "manualZoom": {

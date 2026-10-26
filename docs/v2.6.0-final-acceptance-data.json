@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T17:51:29.795Z",
+  "generatedAt": "2026-10-25T20:02:32.460Z",
   "modeA": [
     {
       "id": "C001",
@@ -286,7 +286,14 @@
     "C001 pilihan salah",
     "C001 deduksi salah",
     "C003 urutan salah",
-    "C014 kod salah"
+    "C013 padanan salah",
+    "C014 kod salah",
+    "C015 teka silang salah",
+    "C016 susunan mesej salah",
+    "C017 klasifikasi salah",
+    "C018 inti mesej salah",
+    "C019 inferens salah",
+    "C020 inti mesej salah"
   ],
   "refresh": [
     {
