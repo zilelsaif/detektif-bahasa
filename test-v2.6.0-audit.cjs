@@ -11,12 +11,12 @@ const run=expression=>game.run(expression);
 const json=expression=>JSON.parse(run(`JSON.stringify(${expression})`));
 
 assert.equal(run('KEY'),'detektif-bahasa-v1');
-assert.equal(run('RELEASE'),'v2.7.0 by Zil-el-Saif');
+assert.equal(run('RELEASE'),'v2.8.0 by Zil-el-Saif');
 assert.equal(run('allCases.length'),20);
 assert.equal(run('Object.keys(locations).length'),12);
 assert.equal(run('Object.keys(characters).length'),24);
 assert.equal(run('achievementDefinitions.length'),27);
-assert.equal(run('Object.keys(lensaActivities).length'),15);
+assert.equal(run('Object.keys(lensaActivities).length'),16);
 assert.equal(run('getMaximumStars()'),86);
 assert.equal(run('allCases.reduce((sum,item)=>sum+item.maxXP,0)'),7020);
 assert.equal(run('c020Meta.maxStars'),5);
@@ -76,7 +76,7 @@ assert.equal(run("JSON.stringify({xp:cases.C008.record.xpEarned,stars:cases.C008
 
 const source=fs.readFileSync('game.js','utf8')+fs.readFileSync('arc2.js','utf8')+fs.readFileSync('arc3.js','utf8')+fs.readFileSync('arc4.js','utf8')+fs.readFileSync('arc5.js','utf8')+fs.readFileSync('arc6.js','utf8');
 assert.equal(/\bC021\b|FAIL KELIMA/i.test(source),false);
-assert.equal(fs.readFileSync('index.html','utf8').includes('v2.7.0 by Zil-el-Saif'),true);
+assert.equal(fs.readFileSync('index.html','utf8').includes('v2.8.0 by Zil-el-Saif'),true);
 assert.equal(fs.readFileSync('README.md','utf8').includes('20 kes, 12 lokasi, 24 watak dan 27 pencapaian'),true);
 
 console.log('PASS: v2.6.0 invariants, five clues per case, scene/assets, standard Malay terminology, historical scoring, Lensa isolation and release metadata.');

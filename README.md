@@ -1,6 +1,13 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.7.0 by Zil-el-Saif**. Integrasi ZilTeroka menambah intro persembahan sesi, identiti pada Muka Depan dan panel Kenali ZilTeroka tanpa mengubah gameplay, save atau kemajuan C001–C020.
+Versi setempat: **v2.8.0 by Zil-el-Saif**. Fail Kelima bermula dengan KES 021, Misteri Si Ringan Tulang, yang memperkenalkan Kanta Kiasan untuk mentafsir simpulan bahasa melalui konteks dan bukti.
+
+## v2.8.0 — KES 021 dan Kanta Kiasan
+
+- Menambah KES 021, *Misteri Si Ringan Tulang*, dengan lima petunjuk yang boleh diperiksa dalam sebarang urutan.
+- Menambah dua cabaran Kanta Kiasan yang mesti disahkan menggunakan sumber kes.
+- Menambah papan bukti, dua deduksi, Lensa Bahasa C021 dan pencapaian A28 Pembaca Kiasan.
+- Mengekalkan kunci simpanan `detektif-bahasa-v1` serta rekod C001–C020.
 
 Detektif Bahasa ialah permainan misteri Bahasa Melayu berlatar Bayuraya. Buka `index.html` dalam pelayar moden atau jalankan `node server.js` dan buka http://localhost:4173. Permainan berjalan tanpa rangka kerja atau sambungan luar.
 

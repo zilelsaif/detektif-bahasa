@@ -50,7 +50,7 @@ function openCharacterPose(id,origin){
  dialog.innerHTML=`<div class="character-showcase-scroll"><button type="button" class="character-showcase-close" aria-label="Tutup ilustrasi ${c.name}">Tutup ✕</button><h2 id="character-showcase-title">${c.name}</h2><div class="character-showcase-content"><img src="${c.pose}" alt="Ilustrasi ${c.name}" width="768" height="1024"><div class="character-speech"><span class="eyebrow">${c.role}</span><p>“${c.galleryDialogue}”</p></div></div></div>`;
  dialog.querySelector('button').addEventListener('click',closeCharacterPose);
  // The close button is the only interactive control; keep Tab in the showcase.
- dialog.addEventListener('keydown',event=>{if(event.key==='Tab'){event.preventDefault();dialog.querySelector('button').focus({preventScroll:true})}});
+ dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeCharacterPose();return}if(event.key==='Tab'){event.preventDefault();dialog.querySelector('button').focus({preventScroll:true})}});
  dialog.addEventListener('close',()=>{
   const target=characterPoseOrigin,y=characterPoseScroll;document.documentElement.style.overflow=characterPoseOverflow[0];document.body.style.overflow=characterPoseOverflow[1];dialog.remove();characterPoseDialog=null;characterPoseOrigin=null;characterPoseOverflow=null;target?.focus?.({preventScroll:true});window.scrollTo(0,y);
  },{once:true});
