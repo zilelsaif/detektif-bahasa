@@ -143,13 +143,14 @@ const parentBefore17=renderParent;renderParent=function(){parentBefore17();app.i
 const clueReviewBefore17=caseClueReviewHtml;caseClueReviewHtml=function(){if(activeCase!=='C017')return clueReviewBefore17();const found=Math.min(state.cluesFound,5);return `<section class="case-utility-dialog" role="dialog" aria-modal="true" aria-labelledby="clue-review-title"><div class="case-utility-card"><div class="eyebrow">SEMAK PETUNJUK</div><h2 id="clue-review-title">PETUNJUK DITEMUI — ${found}/5</h2><ol class="clue-review-list">${c017Clues.map((c,i)=>`<li class="${i<found?'found':'undiscovered'}">${i<found?c:'Belum ditemui'}</li>`).join('')}</ol><button type="button" class="primary" data-case-utility="close">Kembali ke siasatan</button></div></section>`};
 
 // v2.2.1 — one accessible, unified Fail Kes accordion.
-const caseArcIndex=id=>Math.min(3,Math.floor((Number(id?.slice(1)||1)-1)/5));
+const caseArcIndex=id=>Math.floor((Number(id?.slice(1)||1)-1)/5);
 const caseArcDefinitions=[
  {name:'FAIL PERTAMA',ids:['C001','C002','C003','C004','C005']},
  {name:'FAIL KEDUA',ids:['C006','C007','C008','C009','C010']},
  {name:'FAIL KETIGA',ids:['C011','C012','C013','C014','C015']},
  {name:'FAIL KEEMPAT',ids:['C016','C017','C018','C019']}
 ];
+const caseArcCardProviders=Object.create(null);
 let openCaseArc=caseArcIndex(activeCase),accordionActiveCase=activeCase,accordionScrollCase=activeCase;
 const caseShelfBeforeAccordion=caseShelf;
 caseShelf=function(){
@@ -159,7 +160,8 @@ caseShelf=function(){
  if(typeof c018CaseCard==='function')cards.push(c018CaseCard());
  if(typeof c019CaseCard==='function')cards.push(c019CaseCard());
  if(activeCase!==accordionActiveCase){accordionActiveCase=activeCase;openCaseArc=caseArcIndex(activeCase);accordionScrollCase=activeCase}
- const groups=caseArcDefinitions.map((arc,index)=>{const expanded=openCaseArc===index,count=arc.ids.filter(isHistoricallyComplete).length,start=index*5,end=index===3?19:start+5,arcCards=cards.slice(start,end).join('');return `<section class="case-arc-group"><button type="button" class="case-arc-toggle" data-case-arc="${index}" aria-expanded="${expanded}" aria-controls="case-arc-panel-${index}"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg><span>${arc.name}</span><b>${count}/5</b><span class="case-arc-chevron" aria-hidden="true">⌄</span></button><div class="case-arc-panel" id="case-arc-panel-${index}" ${expanded?'':'hidden'}>${arcCards}</div></section>`}).join('');
+ const cardById=new Map(cards.map(card=>[card.match(/data-case="(C\d{3})"/)?.[1],card]).filter(([id])=>id));
+ const groups=caseArcDefinitions.map((arc,index)=>{const expanded=openCaseArc===index,count=arc.ids.filter(isHistoricallyComplete).length,arcCards=arc.ids.map(id=>caseArcCardProviders[id]?.()||cardById.get(id)||'').join('');return `<section class="case-arc-group"><button type="button" class="case-arc-toggle" data-case-arc="${index}" aria-expanded="${expanded}" aria-controls="case-arc-panel-${index}"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg><span>${arc.name}</span><b>${count}/5</b><span class="case-arc-chevron" aria-hidden="true">⌄</span></button><div class="case-arc-panel" id="case-arc-panel-${index}" ${expanded?'':'hidden'}>${arcCards}</div></section>`}).join('');
  Promise.resolve().then(()=>{if(!accordionScrollCase)return;const shelf=app.querySelector?.('.case-list-scroll'),active=shelf?.querySelector?.(`[data-case="${accordionScrollCase}"]`);if(shelf&&active){shelf.scrollTop=Math.max(0,active.offsetTop-shelf.offsetTop-54);accordionScrollCase=null}});
  return `<aside class="case-shelf" aria-label="Senarai Fail Kes"><h2><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg>Fail Kes</h2><div class="case-list-scroll">${groups}</div></aside>`
 };

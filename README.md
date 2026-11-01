@@ -1,6 +1,13 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.8.0 by Zil-el-Saif**. Fail Kelima bermula dengan KES 021, Misteri Si Ringan Tulang, yang memperkenalkan Kanta Kiasan untuk mentafsir simpulan bahasa melalui konteks dan bukti.
+Versi setempat: **v2.8.1 by Zil-el-Saif**. Keluaran pembetulan C021 menyatukan Fail Kelima, memasang latar Taman Bayuraya premium dan memperkenalkan Papan Bukti Berpandu tanpa mengubah naratif atau skor kes.
+
+## v2.8.1 — C021 Corrective Pass
+
+- Satu registri ark kanonik menghasilkan tepat lima folder Fail Kes dan satu kad C021.
+- Latar premium 1600×900 menggantikan prototaip SVG skematik.
+- Papan Bukti Berpandu menggunakan pilihan kad bukti, tiga hubungan berurutan, panduan tanpa penalti dan bantuan KLU berperingkat.
+- Simpanan, replay, lima petunjuk, dua Kanta Kiasan, 520 XP, empat bintang, A28 dan Lensa Bahasa C021 kekal serasi.
 
 ## v2.8.0 — KES 021 dan Kanta Kiasan
 
