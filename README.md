@@ -1,6 +1,13 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.8.1 by Zil-el-Saif**. Keluaran pembetulan C021 menyatukan Fail Kelima, memasang latar Taman Bayuraya premium dan memperkenalkan Papan Bukti Berpandu tanpa mengubah naratif atau skor kes.
+Versi setempat: **v2.9.0 by Zil-el-Saif**. KES 022, Misteri Senarai Prop Pentas, memperkenalkan Padanan Objek untuk menyiasat penjodoh bilangan melalui bentuk, kuantiti dan konteks.
+
+## v2.9.0 — KES 022 dan Padanan Objek
+
+- Lima sumber pentas boleh diperiksa dalam apa-apa urutan di Balai Komuniti Bayuraya.
+- Padanan Objek membaiki lima frasa tanpa mendedahkan jawapan sebelum bukti diperiksa.
+- Papan Bukti Berpandu, dua deduksi, A29 dan Lensa Bahasa ke-17 menggunakan sistem sedia ada.
+- Fail Kelima mengandungi C021 dan C022 sekali setiap satu; C023–C025 kekal Akan Datang.
 
 ## v2.8.1 — C021 Corrective Pass
 
