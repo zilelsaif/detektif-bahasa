@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Detektif Penyunting</title><desc id="desc">Lencana buku panduan, pensel dan tanda semak emas.</desc>
+  <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#0b8b91"/><stop offset="1" stop-color="#083b65"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-opacity=".24"/></filter></defs>
+  <circle cx="128" cy="128" r="112" fill="#f6bd3a" stroke="#fff4c8" stroke-width="10" filter="url(#s)"/>
+  <circle cx="128" cy="128" r="91" fill="url(#g)" stroke="#062f4a" stroke-width="7"/>
+  <path d="M59 70q34-13 67 8v108q-33-20-67-7zm138 0q-34-13-67 8v108q33-20 67-7z" fill="#fff9e9" stroke="#092f4a" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M128 79v106" stroke="#d6c9a8" stroke-width="4"/>
+  <path d="m86 121 15 15 30-35" fill="none" stroke="#21a36b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m151 152 36-36 12 12-36 36-19 7z" fill="#f6bd3a" stroke="#092f4a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="m187 116 8-8 12 12-8 8z" fill="#ef6b55" stroke="#092f4a" stroke-width="4"/>
+</svg>

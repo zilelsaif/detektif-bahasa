@@ -1,6 +1,14 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.9.0 by Zil-el-Saif**. KES 022, Misteri Senarai Prop Pentas, memperkenalkan Padanan Objek untuk menyiasat penjodoh bilangan melalui bentuk, kuantiti dan konteks.
+Versi setempat: **v2.10.0 by Zil-el-Saif**. KES 023, Misteri Buku Panduan Berbelit, memperkenalkan Detektif Penyunting untuk membandingkan dokumen dan mengesahkan enam pembetulan ejaan.
+
+## v2.10.0 — KES 023 dan Detektif Penyunting
+
+- Lima sumber Perpustakaan Bayuraya boleh diperiksa dalam sebarang urutan.
+- Enam sasaran penyuntingan mengajar kata majmuk, kata sendi nama `di`, awalan pasif `di-` dan ejaan standard.
+- Perbandingan sebelum/selepas, Papan Bukti Berpandu dan dua deduksi mengekalkan maksud program.
+- A30, Lensa Bahasa ke-18 dan rekod terbaik 560 XP/5 bintang menggunakan sistem sedia ada.
+- Fail Kelima mengandungi C021–C023 sekali setiap satu; C024–C025 kekal Akan Datang.
 
 ## v2.9.0 — KES 022 dan Padanan Objek
 
