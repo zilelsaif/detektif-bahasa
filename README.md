@@ -1,6 +1,14 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.10.1 by Zil-el-Saif**. KES 022 dan KES 023 kini menggunakan potret serta pose rasmi dalam siasatan dan resolusi tanpa mengubah gameplay.
+Versi setempat: **v2.11.0 by Zil-el-Saif**. KES 024, Misteri Dua Makna Satu Kata, mengajar pemain mentafsir makna perkataan melalui ayat, petunjuk konteks dan gambar.
+
+## v2.11.0 — KES 024 dan Kanta Konteks
+
+- Lima sumber premium di Pameran Jelajah Bahasa Dataran Bayuraya boleh diperiksa dalam sebarang urutan.
+- Tiga stesen Kanta Konteks mengesahkan enam penerangan bagi `bulan`, `mata` dan `kaki`.
+- Setiap rekod memerlukan petunjuk konteks, makna dan gambar yang sepadan sebelum disahkan.
+- Xiao Feng dan Ayyash menggunakan aset rasmi dalam briefing, siasatan dan resolusi.
+- Papan Bukti Berpandu, dua deduksi, A31 dan Lensa Bahasa ke-19 menggunakan sistem sedia ada.
 
 ## v2.10.1 — Integrasi dan Persembahan Watak
 

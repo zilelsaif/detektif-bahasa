@@ -20,6 +20,16 @@ var caseCharacterAssets = {
     mugshot: "assets/characters/mugshots/meiLing.webp",
     pose: "assets/characters/poses/meiLing.webp",
   },
+  xiaoFeng: {
+    name: "Xiao Feng",
+    mugshot: "assets/characters/mugshots/xiaoFeng.webp",
+    pose: "assets/characters/poses/xiaoFeng.webp",
+  },
+  ayyash: {
+    name: "Ayyash",
+    mugshot: "assets/characters/mugshots/ayyash.webp",
+    pose: "assets/characters/poses/ayyash.webp",
+  },
   klu: {
     name: "KLU",
     mugshot: "assets/characters/mugshots/klu.webp",
