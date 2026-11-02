@@ -1,6 +1,13 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.10.0 by Zil-el-Saif**. KES 023, Misteri Buku Panduan Berbelit, memperkenalkan Detektif Penyunting untuk membandingkan dokumen dan mengesahkan enam pembetulan ejaan.
+Versi setempat: **v2.10.1 by Zil-el-Saif**. KES 022 dan KES 023 kini menggunakan potret serta pose rasmi dalam siasatan dan resolusi tanpa mengubah gameplay.
+
+## v2.10.1 — Integrasi dan Persembahan Watak
+
+- Label folder kelima dipiawaikan kepada `FAIL KELIMA`, dengan `Jejak Makna Bayuraya` dikekalkan sebagai tajuk cerita.
+- Puan Suraya, Affan, Cikgu Farah dan Mei Ling menggunakan aset potret rasmi dalam momen siasatan terpilih.
+- Resolusi KES 022 dan KES 023 menggunakan susun atur editorial responsif yang memisahkan latar lokasi daripada pose rasmi watak.
+- Kekunci simpanan, kandungan kes, skor, petunjuk dan kemajuan pemain kekal serasi.
 
 ## v2.10.0 — KES 023 dan Detektif Penyunting
 
