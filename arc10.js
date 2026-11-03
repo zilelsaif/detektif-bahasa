@@ -8,12 +8,12 @@ const c024Clues=[
  'Penerangan rasmi mesti menggabungkan ayat, makna dan gambar yang sepadan.'
 ];
 const c024Visuals=[
- {id:'V01',label:'Bulan di langit malam',kind:'moon'},
- {id:'V02',label:'Kalendar bulan November',kind:'calendar'},
- {id:'V03',label:'Mata sedang membaca kad',kind:'eyes'},
- {id:'V04',label:'Papan markah kuiz menunjukkan lima mata',kind:'score'},
- {id:'V05',label:'Kaki seseorang selepas berjalan',kind:'feet'},
- {id:'V06',label:'Kaki meja yang menyokong meja',kind:'table'}
+ {id:'V01',neutral:'Gambar A',label:'Bulan di langit malam',kind:'moon',image:'assets/education/c024-v01-bulan.webp'},
+ {id:'V02',neutral:'Gambar B',label:'Kalendar bulan November',kind:'calendar',image:'assets/education/c024-v02-kalendar.webp'},
+ {id:'V03',neutral:'Gambar C',label:'Mata sedang membaca kad',kind:'eyes',image:'assets/education/c024-v03-mata-membaca.webp'},
+ {id:'V04',neutral:'Gambar D',label:'Papan markah kuiz menunjukkan lima mata',kind:'score',image:'assets/education/c024-v04-mata-pertandingan.webp'},
+ {id:'V05',neutral:'Gambar E',label:'Kaki seseorang selepas berjalan',kind:'feet',image:'assets/education/c024-v05-kaki-berjalan.webp'},
+ {id:'V06',neutral:'Gambar F',label:'Kaki meja yang menyokong meja',kind:'table',image:'assets/education/c024-v06-kaki-meja.webp'}
 ];
 const c024Mappings=[
  {id:'A1',station:'bulan',word:'BULAN',sentence:'Pada waktu malam, bulan kelihatan terang di langit.',contexts:['Waktu malam','Di langit'],contextOptions:['Waktu malam','Pertandingan bahasa','Di dalam dewan'],meaning:'Satelit semula jadi bumi.',meaningOptions:['Satelit semula jadi bumi.','Unit masa dalam kalendar.','Lampu untuk pameran.'],visual:'V01',correct:'Tepat! Ungkapan di langit menunjukkan bahawa bulan dalam ayat ini ialah objek yang kelihatan pada waktu malam.',wrong:'Perhatikan tempat dan waktu yang disebut dalam ayat. Adakah ayat ini menerangkan masa dalam kalendar atau sesuatu di langit?'},
@@ -30,7 +30,7 @@ const c024Sources={
  'catatan pengunjung':{clue:3,title:'CATATAN PENGUNJUNG',html:'<p>Beberapa pengunjung tidak pasti maksud kad yang hanya memaparkan perkataan bulan, mata dan kaki.</p><p>Seorang pengunjung mencari gambar kalendar ketika membaca tentang bulan. Seorang lagi tidak pasti sama ada mata merujuk kepada penglihatan atau markah pertandingan.</p><p>Ada juga yang tertanya-tanya sama ada kaki yang dimaksudkan ialah kaki manusia atau bahagian meja.</p>'},
  'panduan pengelola':{clue:4,title:'PANDUAN PENGESAHAN PAMERAN',html:'<ol><li>Setiap kata mempunyai dua maksud yang dirancang.</li><li>Setiap maksud mesti disokong oleh ayat lengkap.</li><li>Gambar mesti sepadan dengan maksud.</li><li>Petunjuk konteks mesti dikenal pasti.</li><li>Label ringkas tidak mencukupi sebagai penerangan akhir.</li></ol><dl class="meaning-inventory"><dt>BULAN</dt><dd>Satelit semula jadi · Unit masa kalendar</dd><dt>MATA</dt><dd>Organ penglihatan · Markah pertandingan</dd><dt>KAKI</dt><dd>Anggota badan · Penyokong perabot</dd></dl>'}
 };
-function c024VisualCard(v,selectable=false,selected=false){return `<${selectable?'button':'figure'} ${selectable?`data-c024-visual="${v.id}" aria-pressed="${selected}"`:''} class="context-visual ${v.kind} ${selected?'selected':''}" aria-label="${v.id}, ${v.label}"><span class="visual-art" aria-hidden="true"><i></i><i></i><i></i></span><${selectable?'span':'figcaption'}><b>${v.id}</b> ${v.label}</${selectable?'span':'figcaption'}></${selectable?'button':'figure'}>`}
+function c024VisualCard(v,selectable=false,selected=false){const caption=selectable?v.neutral:`${v.neutral} · ${v.label}`;return `<${selectable?'button':'figure'} ${selectable?`data-c024-visual="${v.id}" aria-pressed="${selected}"`:''} class="context-visual ${selected?'selected':''}" aria-label="${v.label}"><img src="${v.image}" alt="${v.label}" loading="eager"><${selectable?'span':'figcaption'}><b>${caption}</b></${selectable?'span':'figcaption'}></${selectable?'button':'figure'}>`}
 scenes.contextExhibition={id:'contextExhibition',image:'assets/locations/dataran-pameran-c024.webp',alt:'Pameran Jelajah Bahasa di Dataran Bayuraya',aspectRatio:'16 / 9',hotspots:[
  {id:'panduan pameran',label:'Papan panduan pameran',x:1,y:27,w:21,h:43},
  {id:'galeri gambar',label:'Galeri gambar pameran',x:22,y:31,w:18,h:35},

@@ -1,6 +1,16 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.11.0 by Zil-el-Saif**. KES 024, Misteri Dua Makna Satu Kata, mengajar pemain mentafsir makna perkataan melalui ayat, petunjuk konteks dan gambar.
+Versi setempat: **v2.11.1 by Zil-el-Saif**. Naik taraf penceritaan visual ini menambah enam ilustrasi pendidikan premium untuk KES 024 dan menyatukan adegan resolusi KES 022–024 tanpa mengubah gameplay.
+
+## v2.11.1 — Visual Storytelling Upgrade
+
+Baseline yang diterima sebelum pas ini: **v2.11.0 by Zil-el-Saif**.
+
+- Enam gambar Kanta Konteks kini menggunakan aset WebP tempatan dengan kapsyen neutral `Gambar A` hingga `Gambar F` sebelum pengesahan.
+- Selepas pengesahan, kapsyen deskriptif dipaparkan untuk mengukuhkan pembelajaran.
+- Resolusi KES 022–024 kini menggunakan satu komposisi watak-dalam-lokasi yang mengekalkan pose rasmi.
+- KES 021 dikekalkan kerana komposisi sedia ada sudah memenuhi piawai visual bersepadu.
+- Save key, kandungan kes, petunjuk, skor, bintang dan perkembangan kekal sama.
 
 ## v2.11.0 — KES 024 dan Kanta Konteks
 

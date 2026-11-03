@@ -63,3 +63,6 @@ var resolutionPresentation = function (background, backgroundAlt, ids, caption) 
     })
     .join("")}</div></section>`;
 };
+var integratedResolutionPresentation = function (image, alt, caption) {
+  return `<figure class="integrated-resolution"><img src="${image}" alt="${alt}" loading="eager"><figcaption>${caption}</figcaption></figure>`;
+};
