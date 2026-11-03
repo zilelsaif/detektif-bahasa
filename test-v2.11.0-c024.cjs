@@ -1,15 +1,280 @@
-const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');let store={};
-function boot(){const nodes={},classes={add(){},toggle(){},remove(){}};const ctx={document:{body:{classList:classes},documentElement:{},activeElement:null,addEventListener(){},querySelector:s=>nodes[s]??=({innerHTML:'',textContent:'',classList:classes,setAttribute(){},removeAttribute(){},insertAdjacentHTML(p,h){this.innerHTML+=h},querySelector(){return null},querySelectorAll(){return[]},addEventListener(){},focus(){}})},localStorage:{getItem:k=>store[k],setItem:(k,v)=>store[k]=v,removeItem:k=>delete store[k]},window:{scrollTo(){}},console,Date};vm.createContext(ctx);for(const file of ['mechanics.js','game.js','arc2.js','arc3.js','arc4.js','arc5.js','arc6.js','arc7.js','character-presentation.js','arc8.js','arc9.js','arc10.js','lensa.js'])vm.runInContext(fs.readFileSync(file,'utf8'),ctx);return{run:code=>vm.runInContext(code,ctx),nodes}}
-function completed(id,stars,xp){return{run:{caseId:id,status:'completed',scene:6,foundClues:[0,1,2,3,4],cluesFound:5},record:{caseId:id,status:'completed',stars,xpEarned:xp}}}
-store={};let locked=boot();assert.equal(locked.run('isCaseUnlocked(23)'),false);assert.equal(locked.run("caseArcDefinitions.filter(a=>a.name==='FAIL KELIMA').length"),1);assert.equal(locked.run("caseArcDefinitions[4].name"),'FAIL KELIMA');assert.equal(locked.run("caseArcDefinitions[4].storyTitle"),'Jejak Makna Bayuraya');
-store={'detektif-bahasa-v1':JSON.stringify({version:2,activeCase:'C023',muted:false,cases:{C023:completed('C023',5,560)}})};let g=boot();
-assert.equal(g.run('allCases.length'),24);assert.equal(g.run('achievementDefinitions.length'),31);assert.equal(g.run('Object.keys(lensaActivities).length'),19);assert.equal(g.run('getMaximumStars()'),104);assert.equal(g.run('allCases.reduce((sum,c)=>sum+c.maxXP,0)'),9220);assert.equal(g.run('KEY'),'detektif-bahasa-v1');assert.equal(g.run('isCaseUnlocked(23)'),true);assert.equal(g.run("caseArcDefinitions[4].ids.join()"),'C021,C022,C023,C024');assert.equal(g.run("caseArcCardProviders.C024().includes('KES 025 · AKAN DATANG')"),true);assert.equal(g.run("caseShelf().includes('JEJAK MAKNA BAYURAYA')"),false);
-const spots=JSON.parse(g.run('JSON.stringify(scenes.contextExhibition.hotspots)'));assert.equal(spots.length,5);assert.deepEqual(spots.map(s=>s.id),['panduan pameran','galeri gambar','kad paparan','catatan pengunjung','panduan pengelola']);assert.ok(spots.every(s=>s.x>=0&&s.y>=0&&s.x+s.w<=100&&s.y+s.h<=100));
-assert.equal(g.run('c024Clues.length'),5);assert.equal(g.run('Object.keys(c024Sources).length'),5);assert.equal(g.run('c024Mappings.length'),6);assert.equal(g.run("new Set(c024Mappings.map(m=>m.station)).size"),3);assert.equal(g.run("c024Mappings.find(m=>m.id==='A1').meaning"),'Satelit semula jadi bumi.');assert.equal(g.run("c024Mappings.find(m=>m.id==='A2').meaning"),'Unit masa dalam kalendar.');assert.equal(g.run("c024Mappings.find(m=>m.id==='B1').meaning"),'Organ penglihatan.');assert.match(g.run("c024Mappings.find(m=>m.id==='B2').meaning"),/Markah/);assert.match(g.run("c024Mappings.find(m=>m.id==='C1').meaning"),/Anggota badan/);assert.equal(g.run("c024Mappings.find(m=>m.id==='C2').meaning"),'Bahagian yang menyokong meja.');
-g.run("switchCase('C024');home=false;render()");const act=data=>g.run(`handleC024Click({dataset:${JSON.stringify(data)}})`);for(const object of ['catatan pengunjung','panduan pameran','panduan pengelola','kad paparan','galeri gambar'])act({object});assert.equal(g.run('state.cluesFound'),5);act({c024Action:'context'});
-for(const map of JSON.parse(g.run('JSON.stringify(c024Mappings)'))){act({c024Station:map.station});act({c024Record:map.id});act({c024Meaning:map.meaning,mapId:map.id});act({c024Visual:map.visual});act({c024Action:'verify-mapping',mapId:map.id});assert.equal(g.run('wrong'),true,'meaning and picture are insufficient without context');act({c024Context:map.contexts[0],mapId:map.id});act({c024Meaning:map.meaning,mapId:map.id});act({c024Visual:map.visual==='V01'?'V02':'V01'});act({c024Action:'verify-mapping',mapId:map.id});assert.equal(g.run('wrong'),true,'wrong picture rejected');act({c024Visual:map.visual});act({c024Action:'verify-mapping',mapId:map.id});assert.equal(g.run(`state.mappings['${map.id}']`),true)}
-assert.equal(g.run('c024AllMappings()'),true);const partial=store['detektif-bahasa-v1'];g=boot();assert.equal(store['detektif-bahasa-v1'],partial);assert.equal(g.run("Object.values(cases.C024.run.mappings).filter(Boolean).length"),6);g.run("switchCase('C024');home=false;state.scene=2;render()");const act2=data=>g.run(`handleC024Click({dataset:${JSON.stringify(data)}})`);act2({c024Action:'board'});act2({c024BoardEvidence:'0'});act2({c024Action:'check-board-step'});assert.equal(g.run('wrong'),true);act2({c024BoardEvidence:'2'});act2({c024Action:'check-board-step'});for(const n of [1,3])act2({c024BoardEvidence:String(n)});act2({c024Action:'check-board-step'});for(const n of [0,1,4])act2({c024BoardEvidence:String(n)});act2({c024Action:'check-board-step'});assert.equal(g.run("state.evidenceLinks.join('|')"),'context|confusion|verified');act2({c024Action:'finish-board'});assert.equal(g.run('state.scene'),4);act2({c024Deduction:'cause:0'});assert.equal(g.run('wrong'),true);act2({c024Deduction:'cause:1'});assert.equal(g.run('state.scene'),5);act2({c024Deduction:'solution:0'});assert.equal(g.run('state.status'),'in_progress');act2({c024Deduction:'solution:2'});assert.equal(g.run('state.status'),'completed');assert.equal(g.run('state.xpEarned'),580);assert.equal(g.run('state.stars'),5);assert.equal(g.run("achievementDefinitions.find(a=>a.id==='A31').unlocked()"),true);
-const rewards=JSON.parse(g.run("JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound})"));g.run("activeCase='C024';answerLensa(1);answerLensa(0);answerLensa(2)");assert.equal(g.run('lensaBahasa.C024.completed'),true);assert.deepEqual(JSON.parse(g.run("JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound})")),rewards);const best=g.run('cases.C024.record.xpEarned');act2({action:'replay'});assert.equal(g.run('state.cluesFound'),0);assert.equal(g.run('cases.C024.record.xpEarned'),best);g.run("state.hintsUsed=1;state.foundClues=[0,1,2,3,4];state.cluesFound=5;state.mappings=Object.fromEntries(c024Mappings.map(m=>[m.id,true]));state.evidenceLinks=['context','confusion','verified'];completeC024()");assert.equal(g.run('state.xpEarned'),550);assert.equal(g.run('cases.C024.record.xpEarned'),580);assert.equal(g.run("normalizeC024({foundClues:[0,0,9]}).cluesFound"),1);assert.equal(g.run("Object.values(normalizeC024({mappings:{A1:true,BAD:true}}).mappings).length"),6);assert.equal(g.run("cases.C023.record.xpEarned"),560);
-g.run('renderAchievements()');assert.equal(g.run("document.querySelector('#app').innerHTML.includes('Pentafsir Konteks')"),true);assert.equal(g.run("document.querySelector('#app').innerHTML.includes('2/4 dicapai')"),true);
-for(const asset of ['assets/locations/dataran-pameran-c024.webp','assets/achievements/a31.svg','assets/characters/mugshots/xiaoFeng.webp','assets/characters/poses/ayyash.webp']){assert.equal(fs.existsSync(asset),true);assert.ok(fs.statSync(asset).size>500)}
-console.log('PASS: v2.11.0 C024 five clues, six Kanta Konteks mappings, evidence, deductions, A31, Lensa, save/replay and aggregate totals.');
+const vm = require("node:vm"),
+  fs = require("node:fs"),
+  assert = require("node:assert/strict");
+let store = {};
+function boot() {
+  const nodes = {},
+    classes = { add() {}, toggle() {}, remove() {} };
+  const ctx = {
+    document: {
+      body: { classList: classes },
+      documentElement: {},
+      activeElement: null,
+      addEventListener() {},
+      querySelector: (s) =>
+        (nodes[s] ??= {
+          innerHTML: "",
+          textContent: "",
+          classList: classes,
+          setAttribute() {},
+          removeAttribute() {},
+          insertAdjacentHTML(p, h) {
+            this.innerHTML += h;
+          },
+          querySelector() {
+            return null;
+          },
+          querySelectorAll() {
+            return [];
+          },
+          addEventListener() {},
+          focus() {},
+        }),
+    },
+    localStorage: {
+      getItem: (k) => store[k],
+      setItem: (k, v) => (store[k] = v),
+      removeItem: (k) => delete store[k],
+    },
+    window: { scrollTo() {} },
+    console,
+    Date,
+  };
+  vm.createContext(ctx);
+  for (const file of [
+    "mechanics.js",
+    "game.js",
+    "arc2.js",
+    "arc3.js",
+    "arc4.js",
+    "arc5.js",
+    "arc6.js",
+    "arc7.js",
+    "character-presentation.js",
+    "arc8.js",
+    "arc9.js",
+    "arc10.js",
+    "lensa.js",
+  ])
+    vm.runInContext(fs.readFileSync(file, "utf8"), ctx);
+  return { run: (code) => vm.runInContext(code, ctx), nodes };
+}
+function completed(id, stars, xp) {
+  return {
+    run: {
+      caseId: id,
+      status: "completed",
+      scene: 6,
+      foundClues: [0, 1, 2, 3, 4],
+      cluesFound: 5,
+    },
+    record: { caseId: id, status: "completed", stars, xpEarned: xp },
+  };
+}
+store = {};
+let locked = boot();
+assert.equal(locked.run("isCaseUnlocked(23)"), false);
+assert.equal(
+  locked.run("caseArcDefinitions.filter(a=>a.name==='FAIL KELIMA').length"),
+  1,
+);
+assert.equal(locked.run("caseArcDefinitions[4].name"), "FAIL KELIMA");
+assert.equal(
+  locked.run("caseArcDefinitions[4].storyTitle"),
+  "Jejak Makna Bayuraya",
+);
+store = {
+  "detektif-bahasa-v1": JSON.stringify({
+    version: 2,
+    activeCase: "C023",
+    muted: false,
+    cases: { C023: completed("C023", 5, 560) },
+  }),
+};
+let g = boot();
+assert.equal(g.run("allCases.length"), 24);
+assert.equal(g.run("achievementDefinitions.length"), 31);
+assert.equal(g.run("Object.keys(lensaActivities).length"), 20);
+assert.equal(g.run("getMaximumStars()"), 104);
+assert.equal(g.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 9220);
+assert.equal(g.run("KEY"), "detektif-bahasa-v1");
+assert.equal(g.run("isCaseUnlocked(23)"), true);
+assert.equal(g.run("caseArcDefinitions[4].ids.join()"), "C021,C022,C023,C024");
+assert.equal(
+  g.run("caseArcCardProviders.C024().includes('KES 025 · AKAN DATANG')"),
+  true,
+);
+assert.equal(g.run("caseShelf().includes('JEJAK MAKNA BAYURAYA')"), false);
+const spots = JSON.parse(
+  g.run("JSON.stringify(scenes.contextExhibition.hotspots)"),
+);
+assert.equal(spots.length, 5);
+assert.deepEqual(
+  spots.map((s) => s.id),
+  [
+    "panduan pameran",
+    "galeri gambar",
+    "kad paparan",
+    "catatan pengunjung",
+    "panduan pengelola",
+  ],
+);
+assert.ok(
+  spots.every(
+    (s) => s.x >= 0 && s.y >= 0 && s.x + s.w <= 100 && s.y + s.h <= 100,
+  ),
+);
+assert.equal(g.run("c024Clues.length"), 5);
+assert.equal(g.run("Object.keys(c024Sources).length"), 5);
+assert.equal(g.run("c024Mappings.length"), 6);
+assert.equal(g.run("new Set(c024Mappings.map(m=>m.station)).size"), 3);
+assert.equal(
+  g.run("c024Mappings.find(m=>m.id==='A1').meaning"),
+  "Satelit semula jadi bumi.",
+);
+assert.equal(
+  g.run("c024Mappings.find(m=>m.id==='A2').meaning"),
+  "Unit masa dalam kalendar.",
+);
+assert.equal(
+  g.run("c024Mappings.find(m=>m.id==='B1').meaning"),
+  "Organ penglihatan.",
+);
+assert.match(g.run("c024Mappings.find(m=>m.id==='B2').meaning"), /Markah/);
+assert.match(
+  g.run("c024Mappings.find(m=>m.id==='C1').meaning"),
+  /Anggota badan/,
+);
+assert.equal(
+  g.run("c024Mappings.find(m=>m.id==='C2').meaning"),
+  "Bahagian yang menyokong meja.",
+);
+g.run("switchCase('C024');home=false;render()");
+const act = (data) =>
+  g.run(`handleC024Click({dataset:${JSON.stringify(data)}})`);
+for (const object of [
+  "catatan pengunjung",
+  "panduan pameran",
+  "panduan pengelola",
+  "kad paparan",
+  "galeri gambar",
+])
+  act({ object });
+assert.equal(g.run("state.cluesFound"), 5);
+act({ c024Action: "context" });
+for (const map of JSON.parse(g.run("JSON.stringify(c024Mappings)"))) {
+  act({ c024Station: map.station });
+  act({ c024Record: map.id });
+  act({ c024Meaning: map.meaning, mapId: map.id });
+  act({ c024Visual: map.visual });
+  act({ c024Action: "verify-mapping", mapId: map.id });
+  assert.equal(
+    g.run("wrong"),
+    true,
+    "meaning and picture are insufficient without context",
+  );
+  act({ c024Context: map.contexts[0], mapId: map.id });
+  act({ c024Meaning: map.meaning, mapId: map.id });
+  act({ c024Visual: map.visual === "V01" ? "V02" : "V01" });
+  act({ c024Action: "verify-mapping", mapId: map.id });
+  assert.equal(g.run("wrong"), true, "wrong picture rejected");
+  act({ c024Visual: map.visual });
+  act({ c024Action: "verify-mapping", mapId: map.id });
+  assert.equal(g.run(`state.mappings['${map.id}']`), true);
+}
+assert.equal(g.run("c024AllMappings()"), true);
+const partial = store["detektif-bahasa-v1"];
+g = boot();
+assert.equal(store["detektif-bahasa-v1"], partial);
+assert.equal(
+  g.run("Object.values(cases.C024.run.mappings).filter(Boolean).length"),
+  6,
+);
+g.run("switchCase('C024');home=false;state.scene=2;render()");
+const act2 = (data) =>
+  g.run(`handleC024Click({dataset:${JSON.stringify(data)}})`);
+act2({ c024Action: "board" });
+act2({ c024BoardEvidence: "0" });
+act2({ c024Action: "check-board-step" });
+assert.equal(g.run("wrong"), true);
+act2({ c024BoardEvidence: "2" });
+act2({ c024Action: "check-board-step" });
+for (const n of [1, 3]) act2({ c024BoardEvidence: String(n) });
+act2({ c024Action: "check-board-step" });
+for (const n of [0, 1, 4]) act2({ c024BoardEvidence: String(n) });
+act2({ c024Action: "check-board-step" });
+assert.equal(
+  g.run("state.evidenceLinks.join('|')"),
+  "context|confusion|verified",
+);
+act2({ c024Action: "finish-board" });
+assert.equal(g.run("state.scene"), 4);
+act2({ c024Deduction: "cause:0" });
+assert.equal(g.run("wrong"), true);
+act2({ c024Deduction: "cause:1" });
+assert.equal(g.run("state.scene"), 5);
+act2({ c024Deduction: "solution:0" });
+assert.equal(g.run("state.status"), "in_progress");
+act2({ c024Deduction: "solution:2" });
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("state.xpEarned"), 580);
+assert.equal(g.run("state.stars"), 5);
+assert.equal(
+  g.run("achievementDefinitions.find(a=>a.id==='A31').unlocked()"),
+  true,
+);
+const rewards = JSON.parse(
+  g.run(
+    "JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound})",
+  ),
+);
+g.run("activeCase='C024';answerLensa(1);answerLensa(0);answerLensa(2)");
+assert.equal(g.run("lensaBahasa.C024.completed"), true);
+assert.deepEqual(
+  JSON.parse(
+    g.run(
+      "JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound})",
+    ),
+  ),
+  rewards,
+);
+const best = g.run("cases.C024.record.xpEarned");
+act2({ action: "replay" });
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("cases.C024.record.xpEarned"), best);
+g.run(
+  "state.hintsUsed=1;state.foundClues=[0,1,2,3,4];state.cluesFound=5;state.mappings=Object.fromEntries(c024Mappings.map(m=>[m.id,true]));state.evidenceLinks=['context','confusion','verified'];completeC024()",
+);
+assert.equal(g.run("state.xpEarned"), 550);
+assert.equal(g.run("cases.C024.record.xpEarned"), 580);
+assert.equal(g.run("normalizeC024({foundClues:[0,0,9]}).cluesFound"), 1);
+assert.equal(
+  g.run(
+    "Object.values(normalizeC024({mappings:{A1:true,BAD:true}}).mappings).length",
+  ),
+  6,
+);
+assert.equal(g.run("cases.C023.record.xpEarned"), 560);
+g.run("renderAchievements()");
+assert.equal(
+  g.run(
+    "document.querySelector('#app').innerHTML.includes('Pentafsir Konteks')",
+  ),
+  true,
+);
+assert.equal(
+  g.run("document.querySelector('#app').innerHTML.includes('2/4 dicapai')"),
+  true,
+);
+for (const asset of [
+  "assets/locations/dataran-pameran-c024.webp",
+  "assets/achievements/a31.svg",
+  "assets/characters/mugshots/xiaoFeng.webp",
+  "assets/characters/poses/ayyash.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.ok(fs.statSync(asset).size > 500);
+}
+console.log(
+  "PASS: v2.11.0 C024 five clues, six Kanta Konteks mappings, evidence, deductions, A31, Lensa, save/replay and aggregate totals.",
+);

@@ -1,1 +1,4747 @@
-const vm=require("node:vm"),fs=require("node:fs"),assert=require("node:assert/strict");let store={};function boot(showTitle=false,withArc2=false,withArc3=false,withArc4=false,withArc5=false,withArc6=false,withArc7=false,withArc8=false){const nodes={},classes={add(){},toggle(){},remove(){}};const ctx={document:{body:{classList:classes},documentElement:{},querySelector:s=>nodes[s]??={innerHTML:"",textContent:"",classList:classes,setAttribute(){},removeAttribute(){},insertAdjacentHTML(position,html){this.innerHTML+=html},querySelector(){return null},addEventListener(t,fn){const prior=this[t];this[t]=e=>{if(prior)prior(e);if(!e.__immediateStopped)fn(e)}}}},localStorage:{getItem:k=>store[k],setItem:(k,v)=>store[k]=v,removeItem:k=>delete store[k]},window:{scrollTo(){}},console:console};vm.createContext(ctx);if(withArc3)vm.runInContext(fs.readFileSync("mechanics.js","utf8"),ctx);vm.runInContext(fs.readFileSync("game.js","utf8"),ctx);if(withArc2)vm.runInContext(fs.readFileSync("arc2.js","utf8"),ctx);if(withArc3)vm.runInContext(fs.readFileSync("arc3.js","utf8"),ctx);if(withArc4)vm.runInContext(fs.readFileSync("arc4.js","utf8"),ctx);if(withArc5)vm.runInContext(fs.readFileSync("arc5.js","utf8"),ctx);if(withArc6)vm.runInContext(fs.readFileSync("arc6.js","utf8"),ctx);if(withArc7)vm.runInContext(fs.readFileSync("arc7.js","utf8"),ctx);if(withArc8)vm.runInContext(fs.readFileSync("character-presentation.js","utf8"),ctx);if(withArc8)vm.runInContext(fs.readFileSync("arc8.js","utf8"),ctx);if(withArc5)vm.runInContext(fs.readFileSync("lensa.js","utf8"),ctx);if(!showTitle)vm.runInContext("titleOpen=false;render()",ctx);return{run:c=>vm.runInContext(c,ctx),click:data=>{const button={dataset:data,disabled:false,hasAttribute:n=>Object.prototype.hasOwnProperty.call(data,n.replace(/^data-/,""))};nodes["#app"].click({detail:0,preventDefault(){},stopImmediatePropagation(){this.__immediateStopped=true},target:{closest:selector=>{if(selector==="button")return button;if(selector.includes(","))return Object.keys(data).some(k=>selector.includes("data-"+k.replace(/[A-Z]/g,c=>"-"+c.toLowerCase())))?button:null;const match=selector.match(/^\[data-([^\]]+)\]$/);if(!match)return null;const key=match[1].replace(/-([a-z])/g,(_,c)=>c.toUpperCase());return Object.prototype.hasOwnProperty.call(data,key)?button:null}}})},change:(data,value)=>nodes["#app"].change({target:{dataset:data,value:value}}),nodes:nodes}}function validateScene(g,name,ids){const data=JSON.parse(g.run(`JSON.stringify(scenes.${name}.hotspots)`));assert.deepEqual(data.map(h=>h.id),ids);assert.equal(new Set(data.map(h=>h.id)).size,ids.length);assert.ok(data.every(h=>h.x>=0&&h.y>=0&&h.x+h.w<=100&&h.y+h.h<=100));for(let i=0;i<data.length;i++)for(let j=i+1;j<data.length;j++){const a=data[i],b=data[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`${name}: ${a.id} bertindih dengan ${b.id}`)}}let g=boot();assert.equal(g.run("getCompletedCaseCount()"),0);assert.equal(g.run("isFirstArcComplete()"),false);assert.equal(g.run(`getCaseStatus('C001')`),"not_started");assert.equal(g.run(`getCaseStatus('C002')`),"locked");assert.equal(g.run(`homeView().includes('Mula Siasatan')`),true);assert.equal(g.run("unlocked2()"),false);assert.equal(g.run(`homeView().includes('KES 002, terkunci')`),true);validateScene(g,"classroom",["kertas kecil","kerusi","buku","kotak pensel","botol air","beg","meja"]);validateScene(g,"library",["rak buku","kotak pemulangan","papan kenyataan","meja membaca","pustakawan","kaunter","beg perpustakaan"]);validateScene(g,"mathShop",["papan kenyataan kedai","rak produk","bakul","rak pengambilan","resit ammar","beg biru ammar","beg merah jambu sofia","pekerja kedai","kaunter kedai"]);validateScene(g,"readingCorner",["rak biru","cebisan a","kotak kad cerita","meja kecil","cebisan b","meja membaca","cebisan c","troli buku","cebisan d","kotak pemulangan bacaan"]);validateScene(g,"park",["bangku taman","pondok","papan aktiviti","pokok besar","bakul hijau","air pancut","laluan","tong sampah"]);validateScene(g,"bayurayaFestival",["senarai penghantaran","meja pendaftaran lama","cebisan a festival","cebisan b festival","papan acara","cebisan c festival","khemah biru","meja pendaftaran baharu","kotak lencana","kotak alat tulis"]);assert.deepEqual(JSON.parse(g.run("JSON.stringify(fragments)")),["Letakkan kotak kad cerita","di atas meja kecil","di belakang rak biru","selepas waktu rehat."]);assert.equal(g.run("unlocked3()"),false);assert.equal(g.run(`homeView().includes('KES 003, terkunci')`),true);assert.equal(g.run("unlocked4()"),false);assert.equal(g.run(`homeView().includes('KES 004, terkunci')`),true);assert.equal(g.run("unlocked5()"),false);assert.equal(g.run(`homeView().includes('KES 005, terkunci')`),true);assert.equal(g.run(`renderScene(null,'beg biru ammar').includes('data-object="beg biru ammar"')`),true);assert.equal(g.run(`scenes.mathShop.alt.includes('pelekat roket')&&scenes.mathShop.alt.includes('reben putih')`),true);const a=x=>g.click({action:x}),answer=x=>g.click({answer:x}),obj=x=>g.click({object:x});a("start");a("next");a("next");obj("beg");obj("kerusi");a("next");a("note");a("next");answer("Aynaa");a("next");answer("membawa");a("next");answer("perpustakaan");a("next");a("library");obj("beg perpustakaan");obj("pustakawan");answer("menyerahkan");a("next");g.run("state.links=['memiliki','membawa','dibawa ke']");a("check");a("next");g.click({theory:"1"});a("next");assert.equal(g.run("state.status"),"completed");assert.equal(g.run("state.cluesFound"),5);assert.equal(g.run("unlocked2()"),true);assert.equal(g.run(`homeView().includes('Misteri Label Tertukar')`),true);assert.equal(g.run("getCompletedCaseCount()"),1);assert.equal(g.run(`getCaseStatus('C001')`),"completed");assert.equal(g.run(`renderResultPanel().includes('KES BAHARU DIBUKA!')&&renderResultPanel().includes('KES 002')`),true);assert.equal(g.run(`renderResultPanel().includes('Lihat Fail Kes')&&renderResultPanel().includes('Kembali ke agensi')&&renderResultPanel().includes('Main semula')`),true);const case1Best=g.run("record.xpEarned");g.click({case:"C002"});assert.equal(g.run("activeCase"),"C002");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run(`homeView().includes('⭐⭐ Jejak Tajam')`),true);a("start");a("next");assert.equal(g.run("state.scene"),1);assert.equal(g.run(`getCaseStatus('C002')`),"in_progress");assert.equal(g.run(`homeView().includes('Sambung Siasatan')`),true);obj("bakul");assert.equal(g.run("kluMode()"),"thinking");a("hint");a("hint");a("hint");assert.equal(g.run(`state.hintLevels['1:resit ammar']`),3);obj("resit ammar");assert.equal(g.run("state.cluesFound"),1);a("next");answer("biru");assert.equal(g.run("!!state.solved[2]"),false);answer("kecil");a("next");answer("merah jambu");assert.equal(g.run("state.cluesFound"),2);a("next");obj("beg merah jambu sofia");assert.equal(g.run("!!state.solved[4]"),false);obj("beg biru ammar");assert.equal(g.run("state.cluesFound"),3);a("next");obj("beg merah jambu sofia");assert.equal(g.run("state.cluesFound"),4);a("next");answer("memeriksa");assert.equal(g.run("state.cluesFound"),5);a("next");a("check2");assert.equal(g.run("!!state.solved[7]"),false);g.run("state.links=['memiliki','memiliki','berlabel','berlabel']");a("check2");a("next");g.click({theory2:"0"});assert.equal(g.run("state.status"),"in_progress");g.click({theory2:"1"});assert.equal(g.run("state.status"),"completed");assert.equal(g.run("state.cluesFound"),5);assert.equal(g.run(`clues[2].includes('SOFIA')&&clues[3].includes('AMMAR')`),true);a("next");assert.equal(g.run("state.scene"),10);const case2Best=g.run("record.xpEarned");assert.ok(case2Best>=140);assert.equal(g.run(`renderResultPanel().includes('KES 002 SELESAI')&&renderResultPanel().includes('KES 003')&&renderResultPanel().includes('KES BAHARU DIBUKA!')`),true);g.click({case:"C001"});assert.equal(g.run("activeCase"),"C001");assert.equal(g.run("state.status"),"completed");assert.equal(g.run("record.xpEarned"),case1Best);a("start");a("replay");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("record.xpEarned"),case1Best);assert.equal(g.run("unlocked2()"),true);g.click({case:"C002"});assert.equal(g.run("state.status"),"completed");assert.equal(g.run("record.xpEarned"),case2Best);a("start");a("replay");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("record.xpEarned"),case2Best);assert.equal(g.run(`cases.C001.record.status`),"completed");g.nodes["#sound"].onclick();g=boot();assert.equal(g.run("muted"),true);assert.equal(g.run("activeCase"),"C002");assert.equal(g.run("unlocked3()"),true);g.run("switchCase('C003')");assert.equal(g.run("activeCase"),"C003");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run(`homeView().includes('⭐⭐⭐ Jejak Cermat')`),true);assert.equal(g.run(`renderScene(null,'cebisan a').includes('data-object="cebisan a"')`),true);const c3=data=>g.run(`handleCase3Click({dataset:${JSON.stringify(data)}})`);c3({action:"start"});c3({action:"next"});c3({object:"rak biru"});assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("wrong"),true);c3({object:"cebisan a"});assert.equal(g.run("state.cluesFound"),0);c3({answer:"kotak kad cerita"});assert.equal(g.run("state.cluesFound"),1);c3({action:"next"});c3({object:"cebisan b"});assert.equal(g.run("state.cluesFound"),2);c3({action:"next"});c3({answer:"meja kecil"});assert.equal(g.run("state.cluesFound"),2);c3({answer:"di belakang rak biru"});assert.equal(g.run("state.cluesFound"),3);c3({action:"next"});c3({answer:"selepas waktu rehat"});assert.equal(g.run("state.cluesFound"),4);c3({action:"next"});c3({fragment:"2"});assert.equal(g.run("state.sequence.length"),0);c3({action:"hint"});c3({action:"hint"});c3({action:"hint"});assert.equal(g.run(`state.hintLevels['5']`),3);assert.equal(g.run(`feedback.includes('Letakkan kotak kad cerita')`),true);for(const i of[0,1,2,3])c3({fragment:String(i)});assert.equal(g.run("state.sequence.join()"),"0,1,2,3");assert.equal(g.run("state.cluesFound"),4);c3({action:"next"});c3({answer:"selepas"});assert.equal(g.run("state.cluesFound"),4);c3({answer:"di belakang"});c3({action:"next"});c3({object:"meja kecil"});assert.equal(g.run("state.cluesFound"),4);c3({action:"next"});c3({answer:"Ya, satu arahan"});assert.equal(g.run("state.cluesFound"),5);c3({action:"next"});c3({action:"check3"});assert.equal(g.run("!!state.solved[9]"),false);g.run("state.links=['diikuti oleh','diikuti oleh','diikuti oleh','lokasi']");c3({action:"check3"});c3({action:"next"});c3({theory3:"0"});assert.equal(g.run("state.status"),"in_progress");c3({theory3:"1"});assert.equal(g.run("state.status"),"completed");assert.equal(g.run("state.cluesFound"),5);c3({action:"next"});const case3Best=g.run("record.xpEarned");assert.ok(case3Best>=160);assert.equal(g.run(`renderResultPanel().includes('KES 003 SELESAI')&&renderResultPanel().includes('KES 004')&&renderResultPanel().includes('KES BAHARU DIBUKA!')`),true);g.run("switchCase('C001')");assert.equal(g.run(`cases.C003.run.status`),"completed");g.run("switchCase('C003')");c3({action:"start"});c3({action:"replay"});assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("record.xpEarned"),case3Best);assert.equal(g.run(`cases.C001.record.status`),"completed");assert.equal(g.run(`cases.C002.record.status`),"completed");assert.equal(g.run("unlocked4()"),true);g.run("switchCase('C004')");assert.equal(g.run("activeCase"),"C004");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run(`homeView().includes('⭐⭐⭐⭐ Jejak Teliti')`),true);assert.equal(g.run(`tasks4[2].quote`),"“Sebelum hujan, saya nampak bakul hijau di bawah bangku.”");assert.equal(g.run(`tasks4[4].quote`),"“Ketika hujan mula turun, saya membawa bakul itu ke pondok supaya tidak basah.”");assert.equal(g.run(`tasks4[6].quote`),"“Selepas hujan berhenti, saya membawa bakul itu ke sebelah pokok besar untuk aktiviti.”");assert.equal(g.run(`renderScene(null,'bakul hijau').includes('data-object="bakul hijau"')`),true);const c4=data=>g.run(`handleCase4Click({dataset:${JSON.stringify(data)}})`);c4({action:"start"});c4({action:"next"});c4({object:"air pancut"});assert.equal(g.run("wrong"),true);c4({object:"bangku taman"});assert.equal(g.run("state.cluesFound"),0);c4({action:"next"});c4({answer:"ketika hujan"});assert.equal(g.run("state.cluesFound"),0);c4({answer:"sebelum hujan"});assert.equal(g.run("state.cluesFound"),1);c4({action:"next"});c4({object:"pondok"});c4({action:"next"});c4({answer:"ke pondok"});assert.equal(g.run("state.cluesFound"),2);c4({action:"next"});c4({answer:"Ya. Hanya seorang boleh betul."});assert.equal(g.run("!!state.solved[5]"),false);c4({action:"hint"});c4({action:"hint"});c4({action:"hint"});assert.equal(g.run(`state.hintLevels['5']`),3);c4({answer:"Tidak. Kedua-duanya berlaku pada masa yang berbeza."});assert.equal(g.run("state.cluesFound"),2);assert.equal(g.run("state.statementChecks[5]"),true);c4({action:"next"});c4({answer:"selepas hujan berhenti"});assert.equal(g.run("state.cluesFound"),3);c4({action:"next"});c4({answer:"Salah seorang tersalah nampak."});assert.equal(g.run("!!state.solved[7]"),false);c4({answer:"Bakul dipindahkan selepas hujan berhenti."});assert.equal(g.run("state.statementChecks[7]"),true);assert.equal(g.run("state.cluesFound"),3);c4({action:"next"});c4({object:"papan aktiviti"});assert.equal(g.run("state.cluesFound"),3);c4({answer:"kawasan pokok besar"});assert.equal(g.run("state.cluesFound"),4);c4({action:"next"});c4({object:"pokok besar"});assert.equal(g.run("state.cluesFound"),4);c4({object:"bakul hijau"});assert.equal(g.run("state.cluesFound"),5);c4({action:"next"});c4({action:"check4"});assert.equal(g.run("!!state.solved[10]"),false);g.run("state.links=['bakul berada','bakul dipindahkan','bakul dipindahkan']");c4({action:"check4"});c4({action:"next"});c4({theory4:"0"});assert.equal(g.run("state.status"),"in_progress");c4({theory4:"1"});assert.equal(g.run("state.status"),"completed");assert.equal(g.run("state.cluesFound"),5);c4({action:"next"});const case4Best=g.run("record.xpEarned");assert.ok(case4Best>=180);assert.equal(g.run(`renderResultPanel().includes('KES 004 SELESAI')&&renderResultPanel().includes('KES 005')&&renderResultPanel().includes('KES BAHARU DIBUKA!')`),true);g.run("switchCase('C002')");assert.equal(g.run(`cases.C004.run.status`),"completed");g.run("switchCase('C004')");c4({action:"start"});c4({action:"replay"});assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("record.xpEarned"),case4Best);assert.equal(g.run(`cases.C003.record.status`),"completed");assert.equal(g.run("unlocked5()"),true);g.run("switchCase('C005')");assert.equal(g.run("activeCase"),"C005");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run(`homeView().includes('⭐⭐⭐⭐⭐ Jejak Utama')`),true);assert.equal(g.run(`clues5[0].includes('kotak biru kecil dengan lambang Bayuraya berwarna emas')`),true);assert.deepEqual(JSON.parse(g.run("JSON.stringify(festivalFragments)")),["Selepas meja pendaftaran dipindahkan,","bawa kotak lencana","ke khemah biru."]);assert.equal(g.run(`tasks5[5].quote`),"“Sebelum meja pendaftaran dipindahkan, saya nampak kotak lencana di atas meja lama.”");assert.equal(g.run(`renderCase5.toString().includes('Selepas meja pendaftaran dipindahkan, saya nampak kotak biru kecil dibawa ke arah khemah biru.')`),true);assert.equal(g.run(`renderScene(null,'kotak lencana').includes('data-object="kotak lencana"')`),true);let c5=data=>g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);c5({action:"start"});c5({action:"next"});c5({object:"papan acara"});assert.equal(g.run("wrong"),true);c5({object:"senarai penghantaran"});assert.equal(g.run("state.cluesFound"),0);c5({action:"next"});c5({object:"kotak alat tulis"});assert.equal(g.run("state.cluesFound"),0);c5({action:"hint"});c5({action:"hint"});c5({action:"hint"});assert.equal(g.run(`state.hintLevels['2:kotak lencana']`),3);c5({object:"kotak lencana"});assert.equal(g.run("state.cluesFound"),1);c5({action:"next"});for(const id of["cebisan a festival","cebisan b festival","cebisan c festival"])c5({object:id});assert.equal(g.run("state.cluesFound"),1);assert.equal(g.run("!!state.solved[3]"),true);c5({action:"next"});c5({fragment:"1"});assert.equal(g.run("state.sequence.length"),0);c5({action:"hint"});c5({action:"hint"});c5({action:"hint"});assert.equal(g.run(`state.hintLevels['4']`),3);c5({fragment:"0"});assert.equal(g.run("state.sequence.join()"),"0");g=boot();c5=data=>g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);assert.equal(g.run("activeCase"),"C005");assert.equal(g.run("state.scene"),4);assert.equal(g.run("state.sequence.join()"),"0");for(const i of[1,2])c5({fragment:String(i)});assert.equal(g.run("state.cluesFound"),2);c5({action:"next"});c5({answer:"selepas meja dipindahkan"});assert.equal(g.run("state.cluesFound"),2);c5({answer:"sebelum meja pendaftaran dipindahkan"});c5({action:"next"});c5({action:"next"});c5({answer:"Ya. Kotak tidak boleh berada di dua tempat."});assert.equal(g.run("!!state.solved[7]"),false);c5({action:"hint"});c5({action:"hint"});c5({action:"hint"});assert.equal(g.run(`state.hintLevels['7']`),3);c5({answer:"Tidak. Mereka melihat kotak pada masa yang berbeza."});assert.equal(g.run("state.cluesFound"),3);assert.equal(g.run("state.statementChecks[7]"),true);g=boot();c5=data=>g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);assert.equal(g.run("state.scene"),7);assert.equal(g.run("state.cluesFound"),3);c5({action:"next"});c5({object:"khemah biru"});assert.equal(g.run("state.cluesFound"),3);c5({object:"papan acara"});c5({answer:"Pentas kecil"});assert.equal(g.run("state.cluesFound"),3);c5({answer:"Khemah Biru"});assert.equal(g.run("state.cluesFound"),4);c5({action:"next"});c5({object:"kotak alat tulis"});assert.equal(g.run("state.cluesFound"),4);c5({object:"kotak lencana"});assert.equal(g.run("state.cluesFound"),5);c5({action:"next"});c5({action:"check5"});assert.equal(g.run("!!state.solved[10]"),false);g.run("state.links=['dikenal melalui','dipindahkan ke','membawa','ditemui di']");c5({action:"check5"});g=boot();c5=data=>g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);assert.equal(g.run("state.scene"),10);assert.equal(g.run("!!state.solved[10]"),true);c5({action:"next"});c5({theory5:"0"});assert.equal(g.run("state.status"),"in_progress");c5({theory5:"2"});assert.equal(g.run("state.status"),"completed");assert.equal(g.run("state.cluesFound"),5);c5({action:"next"});assert.equal(g.run(`renderCase5.toString().includes('Fail Pertama Lengkap!')`),true);const case5Best=g.run("record.xpEarned");assert.ok(case5Best>=220);assert.equal(g.run("getCompletedCaseCount()"),5);assert.equal(g.run("isFirstArcComplete()"),true);assert.equal(g.run(`renderResultPanel().includes('Fail Pertama Lengkap!')`),true);assert.equal(g.run(`renderResultPanel().includes('skill-badges')`),true);assert.equal(g.run(`homeView().includes('5/5 Kes Selesai')`),true);assert.equal(g.run(`caseShelf().includes('Fail Pertama Lengkap')`),true);g.run("switchCase('C001')");assert.equal(g.run(`cases.C005.run.status`),"completed");g.run("switchCase('C005')");c5({action:"start"});c5({action:"replay"});assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("record.xpEarned"),case5Best);assert.equal(g.run(`cases.C004.record.status`),"completed");assert.equal(g.run(`cases.C001.record.status`),"completed");assert.equal(g.run("isFirstArcComplete()"),true);assert.equal(g.run("getCompletedCaseCount()"),5);assert.equal(g.run(`getCaseStatus('C005')`),"completed");c5({action:"next"});assert.equal(g.run(`getCaseStatus('C005')`),"in_progress");assert.equal(g.run("isFirstArcComplete()"),true);g.run("switchCase('C003')");assert.equal(g.run(`cases.C005.run.scene`),1);g.run("switchCase('C005')");assert.equal(g.run("state.scene"),1);g.run("switchCase('C001')");a("start");a("replay");assert.equal(g.run("state.cluesFound"),0);assert.equal(g.run("isFirstArcComplete()"),true);assert.equal(g.run("getCompletedCaseCount()"),5);assert.equal(g.run(`cases.C005.record.status`),"completed");a("next");assert.equal(g.run(`getCaseStatus('C001')`),"in_progress");g.run("switchCase('C005')");assert.equal(g.run("state.scene"),1);assert.equal(g.run("isFirstArcComplete()"),true);store={"detektif-bahasa-v1":JSON.stringify({run:{caseId:"Y2-C001",scene:8,cluesFound:4,objects:["beg","kerusi"],solved:{2:true,3:true,4:true,5:true,6:true},hintLevels:{},errors:{},links:["","",""],libraryEntered:true},record:{caseId:"Y2-C001",status:"completed",xpEarned:150,stars:3},muted:false})};g=boot();assert.equal(g.run("activeCase"),"C001");assert.equal(g.run("state.caseId"),"C001");assert.equal(g.run("state.cluesFound"),4);assert.equal(g.run("unlocked2()"),true);assert.equal(g.run(`cases.C002.run.cluesFound`),0);store={};g=boot();assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(locations))")),["agency","school","library","mathShop","park","square"]);assert.equal(g.run("getExplorationCount()"),1);assert.equal(g.run(`getLocationStatus('agency')`),"discovered");assert.equal(g.run(`getLocationStatus('school')`),"undiscovered");assert.equal(g.run(`getLocationStatus('library')`),"undiscovered");assert.equal(g.run(`getLocationStatus('mathShop')`),"undiscovered");assert.equal(g.run(`renderMap.toString().includes('data-location=')`),true);assert.equal(g.run(`renderMap.toString().includes('aria-label=')`),true);assert.equal(g.run(`locationPanel('school').includes('Lokasi belum ditemui')&&!locationPanel('school').includes('Misteri Beg Merah')`),true);g.nodes["#map-nav"].onclick();assert.equal(g.run("mapOpen"),true);assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"),true);assert.equal(g.nodes["#app"].innerHTML.includes("1/6"),true);g.click({location:"school"});assert.equal(g.run("selectedLocation"),"school");assert.equal(g.nodes["#app"].innerHTML.includes("Lokasi belum ditemui"),true);g.run("cases.C001.record={status:'completed',stars:3,xpEarned:150};cases.C001.run.status='completed';render()");assert.equal(g.run(`getLocationStatus('school')`),"investigated");assert.equal(g.run(`getLocationStatus('library')`),"investigated");assert.equal(g.run(`getLocationStatus('mathShop')`),"discovered");assert.equal(g.run("getExplorationCount()"),4);assert.equal(g.run(`locationPanel('library').includes('KES 001')`),true);assert.equal(g.run(`locationPanel('library').includes('KES 003')`),false);g.run("cases.C002.record={status:'completed'};cases.C002.run.status='completed';cases.C003.record={status:'completed'};cases.C003.run.status='completed';cases.C004.record={status:'completed'};cases.C004.run.status='completed'");assert.equal(g.run(`getLocationStatus('mathShop')`),"investigated");assert.equal(g.run(`getLocationStatus('park')`),"investigated");assert.equal(g.run(`getLocationStatus('square')`),"discovered");assert.equal(g.run("getExplorationCount()"),6);assert.equal(g.run(`locationPanel('library').includes('KES 001')&&locationPanel('library').includes('KES 003')`),true);g.run("cases.C005.record={status:'completed'};cases.C005.run.status='completed';render()");assert.equal(g.run(`getLocationStatus('square')`),"investigated");assert.equal(g.run("isFirstArcComplete()"),true);assert.equal(g.nodes["#app"].innerHTML.includes("Fail Pertama Lengkap"),true);assert.equal(g.nodes["#app"].innerHTML.includes("6/6"),true);const v8save=JSON.stringify({version:2,activeCase:"C002",cases:JSON.parse(g.run("JSON.stringify(cases)")),muted:true});store={"detektif-bahasa-v1":v8save};g=boot();assert.equal(g.run("activeCase"),"C002");assert.equal(g.run("muted"),true);assert.equal(g.run("getExplorationCount()"),6);assert.equal(g.run(`cases.C001.record.status`),"completed");store={};g=boot();assert.equal(g.run("getCompletedCaseCount()"),0);assert.equal(g.run("getExplorationCount()"),1);assert.equal(g.run("getTotalBestStars()"),0);assert.equal(g.run("getMaximumStars()"),18);assert.equal(g.run("getTotalBestXP()"),0);assert.equal(g.run("achievementDefinitions.length"),9);assert.equal(g.run("achievementDefinitions.filter(a=>a.unlocked()).length"),0);assert.equal(g.run(`achievementCard(achievementDefinitions[0]).includes('Belum dicapai')`),true);g.nodes["#achievements-nav"].onclick();assert.equal(g.run("achievementsOpen"),true);assert.equal(g.nodes["#app"].innerHTML.includes("PENCAPAIAN DETEKTIF"),true);assert.equal(g.nodes["#app"].innerHTML.includes("0 / 5"),true);assert.equal(g.nodes["#app"].innerHTML.includes("1 / 6"),true);g.run("cases.C001.record={status:'completed',stars:3,xpEarned:150};cases.C001.run.status='completed'");assert.equal(g.run(`achievementDefinitions[0].unlocked()`),true);assert.equal(g.run(`achievementDefinitions[1].unlocked()`),false);g.run("cases.C002.record={status:'completed',stars:3,xpEarned:170};cases.C002.run.status='completed';cases.C003.record={status:'completed',stars:3,xpEarned:190};cases.C003.run.status='completed'");assert.equal(g.run("achievementDefinitions.slice(0,3).every(a=>a.unlocked())"),true);assert.equal(g.run(`achievementDefinitions[3].unlocked()`),false);g.run("cases.C004.record={status:'completed',stars:4,xpEarned:210};cases.C004.run.status='completed'");assert.equal(g.run(`achievementDefinitions[3].unlocked()`),true);assert.equal(g.run(`achievementDefinitions[4].unlocked()`),false);g.run("cases.C005.record={status:'completed',stars:5,xpEarned:220};cases.C005.run.status='completed'");assert.equal(g.run("isFirstArcComplete()"),true);assert.equal(g.run("getExplorationCount()"),6);assert.equal(g.run("getTotalBestStars()"),18);assert.equal(g.run("getTotalBestXP()"),940);assert.equal(g.run("hasFiveStarRecord()"),true);assert.equal(g.run("hasMaximumRecords()"),true);assert.equal(g.run("achievementDefinitions.every(a=>a.unlocked())"),true);g.run("cases.C005.record={...cases.C005.record,xpEarned:250}");assert.equal(g.run("getTotalBestXP()"),970);g.run("cases.C001.run=fresh1();cases.C005.run=fresh5()");assert.equal(g.run(`achievementDefinitions[0].unlocked()`),true);assert.equal(g.run(`achievementDefinitions[4].unlocked()`),true);assert.equal(g.run(`achievementDefinitions[5].unlocked()`),true);assert.equal(g.run(`achievementDefinitions[8].unlocked()`),true);const v9save=JSON.stringify({version:2,activeCase:"C005",cases:JSON.parse(g.run("JSON.stringify(cases)")),muted:false});store={"detektif-bahasa-v1":v9save};g=boot();assert.equal(g.run("activeCase"),"C005");assert.equal(g.run("achievementDefinitions.every(a=>a.unlocked())"),true);assert.equal(g.run("getExplorationCount()"),6);g.run("mapOpen=true;achievementsOpen=false;render()");assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"),true);store={};g=boot();assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(characters))")),["klu","aynaa","farah","hakim","meiLing","librarian","ammar","sofia","shopWorker","ivy","kumar","maria","azzam","pakRahim"]);assert.equal(g.run("getDiscoveredCharacterCount()"),1);assert.equal(g.run(`isCharacterDiscovered('klu')`),true);assert.equal(g.run(`isCharacterDiscovered('aynaa')`),false);assert.equal(g.run(`characterCard(characters.aynaa).includes('????')&&!characterCard(characters.aynaa).includes('Aynaa')`),true);g.nodes["#characters-nav"].onclick();assert.equal(g.run("charactersOpen"),true);assert.equal(g.nodes["#app"].innerHTML.includes("FAIL PENDUDUK"),true);assert.equal(g.nodes["#app"].innerHTML.includes("1 / 14"),true);g.run("cases.C001.record={status:'completed'};cases.C001.run.status='completed'");assert.equal(g.run("getDiscoveredCharacterCount()"),6);g.run("cases.C002.record={status:'completed'};cases.C002.run.status='completed'");assert.equal(g.run("getDiscoveredCharacterCount()"),9);g.run("cases.C003.record={status:'completed'};cases.C003.run.status='completed'");assert.equal(g.run("getDiscoveredCharacterCount()"),11);g.run("cases.C004.record={status:'completed'};cases.C004.run.status='completed'");assert.equal(g.run("getDiscoveredCharacterCount()"),14);g.run("cases.C005.record={status:'completed'};cases.C005.run.status='completed'");assert.equal(g.run("getDiscoveredCharacterCount()"),14);assert.equal(g.run("isFirstArcComplete()"),true);assert.deepEqual(JSON.parse(g.run("JSON.stringify(characters.aynaa.relatedCases)")),["C001","C005"]);assert.deepEqual(JSON.parse(g.run("JSON.stringify(characters.librarian.relatedCases)")),["C001","C003"]);assert.deepEqual(JSON.parse(g.run("JSON.stringify(characters.azzam.relatedCases)")),["C004","C005"]);assert.equal(g.run(`characterDetail('aynaa').includes('Sekolah Bayuraya')&&characterDetail('aynaa').includes('Dataran Bayuraya')`),true);assert.equal(g.run(`characterDetail('librarian').includes('KES 001')&&characterDetail('librarian').includes('KES 003')`),true);assert.equal(g.run(`characterDetail('azzam').includes('Taman Bayuraya')&&characterDetail('azzam').includes('Dataran Bayuraya')`),true);for(const f of["assets/cikgu-farah.svg","assets/hakim.svg","assets/mei-ling.svg","assets/pustakawan.svg"])assert.equal(fs.existsSync(f),true);const serverSource=fs.readFileSync("server.js","utf8");for(const route of["/assets/cikgu-farah.svg","/assets/hakim.svg","/assets/mei-ling.svg","/assets/pustakawan.svg","/assets/locations/peta-bayuraya.svg"])assert.equal(serverSource.includes(route),true);const v10save=JSON.stringify({version:2,activeCase:"C003",cases:JSON.parse(g.run("JSON.stringify(cases)")),muted:true});store={"detektif-bahasa-v1":v10save};g=boot();assert.equal(g.run("activeCase"),"C003");assert.equal(g.run("muted"),true);assert.equal(g.run("getDiscoveredCharacterCount()"),14);g.run("charactersOpen=false;achievementsOpen=true;render()");assert.equal(g.nodes["#app"].innerHTML.includes("PENCAPAIAN DETEKTIF"),true);g.run("achievementsOpen=false;mapOpen=true;render()");assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"),true);store={};g=boot();const guideStateBefore=g.run("JSON.stringify({activeCase,cases,muted})");g.nodes["#guide-nav"].onclick();const guideHtml=g.nodes["#app"].innerHTML;assert.equal(g.run("guideOpen"),true);assert.equal(guideHtml.includes("PANDUAN DETEKTIF"),true);assert.equal(g.run("guideSections.length"),6);for(const heading of["Cara Bermain","Siasatan Lokasi","KLU & Bantuan","Mekanik Siasatan","Dunia Bayuraya","Simpanan & Kawalan"])assert.equal(guideHtml.includes(heading),true);for(const word of["CARI","BACA","SAMBUNG","FIKIR","0/3","1/3","2/3","3/3","Tab","Enter","Space","Tetikus","sentuhan","Bunyi: Hidup","Main semula"])assert.equal(guideHtml.includes(word),true);assert.equal(guideHtml.includes("Kemajuan dan pilihan bunyi disimpan secara automatik pada peranti dan pelayar ini."),true);for(const spoiler of["Misteri Label Tertukar","Misteri Nota Terpotong","Misteri Jejak di Taman","Misteri Persiapan Hari Bayuraya","telah dicuri","label dua pesanan telah tertukar"])assert.equal(guideHtml.includes(spoiler),false);assert.equal(g.run("JSON.stringify({activeCase,cases,muted})"),guideStateBefore);assert.equal(fs.readFileSync("index.html","utf8").includes('id="guide-nav"')&&!fs.readFileSync("index.html","utf8").includes("Panduan<small>Akan datang"),true);g.run("guideOpen=false;mapOpen=true;render()");assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"),true);g.run("mapOpen=false;achievementsOpen=true;render()");assert.equal(g.nodes["#app"].innerHTML.includes("PENCAPAIAN DETEKTIF"),true);g.run("achievementsOpen=false;charactersOpen=true;render()");assert.equal(g.nodes["#app"].innerHTML.includes("FAIL PENDUDUK"),true);store={"detektif-bahasa-v1":v10save};g=boot();assert.equal(g.run("activeCase"),"C003");assert.equal(g.run("muted"),true);g.nodes["#guide-nav"].onclick();assert.equal(g.nodes["#app"].innerHTML.includes("Panduan Detektif"),true);assert.equal(g.run("getDiscoveredCharacterCount()"),14);assert.deepEqual(JSON.parse(g.run("JSON.stringify(firstArcCases.map(c=>c.difficulty))")),["⭐ Jejak Awal","⭐⭐ Jejak Tajam","⭐⭐⭐ Jejak Cermat","⭐⭐⭐⭐ Jejak Teliti","⭐⭐⭐⭐⭐ Jejak Utama"]);assert.deepEqual(JSON.parse(g.run("JSON.stringify(firstArcCases.map(c=>c.maxStars))")),[3,3,3,4,5]);assert.equal(g.run("getMaximumStars()"),18);assert.deepEqual(JSON.parse(g.run("JSON.stringify([clues1.length,clues2.length,clues3.length,clues4.length,clues5.length])")),[5,5,5,5,5]);assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(scenes))")),["classroom","library","mathShop","park","readingCorner","bayurayaFestival"]);assert.equal(g.run(`typeof renderLibraryScene==='undefined'&&typeof renderFestivalScene==='undefined'`),true);assert.equal(g.run(`caseStatusText('C001',0).includes('SELESAI')`),true);assert.equal(g.run(`caseStatusText('C002',1).includes('SELESAI')`),true);g.run(`[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>{cases[id].record={status:'completed',stars,xpEarned};cases[id].run.status='completed'})`);assert.equal(g.run(`getTotalBestXP()`),970);assert.equal(g.run(`getTotalBestStars()`),18);assert.equal(g.run(`achievementDefinitions.filter(a=>a.unlocked()).length`),9);assert.equal(g.run(`getExplorationCount()`),6);assert.equal(g.run(`getDiscoveredCharacterCount()`),14);assert.equal(g.run(`isFirstArcComplete()`),true);const playerCopy=fs.readFileSync("game.js","utf8")+fs.readFileSync("index.html","utf8");assert.equal(/\bAina\b/.test(playerCopy),false);assert.equal(/Tahun\s+[0-9]/i.test(playerCopy),false);assert.equal(/Agensi Bayuraya/i.test(playerCopy),false);const canonicalCharacterNames=["KLU","Aynaa","Cikgu Farah","Hakim","Mei Ling","Pustakawan Bayuraya","Ammar","Sofia","Pekerja Kedai Matematik","Ivy","Kumar","Maria","Azzam","Pak Rahim"];assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.values(characters).map(c=>c.name))")),canonicalCharacterNames);const characterPortraits=JSON.parse(g.run("JSON.stringify(Object.values(characters).map(c=>c.portrait))"));assert.equal(characterPortraits[0],"assets/klu.svg");for(const portrait of characterPortraits.slice(1)){assert.equal(portrait.startsWith("assets/characters/")&&portrait.endsWith(".webp"),true);assert.equal(fs.existsSync(portrait),true);assert.ok(fs.statSync(portrait).size>2e4);assert.equal(fs.readFileSync(portrait).subarray(0,4).toString("ascii"),"RIFF")}assert.equal(new Set(characterPortraits).size,14);assert.equal(g.run(`tasks1[4].portrait`),"assets/characters/aynaa.webp");assert.equal(g.run(`tasks1[5].portrait`),"assets/characters/hakim.webp");assert.equal(g.run(`tasks1[6].portrait`),"assets/characters/mei-ling.webp");assert.equal(g.run(`tasks1[8].portrait`),"assets/characters/pustakawan.webp");assert.equal(g.run(`tasks1[8].name`),"Pustakawan Bayuraya");assert.equal(g.run(`tasks3[3].name`),"Ivy");assert.equal(g.run(`tasks3[8].portrait`),"assets/characters/pustakawan.webp");const runtimeSource=fs.readFileSync("game.js","utf8");for(const obsolete of["aynaa","ammar","sofia","ivy","kumar","maria","azzam","pak-rahim","shop-worker","cikgu-farah","hakim","mei-ling","pustakawan"])assert.equal(runtimeSource.includes(`assets/${obsolete}.svg`),false);assert.equal(runtimeSource.includes("Ivy Chian"),false);assert.equal(/\bAina\b/.test(runtimeSource),false);assert.equal(runtimeSource.includes("kedai-matematik\\assets")||runtimeSource.includes("kedai-matematik/assets"),false);for(const portrait of characterPortraits.slice(1))assert.equal(serverSource.includes("/"+portrait),true);assert.equal(serverSource.includes("image/webp"),true);const characterCss=fs.readFileSync("style.css","utf8");assert.equal(characterCss.includes(".character-card.klu-card img{object-fit:contain}"),true);assert.equal(characterCss.includes('.character-detail>img[src$="klu.svg"]{object-fit:contain}'),true);assert.equal(g.run(`characterCard(characters.shopWorker).includes('character-portrait')`),true);assert.equal(g.run(`characterDetail('shopWorker').includes('character-detail-portrait')`),true);assert.equal(characterCss.includes('img[src$="shop-worker.webp"]{transform:scale(1.23)}'),true);assert.equal(g.run(`characters.ivy.name`),"Ivy");assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);const mapAsset="assets/locations/peta-bayuraya.webp";assert.equal(fs.existsSync(mapAsset),true);assert.equal(fs.readFileSync(mapAsset).subarray(0,4).toString("ascii"),"RIFF");assert.ok(fs.statSync(mapAsset).size>15e4);assert.equal(runtimeSource.includes(mapAsset),true);assert.equal(runtimeSource.includes('<img src="assets/locations/peta-bayuraya.svg"'),false);assert.equal(serverSource.includes("/"+mapAsset),true);store={};g=boot();g.nodes["#map-nav"].onclick();const redesignedMapHtml=g.nodes["#app"].innerHTML;assert.equal((redesignedMapHtml.match(/data-location=/g)||[]).length,6);assert.equal(redesignedMapHtml.includes("map-art-fallback"),true);assert.equal(redesignedMapHtml.includes("map-hotspot-layer"),true);assert.equal(redesignedMapHtml.includes(mapAsset),true);assert.equal(g.run("getExplorationCount()"),1);g.click({location:"agency"});assert.equal(g.run("selectedLocation"),"agency");assert.equal(g.nodes["#app"].innerHTML.includes("Agensi Detektif Bahasa"),true);const mapCoordinates=JSON.parse(g.run("JSON.stringify(Object.values(locations).map(({id,x,y,w,h})=>({id,x,y,w,h})))"));for(const area of mapCoordinates){for(const key of["x","y","w","h"])assert.ok(area[key]>=0&&area[key]<=100);assert.ok(area.x+area.w<=100&&area.y+area.h<=100)}for(let i=0;i<mapCoordinates.length;i++)for(let j=i+1;j<mapCoordinates.length;j++){const a=mapCoordinates[i],b=mapCoordinates[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`${a.id} overlaps ${b.id}`)}const mapCss=fs.readFileSync("style.css","utf8");assert.equal(mapCss.includes(".map-art-fallback")&&mapCss.includes("pointer-events:none"),true);assert.equal(mapCss.includes("touch-action:pan-x pan-y"),true);g.run("for(const id of ['C001','C002','C003','C004','C005']){cases[id].record={status:'completed'};cases[id].run.status='completed'}");assert.equal(g.run("getExplorationCount()"),6);assert.equal(g.run("isFirstArcComplete()"),true);store={};g=boot(true);assert.equal(g.run("titleOpen"),true);assert.equal(g.nodes["#app"].innerHTML.includes("MASUK AGENSI"),true);assert.equal(g.nodes["#app"].innerHTML.includes("SAMBUNG SIASATAN"),false);const titleState=g.run("JSON.stringify({activeCase,cases,muted})");g.run("renderTitle()");assert.equal(g.run("JSON.stringify({activeCase,cases,muted})"),titleState);g.run("cases.C001.run.scene=2;persist();render()");assert.equal(g.run("hasResumableRun()"),true);assert.equal(g.nodes["#app"].innerHTML.includes("SAMBUNG SIASATAN"),true);g.run("for(const id of ['C001','C002','C003','C004','C005']){cases[id].run.status='completed';cases[id].record={status:'completed',stars:firstArcCases.find(c=>c.id===id).maxStars,xpEarned:100}};render()");assert.equal(g.run("hasResumableRun()"),false);assert.equal(g.nodes["#app"].innerHTML.includes("Fail Pertama Lengkap"),true);assert.equal(g.nodes["#app"].innerHTML.includes("MASUK AGENSI"),true);g.run("parentOpen=true;titleOpen=false;render()");assert.equal(g.nodes["#app"].innerHTML.includes("RUANG IBU BAPA"),true);for(const value of["5 / 5","6 / 6","14 / 14","18 / 18"])assert.equal(g.nodes["#app"].innerHTML.includes(value),true);assert.equal(g.nodes["#app"].innerHTML.includes("assets/support/sokong-detektif-bahasa.png"),true);g.run("resetConfirm=true;render()");assert.equal(g.nodes["#app"].innerHTML.includes("Padam Kemajuan"),true);store["permainan-lain"]="kekal";g.run("resetDetektifProgress()");assert.equal(store["permainan-lain"],"kekal");assert.equal(g.run("getCompletedCaseCount()"),0);assert.equal(g.run("getExplorationCount()"),1);assert.equal(g.run("getDiscoveredCharacterCount()"),1);assert.equal(g.run("achievementDefinitions.filter(a=>a.unlocked()).length"),0);for(const item of JSON.parse(g.run("JSON.stringify(achievementDefinitions.map(a=>({id:a.id,title:a.title})))"))){const file=`assets/achievements/${item.id.toLowerCase()}.webp`;assert.equal(fs.existsSync(file),true);assert.equal(g.run(`achievementCard(achievementDefinitions.find(a=>a.id==='${item.id}')).includes('${file}')`),true)}assert.equal(fs.existsSync("assets/ui/title-bayuraya.webp"),true);assert.equal(fs.existsSync("assets/support/sokong-detektif-bahasa.png"),true);for(const name of["classroom","library","mathShop","readingCorner","park","bayurayaFestival"]){assert.equal(g.run(`scenes.${name}.image.endsWith('.webp')`),true);assert.equal(fs.existsSync(g.run(`scenes.${name}.image`)),true)}store={};g=boot(true,true);assert.equal(g.run("allCases.length"),10);assert.equal(g.run("secondArcCases.length"),5);assert.equal(g.run("achievementDefinitions.length"),15);assert.equal(g.run("Object.keys(characters).length"),18);assert.equal(g.run("Object.keys(locations).length"),10);assert.equal(g.run("getCompletedCaseCount()"),0);assert.equal(g.run("getExplorationCount()"),1);assert.equal(g.run("getDiscoveredCharacterCount()"),1);assert.equal(g.run("getMaximumStars()"),40);assert.equal(g.run(`isCaseUnlocked(5)`),false);g.run("cases.C005.record={status:'completed',stars:5,xpEarned:250}");assert.equal(g.run(`isCaseUnlocked(5)`),true);for(const[name,ids]of Object.entries({bakery:["papan pesanan","dulang biru","rak penyejuk","bakul penghantaran","kaunter roti","buku pesanan","rak roti","kak suri","klip pesanan"],market:["senarai belian","bakul a","bakul b","bakul c","gerai sayur","gerai buah","resit pasar","penimbang","encik hafiz"],vetClinic:["bekas haiwan","kaunter klinik","papan temujanji","rekod klinik","pintu hijau","pintu biru","kad bilik dua","dr hana"],communityHall:["notis a","notis b","jadual dewan","log pejabat","kaunter komuniti","dewan utama","bilik lain","puan suraya"],memoryFinale:["pentas","kawasan berbumbung","kotak kenangan","papan acara memori","meja pameran"]}))validateScene(g,name,ids);for(const id of["C006","C007","C008","C009","C010"])assert.equal(g.run(`secondArcClues.${id}.length`),5);assert.equal(g.run("secondTasks.C006[2].items.length"),4);assert.equal(g.run("secondTasks.C010[1].items.length"),5);assert.equal(g.run("secondTasks.C007[4].target"),"bakul b");assert.equal(g.run("secondTasks.C008[4].target"),"kad bilik dua");assert.equal(g.run("secondTasks.C009[1].target"),"notis b");assert.equal(g.run("secondTasks.C010[4].target"),"kotak kenangan");assert.equal(g.run("achievementDefinitions.find(a=>a.id==='A09').description.includes('Fail Pertama')"),true);assert.equal(g.run("achievementDefinitions.slice(9).map(a=>a.id).join(',')"),"A10,A11,A12,A13,A14,A15");for(const path of JSON.parse(g.run("JSON.stringify(secondArcCases.map(c=>scenes[c.scene].image).concat(Object.values(characters).slice(-4).map(c=>c.portrait)))")))assert.equal(fs.existsSync(path),true);for(let i=10;i<=15;i++)assert.equal(fs.existsSync(`assets/achievements/a${i}.webp`),true);store={};let legacy={version:2,activeCase:"C001",muted:true,cases:{}};for(const[id,xp]of[["C001",150],["C002",170],["C003",180],["C004",220],["C005",250]])legacy.cases[id]={run:{caseId:id,status:"completed",scene:0,cluesFound:5,stars:id==="C005"?5:id==="C004"?4:3,xpEarned:xp},record:{status:"completed",stars:id==="C005"?5:id==="C004"?4:3,xpEarned:xp}};store["detektif-bahasa-v1"]=JSON.stringify(legacy);g=boot(true,true);assert.equal(g.run("isFirstArcComplete()"),true);assert.equal(g.run("isCaseUnlocked(5)"),true);assert.equal(g.run("cases.C006.run.caseId"),"C006");assert.equal(g.run("cases.C001.record.status"),"completed");assert.equal(g.run("getExplorationCount()"),6);assert.equal(g.run("getDiscoveredCharacterCount()"),14);g.run("cases.C006.run.scene=1");assert.equal(g.run("getExplorationCount()"),7);assert.equal(g.run("getDiscoveredCharacterCount()"),15);for(const id of["C006","C007","C008","C009","C010"]){g.run(`switchCase('${id}');home=false;state=({C006:fresh6,C007:fresh7,C008:fresh8,C009:fresh9,C010:fresh10})['${id}']();record=cases['${id}'].record||null;state.scene=1`);for(let scene=1;scene<=5;scene++){const type=g.run("secondTask().type");if(type==="scene")g.run("handleSecondClick({dataset:{object:secondTask().target}})");else if(type==="sequence"){const len=g.run("secondTask().items.length");g.run("handleSecondClick({dataset:{secondFragment:99}})");assert.equal(g.run("wrong"),true);for(let i=0;i<len;i++)g.run(`handleSecondClick({dataset:{secondFragment:'${i}'}})`)}else{g.run("handleSecondClick({dataset:{secondAnswer:99}})");assert.equal(g.run("wrong"),true);g.run("handleSecondClick({dataset:{secondAnswer:String(secondTask().answer)}})")}assert.equal(g.run("state.cluesFound"),scene);g.run("handleSecondClick({dataset:{action:'next'}})")}g.run("state.links=[...evidenceRelations[activeCase]];handleSecondClick({dataset:{action:'second-check'}})");assert.equal(g.run("!!state.solved[6]"),true);g.run("handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondTheory:'0'}})");assert.equal(g.run("state.status"),"in_progress");g.run("handleSecondClick({dataset:{secondTheory:'2'}})");assert.equal(g.run("state.status"),"completed");assert.equal(g.run("state.cluesFound"),5);g.run("handleSecondClick({dataset:{action:'next'}})");assert.equal(g.run("state.scene"),9)}assert.equal(g.run("isSecondArcComplete()"),true);assert.equal(g.run("getCompletedCaseCount()"),10);assert.equal(g.run("getExplorationCount()"),10);assert.equal(g.run("getDiscoveredCharacterCount()"),18);assert.equal(g.run("getTotalBestStars()"),40);assert.equal(g.run("getTotalBestXP()"),2580);assert.equal(g.run("achievementDefinitions.filter(a=>a.unlocked()).length"),15);assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("style.css","utf8").includes(".title-navigation-agency"),true);console.log("PASS: v1.4.0 continuity, mechanics foundation and Second Arc C006–C010, 10-location map, 15 achievements, 18 characters, save compatibility and First Arc regression.");const mechanicCtx={};vm.createContext(mechanicCtx);vm.runInContext(fs.readFileSync("mechanics.js","utf8"),mechanicCtx);const M=mechanicCtx.DetektifMechanics;assert.ok(M);let completed=0,riddleCfg={title:"Teka objek",prompt:"Ada nombor tetapi bukan jam.",choices:["Pintu","Papan","Kad"],answer:2,hints:["Baca ciri.","Cari benda bernombor.","Jawapannya ialah kad."]},riddle=M.createSession(riddleCfg,()=>completed++);let html=M.renderRiddleTask(riddleCfg,riddle.state);assert.ok(html.includes("<h2")&&html.includes('<button type="button"')&&html.includes('data-riddle-answer="2"')&&html.includes('role="status"'));assert.equal(riddle.getKluMode(),"neutral");riddle.answer(0);assert.equal(riddle.state.status,"retry");assert.equal(riddle.getKluMode(),"thinking");riddle.hint();assert.equal(riddle.getKluMode(),"hint");riddle.hint();riddle.hint();riddle.hint();assert.equal(riddle.state.hints,3);riddle.answer(2);riddle.answer(2);assert.equal(riddle.getKluMode(),"excited");assert.equal(completed,1);let triviaDone=0,triviaCfg={question:"Bilakah kotak dipindahkan?",source:"Selepas hujan, kotak diletakkan di bawah meja.",choices:["Sebelum hujan","Ketika hujan","Selepas hujan"],answer:2,hints:["Cari penanda masa.","Perhatikan perkataan selepas.","Pilih selepas hujan."]},trivia=M.createSession(triviaCfg,()=>triviaDone++);html=M.renderInvestigationTrivia(triviaCfg,trivia.state);assert.ok(html.includes("<blockquote>")&&html.includes('data-trivia-answer="2"'));trivia.answer(1);assert.equal(trivia.state.status,"retry");trivia.answer(2);assert.equal(triviaDone,1);let matchDone=0,matchCfg={title:"Padankan bukti",left:[{id:"Aynaa",label:"Aynaa"},{id:"Azzam",label:"Azzam"}],right:[{id:"awal",label:"Sebelum"},{id:"akhir",label:"Selepas"}],pairs:[{left:"Aynaa",right:"awal"},{left:"Azzam",right:"akhir"}],hints:["Bandingkan orang.","Semak masa.","Padankan awal dan akhir."]},matching=M.createSession(matchCfg,()=>matchDone++);html=M.renderClueMatchingTask(matchCfg,matching.state);assert.ok(html.includes('data-match-side="left"')&&html.includes('aria-pressed="false"'));matching.match("left","Aynaa");assert.equal(matching.state.status,"selected");matching.match("right","akhir");assert.equal(matching.state.status,"retry");assert.equal(matching.getKluMode(),"thinking");matching.match("left","Aynaa");matching.match("right","awal");assert.equal(matching.state.matches.length,1);assert.equal(matching.getKluMode(),"excited");html=M.renderClueMatchingTask(matchCfg,matching.state);assert.ok(html.includes("DIPADANKAN"));matching.match("left","Azzam");matching.match("right","akhir");matching.match("right","akhir");assert.equal(matching.getKluMode(),"celebrate");assert.equal(matchDone,1);assert.equal(fs.readFileSync("index.html","utf8").includes("mechanics.js"),true);assert.equal(fs.readFileSync("game.js","utf8").includes("const KEY='detektif-bahasa-v1'"),true);assert.equal(g.run("allCases.length"),10);assert.equal(g.run("Object.keys(characters).length"),18);assert.equal(g.run("achievementDefinitions.length"),15);console.log("PASS: v1.4.0 character continuity, mechanics foundation and C001–C010 regression.");store={};let h=boot(false,true,true);assert.equal(h.run("allCases.length"),14);assert.equal(h.run("Object.keys(locations).length"),12);assert.equal(h.run("Object.keys(characters).length"),21);assert.equal(h.run("achievementDefinitions.length"),19);assert.equal(h.run("getMaximumStars()"),58);assert.equal(h.run("isCaseUnlocked(10)"),false);assert.equal(h.run("isCaseUnlocked(11)"),false);assert.equal(h.run("isCaseUnlocked(12)"),false);assert.equal(h.run("isCharacterDiscovered('ayyash')"),false);assert.equal(h.run("isCharacterDiscovered('affan')"),false);assert.equal(h.run("getLocationStatus('station')"),"undiscovered");assert.equal(h.run("getLocationStatus('gallery')"),"undiscovered");validateScene(h,"busStation",["kaunter tiket","platform 1","platform 2","platform 3","jam besar","papan jadual","bangku panjang","tong sampah","jalur tulisan"]);h.run("[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>cases[id].record={status:'completed',stars,xpEarned});for(const c of secondArcCases)cases[c.id].record={status:'completed',stars:c.maxStars,xpEarned:c.maxXP};cases.C010.run.status='completed';activeCase='C010';state=cases.C010.run;record=cases.C010.record");assert.equal(h.run("isCaseUnlocked(10)"),true);assert.equal(h.run("getLocationStatus('station')"),"discovered");assert.equal(h.run("getExplorationCount()"),11);assert.equal(h.run("getDiscoveredCharacterCount()"),18);h.run("switchCase('C011');home=false;state.scene=1;render()");assert.equal(h.run("activeCase"),"C011");assert.equal(h.run("renderC011Task(c011Task(),false).includes('data-riddle-answer')"),true);h.run("handleC011Click({dataset:{riddleAnswer:'2'}})");assert.equal(h.run("wrong"),true);for(let i=0;i<4;i++)h.run("handleC011Click({dataset:{action:'hint'}})");assert.equal(h.run("state.hintLevels['C011-1']"),3);h.run("handleC011Click({dataset:{riddleAnswer:'0'}})");assert.equal(h.run("state.cluesFound"),1);h.run("handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{riddleAnswer:'1'}});handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{riddleAnswer:'2'}});handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{thirdAnswer:'1'}});handleC011Click({dataset:{action:'next'}})");assert.equal(h.run("state.cluesFound"),4);assert.equal(h.run("isCharacterDiscovered('ayyash')"),true);assert.equal(h.run("getDiscoveredCharacterCount()"),19);h.run("handleC011Click({dataset:{object:'tong sampah'}})");assert.equal(h.run("wrong"),true);h.run("handleC011Click({dataset:{object:'jalur tulisan'}})");assert.equal(h.run("state.cluesFound"),5);h.run("handleC011Click({dataset:{action:'next'}});state.links=['berada berhampiran','berada di','ditemui di belakang'];handleC011Click({dataset:{action:'third-check'}})");assert.equal(h.run("state.solved[6]"),true);h.run("handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{thirdTheory:'0'}})");assert.equal(h.run("state.status"),"in_progress");h.run("handleC011Click({dataset:{thirdTheory:'2'}})");assert.equal(h.run("state.status"),"completed");assert.equal(h.run("state.cluesFound"),5);assert.equal(h.run("state.xpEarned"),300);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A16').unlocked()"),true);assert.equal(h.run("getLocationStatus('station')"),"investigated");h.run("handleC011Click({dataset:{action:'next'}})");assert.equal(h.run("renderC011Result().includes('KES 011 SELESAI')"),true);const best11=h.run("record.xpEarned");h.run("handleC011Click({dataset:{action:'replay'}})");assert.equal(h.run("state.cluesFound"),0);assert.equal(h.run("cases.C011.record.xpEarned"),best11);assert.equal(h.run("getTotalBestXP()"),2910-30);h.run("state=fresh11();state.cluesFound=5;state.solved[6]=true;completeC011()");assert.equal(h.run("state.xpEarned"),330);assert.equal(h.run("state.stars"),4);assert.equal(h.run("getTotalBestXP()"),2910);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A14').unlocked()"),true);assert.equal(fs.existsSync("assets/locations/stesen-bas-bayuraya.webp"),true);assert.equal(fs.existsSync("assets/characters/ayyash.webp"),true);assert.equal(fs.existsSync("assets/achievements/a16.webp"),true);assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("index.html","utf8").includes("arc3.js"),true);validateScene(h,"heritageGallery",["model pameran","kad maklumat","foto arkib","label a","label b","label c","meja maklumat","papan maklumat"]);const expandedMap=JSON.parse(h.run("JSON.stringify(Object.values(locations).map(({id,x,y,w,h})=>({id,x,y,w,h})))"));for(let i=0;i<expandedMap.length;i++)for(let j=i+1;j<expandedMap.length;j++){const a=expandedMap[i],b=expandedMap[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`Peta v1.6: ${a.id} bertindih dengan ${b.id}`)}assert.equal(h.run("thirdArcClues.C012.length"),5);assert.equal(h.run("isCaseUnlocked(11)"),true);assert.equal(h.run("getLocationStatus('gallery')"),"discovered");h.run("switchCase('C012');home=false;state.scene=1;render()");assert.equal(h.run("activeCase"),"C012");assert.equal(h.nodes["#app"].innerHTML.includes("TRIVIA SIASATAN"),true);h.run("handleC012Click({dataset:{triviaAnswer:'2'}})");assert.equal(h.run("wrong"),true);for(let i=0;i<4;i++)h.run("handleC012Click({dataset:{action:'hint'}})");assert.equal(h.run("state.hintLevels['C012-1']"),3);h.run("handleC012Click({dataset:{triviaAnswer:'0'}})");assert.equal(h.run("state.cluesFound"),1);h.run("handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{action:'c012-affan'}})");assert.equal(h.run("state.cluesFound"),2);assert.equal(h.run("isCharacterDiscovered('affan')"),true);h.run("handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{triviaAnswer:'1'}});handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{triviaAnswer:'0'}});handleC012Click({dataset:{action:'next'}})");assert.equal(h.run("state.cluesFound"),4);h.run("handleC012Click({dataset:{object:'label a'}})");assert.equal(h.run("wrong"),true);h.run("handleC012Click({dataset:{object:'foto arkib'}})");assert.equal(h.run("state.cluesFound"),5);h.run("handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{action:'c012-check'}})");assert.equal(h.run("!!state.solved[6]"),false);h.run("state.links=['dibuat daripada','digunakan untuk','sepadan dengan'];handleC012Click({dataset:{action:'c012-check'}})");assert.equal(h.run("state.solved[6]"),true);h.run("handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{c012Theory:'1'}})");assert.equal(h.run("state.status"),"in_progress");h.run("handleC012Click({dataset:{c012Theory:'0'}})");assert.equal(h.run("state.status"),"completed");assert.equal(h.run("state.cluesFound"),5);assert.equal(h.run("state.xpEarned"),320);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A17').unlocked()"),true);assert.equal(h.run("getLocationStatus('gallery')"),"investigated");const best12=h.run("record.xpEarned");h.run("handleC012Click({dataset:{action:'replay'}})");assert.equal(h.run("state.cluesFound"),0);assert.equal(h.run("cases.C012.record.xpEarned"),best12);h.run("state=fresh12();state.cluesFound=5;state.solved[6]=true;completeC012()");assert.equal(h.run("state.xpEarned"),350);assert.equal(h.run("state.stars"),4);assert.equal(h.run("getTotalBestXP()"),3260);assert.equal(h.run("getTotalBestStars()"),48);assert.equal(h.run("getCompletedCaseCount()"),12);assert.equal(h.run("getExplorationCount()"),12);assert.equal(h.run("getDiscoveredCharacterCount()"),20);assert.equal(h.run("achievementDefinitions.filter(a=>a.unlocked()).length"),17);for(const asset of["assets/locations/galeri-warisan-bayuraya.webp","assets/characters/affan.webp","assets/achievements/a17.webp"]){assert.equal(fs.existsSync(asset),true);assert.equal(fs.readFileSync(asset).subarray(0,4).toString("ascii"),"RIFF")}for(const asset of["assets/locations/galeri-warisan-bayuraya.webp","assets/characters/affan.webp"])assert.equal(fs.readFileSync("server.js","utf8").includes(asset),true);assert.equal(/Array\.from\(\{\s*length:\s*21/.test(fs.readFileSync("server.js","utf8")),true);assert.equal(fs.readFileSync("mechanics.js","utf8").includes("renderInvestigationTrivia"),true);assert.equal(fs.readFileSync("arc3.js","utf8").includes("investigationMechanics.renderInvestigationTrivia"),true);assert.equal(fs.readFileSync("game.js","utf8").includes("const KEY='detektif-bahasa-v1'"),true);const preservedC011=h.run("JSON.stringify(cases.C011.record)");h.run("switchCase('C001');switchCase('C012')");assert.equal(h.run("activeCase"),"C012");assert.equal(h.run("JSON.stringify(cases.C011.record)"),preservedC011);console.log("PASS: v1.6.0 C011–C012, Trivia Siasatan, five clues, records, Affan, A16–A17, 12-location map and C001–C010 regression.");validateScene(h,"mathPacking",["bakul penghantaran","kotak biru kecil","tiub kuning","kotak hijau","pekerja kedai pembungkusan","slip pesanan","pita pembungkusan","tag penghantaran"]);assert.equal(h.run("thirdArcClues.C013.length"),5);assert.equal(h.run("isCaseUnlocked(12)"),true);assert.equal(h.run("thirdArcCases.find(c=>c.id==='C013').maxXP"),380);h.run("switchCase('C013');home=false;state.scene=1;render()");assert.equal(h.run("activeCase"),"C013");assert.equal(h.nodes["#app"].innerHTML.includes("KEDAI MATEMATIK · SUDUT PEMBUNGKUSAN"),true);h.run("handleC013Click({dataset:{object:'kotak biru kecil'}})");assert.equal(h.run("wrong"),true);h.run("handleC013Click({dataset:{object:'slip pesanan'}})");assert.equal(h.run("state.cluesFound"),1);h.run("handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{action:'c013-witness-2'}});handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{action:'c013-witness-3'}});handleC013Click({dataset:{action:'next'}})");assert.equal(h.run("state.cluesFound"),3);assert.equal(h.nodes["#app"].innerHTML.includes("PADANAN PETUNJUK"),true);h.run("handleC013Click({dataset:{matchSide:'left',matchId:'kotak biru kecil'}});handleC013Click({dataset:{matchSide:'right',matchId:'balai komuniti'}})");assert.equal(h.run("state.matching.status"),"retry");assert.equal(h.run("state.matching.matches.length"),0);for(let i=0;i<4;i++)h.run("handleC013Click({dataset:{action:'hint'}})");assert.equal(h.run("state.matching.hints"),3);assert.equal(h.run("state.matching.feedback.includes('Bantuan 3/3')"),true);h.run("handleC013Click({dataset:{matchSide:'left',matchId:'kotak biru kecil'}});handleC013Click({dataset:{matchSide:'right',matchId:'perpustakaan'}})");assert.equal(h.run("state.matching.matches.length"),1);const partial13=JSON.parse(JSON.stringify(store));h=boot(false,true,true);assert.equal(h.run("activeCase"),"C013");assert.equal(h.run("state.matching.matches.length"),1);assert.equal(h.run("state.cluesFound"),3);assert.deepEqual(JSON.parse(JSON.stringify(store)),partial13);h.run("handleC013Click({dataset:{matchSide:'left',matchId:'tiub kuning'}});handleC013Click({dataset:{matchSide:'right',matchId:'balai komuniti'}});handleC013Click({dataset:{matchSide:'left',matchId:'kotak hijau'}});handleC013Click({dataset:{matchSide:'right',matchId:'klinik haiwan'}})");assert.equal(h.run("state.matching.status"),"completed");assert.equal(h.run("state.cluesFound"),4);assert.equal(h.run("state.matching.matches.length"),3);h.run("handleC013Click({dataset:{matchSide:'left',matchId:'kotak hijau'}})");assert.equal(h.run("state.cluesFound"),4);h.run("handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{object:'pita pembungkusan'}})");assert.equal(h.run("wrong"),true);h.run("handleC013Click({dataset:{object:'tag penghantaran'}})");assert.equal(h.run("state.cluesFound"),5);h.run("handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{action:'c013-check'}})");assert.equal(h.run("!!state.solved[6]"),false);h.run("state.links=['sepadan dengan','sepadan dengan','sepadan dengan'];handleC013Click({dataset:{action:'c013-check'}})");assert.equal(h.run("state.solved[6]"),true);h.run("handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{c013Theory:'0'}})");assert.equal(h.run("state.status"),"in_progress");h.run("handleC013Click({dataset:{c013Theory:'2'}})");assert.equal(h.run("state.status"),"completed");assert.equal(h.run("state.cluesFound"),5);assert.equal(h.run("state.xpEarned"),350);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A18').unlocked()"),true);const best13=h.run("record.xpEarned");h.run("state.scene=9;render();handleC013Click({dataset:{action:'replay'}})");assert.equal(h.run("state.cluesFound"),0);assert.equal(h.run("cases.C013.record.xpEarned"),best13);assert.equal(h.run("cases.C012.record.xpEarned"),350);h.run("state=fresh13();state.cluesFound=5;state.solved[6]=true;completeC013()");assert.equal(h.run("state.xpEarned"),380);assert.equal(h.run("state.stars"),5);assert.equal(h.run("getTotalBestXP()"),3640);assert.equal(h.run("getTotalBestStars()"),53);assert.equal(h.run("getCompletedCaseCount()"),13);assert.equal(h.run("getExplorationCount()"),12);assert.equal(h.run("getDiscoveredCharacterCount()"),20);assert.equal(h.run("achievementDefinitions.filter(a=>a.unlocked()).length"),18);for(const asset of["assets/locations/kedai-matematik-pembungkusan.webp","assets/achievements/a18.webp"]){assert.equal(fs.existsSync(asset),true);assert.equal(fs.readFileSync(asset).subarray(0,4).toString("ascii"),"RIFF")}assert.equal(fs.readFileSync("server.js","utf8").includes("assets/locations/kedai-matematik-pembungkusan.webp"),true);assert.equal(fs.readFileSync("server.js","utf8").replace(/\s/g,"").includes("Array.from({length:21}"),true);assert.equal(fs.readFileSync("mechanics.js","utf8").includes("renderClueMatchingTask"),true);assert.equal(fs.readFileSync("arc3.js","utf8").includes("investigationMechanics.renderClueMatchingTask"),true);assert.equal(fs.readFileSync("game.js","utf8").includes("const KEY='detektif-bahasa-v1'"),true);const preservedC012=h.run("JSON.stringify(cases.C012.record)");h.run("switchCase('C001');switchCase('C013')");assert.equal(h.run("activeCase"),"C013");assert.equal(h.run("JSON.stringify(cases.C012.record)"),preservedC012);console.log("PASS: v1.7.0 C013, production Padanan Petunjuk, five clues, save/resume, A18 and C001–C012 regression.");assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(h.run("allCases.length"),14);assert.equal(h.run("Object.keys(locations).length"),12);assert.equal(h.run("Object.keys(characters).length"),21);assert.equal(h.run("achievementDefinitions.length"),19);assert.equal(h.run("getMaximumStars()"),58);assert.equal(h.run("getTotalBestXP()"),3640);assert.equal(h.run("KEY"),"detektif-bahasa-v1");h.run("activeCase='C006';state=fresh6();cases.C006.run=state;record=cases.C006.record;home=false;state.scene=4;state.cluesFound=3;state.hintsUsed=2;state.attempts=5;state.sequence=[0];feedback='kekal';wrong=true");const c006Before=h.run("JSON.stringify(state)");const review3=h.run("caseClueReviewHtml()");assert.ok(review3.includes("PETUNJUK DITEMUI — 3/5"));assert.ok(review3.includes(h.run("secondArcClues.C006[0]"))&&review3.includes(h.run("secondArcClues.C006[2]")));assert.equal(review3.includes(h.run("secondArcClues.C006[3]")),false);assert.equal((review3.match(/Belum ditemui/g)||[]).length,2);assert.equal(h.run("JSON.stringify(state)"),c006Before);h.run("caseUtilityView='review';caseUtilityView=''");assert.equal(h.run("JSON.stringify(state)"),c006Before);const review0=h.run("state.cluesFound=0;caseClueReviewHtml()");assert.ok(review0.includes("Belum ada petunjuk ditemui."));assert.equal(review0.includes(h.run("secondArcClues.C006[0]")),false);const review1=h.run("state.cluesFound=1;caseClueReviewHtml()");assert.ok(review1.includes(h.run("secondArcClues.C006[0]")));assert.equal(review1.includes(h.run("secondArcClues.C006[1]")),false);const review5=h.run("state.cluesFound=5;caseClueReviewHtml()");assert.ok(review5.includes("PETUNJUK DITEMUI — 5/5"));assert.equal(review5.indexOf(h.run("secondArcClues.C006[0]"))<review5.indexOf(h.run("secondArcClues.C006[4]")),true);h.run("state.cluesFound=3;state.scene=4;state.sequence=[0];const snap=JSON.stringify(state);caseUtilityView='restart';caseUtilityView='';if(JSON.stringify(state)!==snap)throw Error('cancel mutated run')");const otherRun=h.run("JSON.stringify(cases.C005.run)"),best6=h.run("cases.C006.record=JSON.parse(JSON.stringify({...fresh6(),status:'completed',stars:4,xpEarned:250}));record=cases.C006.record;JSON.stringify(cases.C006.record)");h.run("restartCurrentCaseRun()");assert.equal(h.run("state.scene"),0);assert.equal(h.run("state.cluesFound"),0);assert.equal(h.run("state.hintsUsed"),0);assert.equal(h.run("state.attempts"),0);assert.equal(h.run("state.sequence.length"),0);assert.equal(h.run("JSON.stringify(cases.C006.record)"),best6);assert.equal(h.run("JSON.stringify(cases.C005.run)"),otherRun);assert.equal(h.run("isCaseUnlocked(6)"),true);for(const[id,setup,checks]of[["C001","state.scene=6;state.cluesFound=3;state.objects=['beg'];state.links=['memiliki','','']","state.scene===0&&state.cluesFound===0&&state.objects.length===0&&state.links.every(v=>!v)"],["C003","state.scene=5;state.cluesFound=4;state.sequence=[0,1];state.hintsUsed=2","state.scene===0&&state.sequence.length===0&&state.hintsUsed===0"],["C010","state.scene=5;state.cluesFound=4;state.sequence=[0];state.statementChecks={x:true}","state.scene===0&&state.sequence.length===0&&Object.keys(state.statementChecks).length===0"],["C011","state.scene=3;state.cluesFound=2;state.hintsUsed=3;state.hintLevels={'C011-1':3}","state.scene===0&&state.cluesFound===0&&state.hintsUsed===0&&Object.keys(state.hintLevels).length===0"],["C012","state.scene=3;state.cluesFound=2;state.hintsUsed=1;state.hintLevels={'C012-1':1}","state.scene===0&&state.cluesFound===0&&state.hintsUsed===0&&Object.keys(state.hintLevels).length===0"],["C013","state.scene=4;state.cluesFound=3;state.matching.matches=[{left:'kotak biru kecil',right:'perpustakaan'}];state.matching.selected={side:'left',id:'tiub kuning'};state.matching.hints=1","state.scene===0&&state.cluesFound===0&&state.matching.matches.length===0&&state.matching.selected===null&&state.matching.hints===0"]]){h.run(`activeCase='${id}';state=freshRunFor('${id}');cases['${id}'].run=state;record=cases['${id}'].record||null;${setup}`);const historical=h.run(`JSON.stringify(cases['${id}'].record)`);h.run("restartCurrentCaseRun()");assert.equal(h.run(checks),true,`${id} run reset`);assert.equal(h.run(`JSON.stringify(cases['${id}'].record)`),historical,`${id} record preserved`)}assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A16').unlocked()"),true);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A17').unlocked()"),true);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A18').unlocked()"),true);assert.ok(fs.readFileSync("style.css","utf8").includes(".case-utility-dialog"));assert.ok(fs.readFileSync("arc3.js","utf8").includes("document.addEventListener?.('keydown'"));console.log("PASS: v1.7.1 clue review, C006 recovery, confirmed per-case restart, historical records and C001/C003/C006/C010–C013 mechanic resets.");assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(h.run("allCases.length"),14);assert.equal(h.run("Object.keys(locations).length"),12);assert.equal(h.run("Object.keys(characters).length"),21);assert.equal(h.run("achievementDefinitions.length"),19);assert.equal(h.run("getMaximumStars()"),58);assert.equal(h.run("isCaseUnlocked(13)"),true);assert.equal(h.run("thirdArcClues.C014.length"),5);assert.equal(h.run("thirdArcCases.find(c=>c.id==='C014').maxXP"),410);assert.deepEqual(JSON.parse(h.run("JSON.stringify(c014Symbols.map(({symbol,meaning})=>[symbol,meaning]))")),[["◆","BELAKANG"],["▣","PAPAN"],["●","BIRU"],["★","UTAMA"]]);validateScene(h,"communityPrep",["kad berlian","kad papan","kad bulat","kad bintang","nota kod","papan biru utama","sampul arahan","puan suraya","xiao feng","rak simpanan"]);h.run("switchCase('C014');home=false;state.scene=1;render()");assert.equal(h.run("activeCase"),"C014");assert.equal(h.run("isCharacterDiscovered('xiaoFeng')"),true);assert.equal(h.nodes["#app"].innerHTML.includes("balai-komuniti-bilik-persediaan"),true);h.run("handleC014Click({dataset:{object:'rak simpanan'}})");assert.equal(h.run("wrong"),true);h.run("handleC014Click({dataset:{object:'kad berlian'}})");assert.equal(h.run("state.cluesFound"),1);assert.deepEqual(JSON.parse(h.run("JSON.stringify(state.code.mappings)")),["diamond"]);h.run("handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'kad papan'}})");const c014Partial=JSON.parse(JSON.stringify(store));h=boot(false,true,true);assert.equal(h.run("activeCase"),"C014");assert.equal(h.run("state.cluesFound"),2);assert.deepEqual(JSON.parse(h.run("JSON.stringify(state.code.mappings)")),["diamond","board"]);assert.deepEqual(JSON.parse(JSON.stringify(store)),c014Partial);h.run("handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'kad bulat'}});handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'kad bintang'}});handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'nota kod'}})");assert.equal(h.run("state.cluesFound"),5);assert.equal(h.run("state.code.mappings.length"),4);h.run("handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{symbolAnswer:'1'}})");assert.equal(h.run("state.code.decoded"),false);for(let i=0;i<4;i++)h.run("handleC014Click({dataset:{symbolHint:''}})");assert.equal(h.run("state.code.hints"),3);assert.equal(h.run("state.hintsUsed"),3);h.run("handleC014Click({dataset:{symbolAnswer:'0'}})");assert.equal(h.run("state.code.decoded"),true);const review14=h.run("caseClueReviewHtml()");assert.ok(review14.includes("PETUNJUK DITEMUI — 5/5"));assert.equal(h.run("state.code.decoded"),true);h.run("handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'sampul arahan'}})");assert.equal(h.run("wrong"),true);h.run("handleC014Click({dataset:{object:'papan biru utama'}})");assert.equal(h.run("state.solved[7]"),true);h.run("handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{action:'c014-check'}})");assert.equal(h.run("!!state.solved[8]"),false);h.run("state.links=['menerangkan','membawa kepada','ditemui'];handleC014Click({dataset:{action:'c014-check'}})");assert.equal(h.run("state.solved[8]"),true);h.run("handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{c014Theory:'0'}})");assert.equal(h.run("state.status"),"in_progress");h.run("handleC014Click({dataset:{c014Theory:'2'}})");assert.equal(h.run("state.status"),"completed");assert.equal(h.run("state.cluesFound"),5);assert.equal(h.run("state.xpEarned"),380);assert.equal(h.run("state.stars"),4);assert.equal(h.run("achievementDefinitions.find(a=>a.id==='A19').unlocked()"),true);const best14=h.run("record.xpEarned");h.run("state.scene=11;render();handleC014Click({dataset:{action:'replay'}})");assert.equal(h.run("state.cluesFound"),0);assert.equal(h.run("state.code.mappings.length"),0);assert.equal(h.run("cases.C014.record.xpEarned"),best14);h.run("state=fresh14();state.cluesFound=5;state.solved[8]=true;completeC014()");assert.equal(h.run("state.xpEarned"),410);assert.equal(h.run("state.stars"),5);assert.equal(h.run("getTotalBestXP()"),4050);assert.equal(h.run("getTotalBestStars()"),58);assert.equal(h.run("getCompletedCaseCount()"),14);assert.equal(h.run("getExplorationCount()"),12);assert.equal(h.run("getDiscoveredCharacterCount()"),21);assert.equal(h.run("achievementDefinitions.filter(a=>a.unlocked()).length"),19);const record14=h.run("JSON.stringify(cases.C014.record)");h.run("activeCase='C014';state=fresh14();cases.C014.run=state;record=cases.C014.record;state.scene=6;state.cluesFound=5;state.code.mappings=['diamond','board','circle','star'];state.code.hints=2;restartCurrentCaseRun()");assert.equal(h.run("state.scene"),0);assert.equal(h.run("state.code.mappings.length"),0);assert.equal(h.run("state.code.hints"),0);assert.equal(h.run("JSON.stringify(cases.C014.record)"),record14);const codeHtml=M.renderSymbolCodeTask({title:"Kod",symbols:[{id:"a",symbol:"◆",name:"berlian",meaning:"BELAKANG"}],choices:["Belakang"],answer:0},{mappings:["a"],hints:1,feedback:"Semak"});assert.ok(codeHtml.includes('data-symbol-answer="0"')&&codeHtml.includes("data-symbol-hint")&&codeHtml.includes("BELAKANG")&&codeHtml.includes('aria-live="polite"'));for(const asset of["assets/locations/balai-komuniti-bilik-persediaan.webp","assets/characters/xiao-feng.webp","assets/achievements/a19.webp"]){assert.equal(fs.existsSync(asset),true);assert.equal(fs.readFileSync(asset).subarray(0,4).toString("ascii"),"RIFF")}for(const asset of["assets/locations/balai-komuniti-bilik-persediaan.webp","assets/characters/xiao-feng.webp"])assert.equal(fs.readFileSync("server.js","utf8").includes(asset),true);assert.equal(fs.readFileSync("server.js","utf8").replace(/\s/g,"").includes("Array.from({length:21}"),true);assert.equal(fs.readFileSync("game.js","utf8").includes("const KEY='detektif-bahasa-v1'"),true);assert.ok(fs.readFileSync("style.css","utf8").includes(".symbol-code-task"));console.log("PASS: v1.8.0 C014, Kod Simbol, Xiao Feng, A19, five clues, save/recovery, 14-case totals and C001–C013 regression.");assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);store={};let hotfix=boot(false,true,true);hotfix.run("[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>cases[id].record={status:'completed',stars,xpEarned});activeCase='C006';state=fresh6();state.scene=6;state.cluesFound=5;state.solved={1:true,2:true,3:true,4:true,5:true};cases.C006.run=state;record=null;home=false;persist();render()");const brokenSave=JSON.parse(JSON.stringify(store));hotfix=boot(true,true,true);hotfix.run("titleOpen=false;home=false;render()");assert.equal(hotfix.run("activeCase"),"C006");assert.equal(hotfix.run("state.scene"),6);assert.equal(hotfix.run("state.cluesFound"),5);assert.ok(hotfix.nodes["#app"].innerHTML.includes("KAD PESANAN")&&hotfix.nodes["#app"].innerHTML.includes("DULANG BIRU")&&hotfix.nodes["#app"].innerHTML.includes("PEMBANTU PENGHANTARAN"));hotfix.change({secondLink:"0"},"tidak berkaitan");hotfix.change({secondLink:"1"},"dipindahkan ke");hotfix.change({secondLink:"2"},"ditemui di bawah");hotfix.change({secondLink:"3"},"tidak mengambil");assert.equal(hotfix.run("state.links[0]"),"tidak berkaitan");hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");assert.equal(hotfix.run("!!state.solved[6]"),false);assert.equal(hotfix.run("feedback.includes('belum menerangkan perjalanan kad')"),true);hotfix.change({secondLink:"0"},"diletakkan di sebelah");const beforeReview=hotfix.run("JSON.stringify(state.links)");assert.ok(hotfix.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 5/5"));assert.equal(hotfix.run("JSON.stringify(state.links)"),beforeReview);hotfix.run("caseUtilityView='review';caseUtilityView=''");assert.equal(hotfix.run("JSON.stringify(state.links)"),beforeReview);hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");assert.equal(hotfix.run("state.solved[6]"),true);hotfix.run("handleSecondClick({dataset:{action:'next'}})");assert.equal(hotfix.run("state.scene"),7);hotfix.run("handleSecondClick({dataset:{secondTheory:'0'}})");assert.equal(hotfix.run("state.status"),"in_progress");hotfix.run("handleSecondClick({dataset:{secondTheory:'2'}})");assert.equal(hotfix.run("state.status"),"completed");assert.equal(hotfix.run("state.cluesFound"),5);assert.equal(hotfix.run("state.xpEarned"),250);assert.equal(hotfix.run("isCaseUnlocked(6)"),true);const completed6=hotfix.run("JSON.stringify(cases.C006.record)");hotfix.run("state.scene=9;handleSecondClick({dataset:{action:'replay'}});state.scene=6;state.cluesFound=5;state.links=['x','','',''];restartCurrentCaseRun()");assert.equal(hotfix.run("state.scene"),0);assert.equal(hotfix.run("state.links.every(v=>!v)"),true);assert.equal(hotfix.run("JSON.stringify(cases.C006.record)"),completed6);assert.equal(hotfix.run("isCaseUnlocked(6)"),true);store=brokenSave;hotfix=boot(false,true,true);assert.equal(hotfix.run("state.cluesFound"),5);for(const[i,v]of["diletakkan di sebelah","dipindahkan ke","ditemui di bawah","tidak mengambil"].entries())hotfix.change({secondLink:String(i)},v);hotfix.run("handleSecondClick({dataset:{action:'second-check'}});handleSecondClick({dataset:{action:'next'}})");assert.equal(hotfix.run("state.scene"),7);assert.equal(hotfix.run("!!state.solved[6]"),true);assert.equal(hotfix.run("allCases.length"),14);assert.equal(hotfix.run("Object.keys(locations).length"),12);assert.equal(hotfix.run("Object.keys(characters).length"),21);assert.equal(hotfix.run("achievementDefinitions.length"),19);assert.equal(hotfix.run("getMaximumStars()"),58);assert.equal(hotfix.run("c014Symbols.map(x=>x.symbol).join(' ')"),"◆ ▣ ● ★");assert.equal(hotfix.run("c014Symbols.map(x=>x.meaning).join(' ')"),"BELAKANG PAPAN BIRU UTAMA");console.log("PASS: v1.8.1 C006_EVIDENCE_BLOCKER, dropdown persistence, old-save acceptance, clue review, restart, deduction and C014 regression.");for(const id of["C006","C007","C008","C009","C010"]){hotfix.run(`activeCase='${id}';state=({C006:fresh6,C007:fresh7,C008:fresh8,C009:fresh9,C010:fresh10})['${id}']();cases['${id}'].run=state;record=cases['${id}'].record||null;state.scene=6;state.cluesFound=5;home=false;render()`);hotfix.change({secondLink:"0"},"tidak berkaitan");hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");assert.equal(hotfix.run("!!state.solved[6]"),false,`${id} wrong board rejected`);const relations=JSON.parse(hotfix.run(`JSON.stringify(evidenceRelations['${id}'])`));relations.forEach((value,i)=>hotfix.change({secondLink:String(i)},value));hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");assert.equal(hotfix.run("!!state.solved[6]"),true,`${id} dropdown board accepted`)}function assertHotspotPoint(runtime,sceneName,x,y,expected){const hits=JSON.parse(runtime.run(`JSON.stringify(scenes.${sceneName}.hotspots.filter(h=>${x}>=h.x&&${x}<=h.x+h.w&&${y}>=h.y&&${y}<=h.y+h.h).map(h=>h.id))`));assert.deepEqual(hits,[expected],`${sceneName} (${x},${y}) should resolve only ${expected}`)}validateScene(hotfix,"market",["senarai belian","bakul a","bakul b","bakul c","gerai sayur","gerai buah","resit pasar","penimbang","encik hafiz"]);validateScene(hotfix,"vetClinic",["bekas haiwan","kaunter klinik","papan temujanji","rekod klinik","pintu hijau","pintu biru","kad bilik dua","dr hana"]);validateScene(hotfix,"communityHall",["notis a","notis b","jadual dewan","log pejabat","kaunter komuniti","dewan utama","bilik lain","puan suraya"]);for(const[sceneName,points]of Object.entries({market:[[26,87,"senarai belian"],[17,59,"bakul a"],[50,60,"bakul b"],[83,59,"bakul c"],[9,25,"gerai sayur"],[88,24,"gerai buah"],[72,88,"resit pasar"],[68,35,"penimbang"],[40,20,"encik hafiz"]],vetClinic:[[52,74,"bekas haiwan"],[40,50,"kaunter klinik"],[53,27,"papan temujanji"],[76,88,"rekod klinik"],[71,38,"pintu hijau"],[87,38,"pintu biru"],[71,10,"kad bilik dua"],[22,48,"dr hana"]],communityHall:[[15,22,"notis a"],[26,22,"notis b"],[71,31,"jadual dewan"],[45,88,"log pejabat"],[28,55,"kaunter komuniti"],[51,38,"dewan utama"],[85,38,"bilik lain"],[11,50,"puan suraya"]]}))for(const[x,y,id]of points)assertHotspotPoint(hotfix,sceneName,x,y,id);assert.equal(hotfix.run("secondTasks.C007[4].target"),"bakul b");assert.equal(hotfix.run("scenes.market.hotspots.find(h=>h.id==='bakul b').label"),"Bakul B dengan dua tomato, sayur hijau dan tiga limau");assert.deepEqual(JSON.parse(hotfix.run("JSON.stringify(evidenceLabels.C007)")),[["SENARAI BELIAN","CIRI PESANAN"],["BAKUL B","ITEM DIPERLUKAN"],["BAKUL B","MINUMAN BERBUNGKUS"],["BAKUL B","RESIT BALAI KOMUNITI"]]);assert.deepEqual(JSON.parse(hotfix.run("JSON.stringify(evidenceLabels.C008)")),[["KUCING KOLAR BIRU","JANJI TEMU 10:00"],["KUCING KOLAR BIRU","PEMERIKSAAN BIASA"],["KUCING KOLAR BIRU","PINTU HIJAU"],["KUCING KOLAR BIRU","BILIK REHAT 2"]]);assert.deepEqual(JSON.parse(hotfix.run("JSON.stringify(evidenceLabels.C009)")),[["NOTIS A","MAKLUMAT ASAL"],["NOTIS B","MAKLUMAT TERKINI"],["LOG PEJABAT","NOTIS B"],["JADUAL DEWAN UTAMA","NOTIS B"]]);for(const[id,fresh,wrongTarget,rightTarget]of[["C007","fresh7","bakul a","bakul b"],["C008","fresh8","pintu hijau","kad bilik dua"],["C009","fresh9","notis a","notis b"]]){hotfix.run(`activeCase='${id}';state=${fresh}();cases['${id}'].run=state;record=cases['${id}'].record||null;home=false;state.scene=${id==="C009"?2:5};render()`);hotfix.run(`handleSecondClick({dataset:{object:'${wrongTarget}'}})`);assert.equal(hotfix.run("wrong"),true,`${id} wrong scene target rejected`);hotfix.run(`handleSecondClick({dataset:{object:'${rightTarget}'}})`);assert.equal(hotfix.run(`state.solved[${id==="C009"?2:5}]`),true,`${id} aligned target accepted`)}for(const[id,fresh,sceneId]of[["C007","fresh7","market"],["C008","fresh8","vetClinic"],["C009","fresh9","communityHall"]]){hotfix.run(`activeCase='${id}';state=${fresh}();state.scene=3;state.cluesFound=2;state.sceneProgress['${sceneId}']=['saved hotspot'];cases['${id}'].run=state;persist()`);hotfix=boot(false,true,true);assert.equal(hotfix.run("activeCase"),id);assert.equal(hotfix.run("state.scene"),3);assert.equal(hotfix.run("state.cluesFound"),2);assert.deepEqual(JSON.parse(hotfix.run(`JSON.stringify(state.sceneProgress['${sceneId}'])`)),["saved hotspot"])}assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.existsSync("assets/locations/klinik-haiwan-bayuraya.webp"),true);console.log("PASS: v1.8.2 C007_HOTSPOT_ALIGNMENT_CONFIG, C008_HOTSPOT_ALIGNMENT_CONFIG, C009_HOTSPOT_ALIGNMENT_CONFIG, evidence accuracy and save recovery.");assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);let v183=boot(false,true,true);v183.run("[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250],['C006',4,250],['C007',4,290],['C008',4,310],['C009',5,340]].forEach(([id,stars,xpEarned])=>cases[id].record={status:'completed',stars,xpEarned});activeCase='C010';state=fresh10();cases.C010.run=state;record=null;home=false;file=false;render()");let v183html=v183.nodes["#app"].innerHTML;assert.ok(v183html.includes("Kotak Kenangan sepatutnya berada di meja persembahan"));assert.ok(v183html.includes("Jejaki perjalanannya"));assert.equal(v183html.includes("Tanda khas apakah"),false);v183.run("handleSecondClick({dataset:{action:'next'}})");v183html=v183.nodes["#app"].innerHTML;assert.ok(v183html.includes("REKOD KEDAI ROTI"));assert.ok(v183html.includes("reben kuning yang diikat pada pemegangnya"));assert.ok(v183html.indexOf("REKOD KEDAI ROTI")<v183html.indexOf("Tanda khas apakah"));v183.run("handleSecondClick({dataset:{secondAnswer:'0'}})");assert.equal(v183.run("state.cluesFound"),1);v183.run("handleSecondClick({dataset:{action:'next'}})");v183html=v183.nodes["#app"].innerHTML;assert.ok(v183html.includes("REKOD PERJALANAN"));for(let i=0;i<5;i++)v183.run(`handleSecondClick({dataset:{secondFragment:'${i}'}})`);assert.equal(v183.run("state.cluesFound"),2);assert.deepEqual(JSON.parse(v183.run("JSON.stringify(state.sequence)")),[0,1,2,3,4]);v183.run("handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondAnswer:'1'}});handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondAnswer:'1'}});handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{object:'kotak kenangan'}})");assert.equal(v183.run("state.cluesFound"),5);assert.equal(v183.run("secondArcClues.C010.length"),5);const c010BeforeReview=v183.run("JSON.stringify(state)");assert.ok(v183.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 5/5"));assert.equal(v183.run("JSON.stringify(state)"),c010BeforeReview);v183.run("handleSecondClick({dataset:{action:'next'}});state.links=['bergerak ke','bergerak ke','diserahkan ke','dihantar ke'];handleSecondClick({dataset:{action:'second-check'}})");assert.equal(v183.run("!!state.solved[6]"),false);assert.deepEqual(JSON.parse(v183.run("JSON.stringify(evidenceLabels.C010)")),[["KOTAK KENANGAN","REBEN KUNING"],["LOG BALAI KOMUNITI","DATARAN BAYURAYA"],["HUJAN RENYAI","KAWASAN BERBUMBUNG"],["AZZAM","PENTAS"]]);const c010Relations=JSON.parse(v183.run("JSON.stringify(evidenceRelations.C010)"));c010Relations.forEach((value,i)=>v183.change({secondLink:String(i)},value));v183.run("handleSecondClick({dataset:{action:'second-check'}})");assert.equal(v183.run("state.solved[6]"),true);v183.run("handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondTheory:'0'}})");assert.equal(v183.run("state.status"),"in_progress");v183.run("handleSecondClick({dataset:{secondTheory:'2'}})");assert.equal(v183.run("state.status"),"completed");v183.run("handleSecondClick({dataset:{action:'next'}})");v183html=v183.nodes["#app"].innerHTML;assert.ok(v183html.includes("FAIL KEDUA LENGKAP"));assert.ok(v183html.includes("FAIL KETIGA — JEJAK RAHSIA BAYURAYA"));assert.ok(v183html.includes("KES 011 · Misteri Simbol di Papan Tanda"));validateScene(v183,"busStation",["kaunter tiket","platform 1","platform 2","platform 3","jam besar","papan jadual","bangku panjang","tong sampah","jalur tulisan"]);assert.deepEqual(JSON.parse(v183.run("JSON.stringify(scenes.busStation.hotspots.filter(h=>h.id.startsWith('platform ')).map(({id,x,y,w,h})=>({id,x,y,w,h})))")),[{id:"platform 1",x:24,y:33,w:10,h:13},{id:"platform 2",x:40,y:23,w:13,h:15},{id:"platform 3",x:74,y:12,w:16,h:15}]);for(const[id,nextNumber,nextTitle]of[["C011","KES 012","Misteri Label Pameran"],["C012","KES 013","Misteri Tag Penghantaran"],["C013","KES 014","Misteri Kod Empat Simbol"]]){v183.run(`cases['${id}'].record={status:'completed',stars:4,xpEarned:300};activeCase='${id}'`);const result=v183.run(`thirdNextCasePanel('${id}')`);assert.ok(result.includes("KES BAHARU DIBUKA"));assert.ok(result.includes(nextNumber));assert.ok(result.includes(nextTitle));assert.equal(result.includes("FAIL KETIGA DIBUKA"),false)}const c014End=v183.run("thirdNextCasePanel('C014')");assert.ok(c014End.includes("SEMUA KES YANG TERSEDIA TELAH DISELESAIKAN"));assert.ok(c014End.includes("Jejak Rahsia Bayuraya akan diteruskan"));assert.equal(c014End.includes("KES 015"),false);assert.equal(c014End.includes("FAIL KETIGA LENGKAP"),false);const completed10=v183.run("JSON.stringify(cases.C010.record)");v183.run("activeCase='C010';state=fresh10();state.scene=4;state.cluesFound=3;state.sequence=[0,1];state.links=['bergerak ke','','',''];cases.C010.run=state;persist()");v183=boot(false,true,true);assert.equal(v183.run("activeCase"),"C010");assert.equal(v183.run("state.scene"),4);assert.equal(v183.run("state.cluesFound"),3);assert.deepEqual(JSON.parse(v183.run("JSON.stringify(state.sequence)")),[0,1]);assert.equal(v183.run("state.links[0]"),"bergerak ke");assert.equal(v183.run("JSON.stringify(cases.C010.record)"),completed10);v183.run("restartCurrentCaseRun()");assert.equal(v183.run("state.scene"),0);v183.run("home=false;render()");assert.ok(v183.nodes["#app"].innerHTML.includes("Hari penutup aktiviti komuniti Bayuraya"));assert.equal(v183.run("allCases.length"),14);assert.equal(v183.run("Object.keys(locations).length"),12);assert.equal(v183.run("Object.keys(characters).length"),21);assert.equal(v183.run("achievementDefinitions.length"),19);assert.equal(v183.run("getMaximumStars()"),58);assert.equal(v183.run("KEY"),"detektif-bahasa-v1");console.log("PASS: v1.8.3 C010 briefing/source/route/evidence/deduction, C011 platform audit, C011-C014 next-case results and save compatibility.");store={};let v190=boot(false,true,true,true);assert.equal(v190.run("allCases.length"),15);assert.equal(v190.run("Object.keys(locations).length"),12);assert.equal(v190.run("Object.keys(characters).length"),22);assert.equal(v190.run("achievementDefinitions.length"),21);assert.equal(v190.run("getMaximumStars()"),63);assert.equal(v190.run("KEY"),"detektif-bahasa-v1");assert.equal(v190.run("isCaseUnlocked(14)"),false);v190.run("cases.C014.record={status:'completed',stars:5,xpEarned:410}");assert.equal(v190.run("isCaseUnlocked(14)"),true);assert.ok(v190.run("thirdNextCasePanel('C014')").includes("KES 015"));assert.equal(v190.run("c015Clues.length"),5);assert.equal(v190.run("c015Symbols.map(x=>x.symbol).join(' ')"),"◆ ● ▣ ★");assert.equal(v190.run("c015Symbols.map(x=>x.meaning).join(' ')"),"KUNCI BAWAH MEJA PENTAS");assert.equal(v190.run("c015Code.symbols.map(x=>x.symbol).join(' ')"),"◆ ● ▣ ★");validateScene(v190,"secretFinale",["peti jejak","puan suraya","papan persediaan","meja persediaan","pentas utama","kad arahan","bawah meja pentas"]);assert.ok(v190.run("investigationMechanics.renderRiddleTask(c015Riddle,fresh15().riddle)").includes("data-riddle-answer"));assert.ok(v190.run("investigationMechanics.renderInvestigationTrivia(c015Trivia,fresh15().trivia)").includes("CATATAN PERSEDIAAN"));assert.ok(v190.run("investigationMechanics.renderClueMatchingTask(c015Matching,fresh15().matching)").includes("data-match-side"));assert.ok(v190.run("investigationMechanics.renderSymbolCodeTask(c015Code,fresh15().code)").includes("data-symbol-answer"));v190.run("switchCase('C015');render()");let v190html=v190.nodes["#app"].innerHTML;assert.ok(v190html.includes('data-action="start"'));assert.ok(v190html.includes("c015-case-cover"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'start'}})");assert.equal(v190.run("home"),false);v190html=v190.nodes["#app"].innerHTML;assert.ok(v190html.includes("Kunci Peti Jejak"));assert.ok(v190html.includes("sengaja disimpan dengan selamat"));assert.ok(v190.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 0/5"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{object:'papan persediaan'}})");assert.equal(v190.run("state.cluesFound"),0);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{object:'peti jejak'}})");assert.equal(v190.run("state.cluesFound"),1);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{riddleAnswer:'0'}})");assert.equal(v190.run("wrong"),true);v190.run("c015Hint('riddle');handleC015Click({hasAttribute:()=>false,dataset:{riddleAnswer:'1'}})");assert.equal(v190.run("state.cluesFound"),2);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v190.run("state.sceneProgress.secretFinale.includes('kad arahan')"),false);assert.equal(v190.nodes["#app"].innerHTML.includes("CATATAN PERSEDIAAN"),false);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{object:'kad arahan'}})");assert.ok(v190.nodes["#app"].innerHTML.includes("CATATAN PERSEDIAAN"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{triviaAnswer:'0'}})");assert.equal(v190.run("wrong"),true);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{triviaAnswer:'1'}})");assert.equal(v190.run("state.cluesFound"),3);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}})");v190html=v190.nodes["#app"].innerHTML;assert.ok(v190html.includes("KAD RUJUKAN SIMBOL")||v190html.includes("Kad Rujukan Simbol"));assert.ok(v190html.includes("Digunakan untuk membuka Peti Jejak."));assert.ok(v190html.includes("Menunjukkan arah ke bahagian bawah."));assert.equal(v190html.includes("◆ = KUNCI"),false);assert.equal(v190.run("state.matching.referenceSeen"),false);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'reference-close'}})");assert.equal(v190.run("state.matching.referenceSeen"),true);assert.ok(v190.nodes["#app"].innerHTML.includes("CARA PADANKAN"));assert.ok(v190.nodes["#app"].innerHTML.includes("Lihat Kad Rujukan"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'diamond'}})");assert.ok(v190.run("state.matching.feedback").includes("DIPILIH"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'under'}})");assert.equal(v190.run("state.matching.matches.length"),0);assert.ok(v190.run("state.matching.feedback").includes("kad ◆"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'diamond'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'key'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'circle'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'under'}})");assert.equal(v190.run("state.matching.matches.length"),2);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'reference-open'}})");assert.equal(v190.run("state.matching.referenceOpen"),true);assert.ok(v190.nodes["#app"].innerHTML.includes("Kad Rujukan Simbol"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'reference-close'}})");assert.equal(v190.run("state.matching.matches.length"),2);assert.equal(v190.run("state.matching.referenceOpen"),false);v190.run("state.matching.matches=[];state.matching.selected=null;persist();render()");for(const[l,r]of[["diamond","key"],["circle","under"],["square","table"],["star","stage"]])v190.run(`handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'${l}'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'${r}'}})`);assert.equal(v190.run("state.matching.matches.length"),4);assert.equal(v190.run("state.cluesFound"),4);assert.equal(v190.run("state.code.mappings.length"),4);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'diamond'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'key'}})");assert.equal(v190.run("state.cluesFound"),4);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}})");v190html=v190.nodes["#app"].innerHTML;for(const word of["KUNCI","BAWAH","MEJA","PENTAS","kiri ke kanan","Apakah arahan penuh?"])assert.ok(v190html.includes(word));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{symbolAnswer:'1'}})");assert.equal(v190.run("state.code.decoded"),false);v190.run("c015Hint('code');c015Hint('code');handleC015Click({hasAttribute:()=>false,dataset:{symbolAnswer:'0'}})");assert.equal(v190.run("state.code.decoded"),true);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{object:'meja persediaan'}})");assert.equal(v190.run("state.cluesFound"),4);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{object:'bawah meja pentas'}})");assert.equal(v190.run("state.cluesFound"),5);assert.ok(v190.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 5/5"));v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});state.links=['memerlukan','ialah','menunjukkan lokasi','salah'];handleC015Click({hasAttribute:()=>false,dataset:{action:'c015-check'}})");assert.equal(v190.run("!!state.solved[7]"),false);v190.run("state.links=['memerlukan','ialah','menunjukkan lokasi','ditemui di'];handleC015Click({hasAttribute:()=>false,dataset:{action:'c015-check'}})");assert.equal(v190.run("state.solved[7]"),true);v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{c015Theory:'0'}})");assert.equal(v190.run("state.status"),"in_progress");v190.run("handleC015Click({hasAttribute:()=>false,dataset:{c015Theory:'2'}})");assert.equal(v190.run("state.status"),"completed");assert.equal(v190.run("state.cluesFound"),5);assert.equal(v190.run("state.stars"),4);assert.equal(v190.run("state.xpEarned"),420);assert.equal(v190.run("achievementDefinitions.find(a=>a.id==='A20').unlocked()"),true);const c015Best=v190.run("cases.C015.record.xpEarned");v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'replay'}})");assert.equal(v190.run("state.scene"),0);assert.equal(v190.run("cases.C015.record.xpEarned"),c015Best);assert.equal(v190.run("isCharacterDiscovered('arissa')"),true);v190.run("state=fresh15();state.cluesFound=5;state.solved[7]=true;completeC015();['C001','C002','C003','C004','C005','C006','C007','C008','C009','C010','C011','C012','C013','C014'].forEach((id,i)=>cases[id].record={status:'completed',stars:allCases[i].maxStars,xpEarned:[150,170,190,210,250,250,290,310,340,420,330,350,380,410][i]})");assert.equal(v190.run("state.xpEarned"),450);assert.equal(v190.run("state.stars"),5);assert.equal(v190.run("getTotalBestXP()"),4500);assert.equal(v190.run("getTotalBestStars()"),63);assert.equal(v190.run("getCompletedCaseCount()"),15);assert.equal(v190.run("achievementDefinitions.find(a=>a.id==='A21').unlocked()"),true);assert.equal(v190.run("getDiscoveredCharacterCount()"),22);v190.run("activeCase='C015';state=fresh15();state.scene=4;state.cluesFound=3;state.matching.referenceSeen=true;state.matching.referenceOpen=true;state.matching.matches=[{left:'diamond',right:'key'},{left:'circle',right:'under'}];cases.C015.run=state;persist()");v190=boot(false,true,true,true);assert.equal(v190.run("activeCase"),"C015");assert.equal(v190.run("state.scene"),4);assert.equal(v190.run("state.matching.matches.length"),2);assert.equal(v190.run("state.matching.referenceOpen"),true);const preserved15=v190.run("JSON.stringify(cases.C015.record)");v190.run("restartCurrentCaseRun()");assert.equal(v190.run("state.scene"),0);assert.equal(v190.run("state.cluesFound"),0);assert.equal(v190.run("state.matching.matches.length"),0);assert.equal(v190.run("state.matching.referenceSeen"),false);assert.equal(v190.run("JSON.stringify(cases.C015.record)"),preserved15);const partialPairs=[{left:"diamond",right:"key"},{left:"circle",right:"under"},{left:"square",right:"table"}];for(let count=1;count<=3;count++){v190.run(`activeCase='C015';state=fresh15();state.scene=4;state.cluesFound=3;state.matching.referenceSeen=true;state.matching.matches=${JSON.stringify(partialPairs.slice(0,count))};cases.C015.run=state;persist()`);v190=boot(false,true,true,true);assert.equal(v190.run("state.scene"),4);assert.equal(v190.run("state.matching.matches.length"),count)}v190.run("activeCase='C015';state=fresh15();state.scene=5;state.cluesFound=4;state.solved[4]=true;state.matching.referenceSeen=true;state.matching.matches=c015Pairs.map(x=>({...x}));state.code.mappings=c015Symbols.map(x=>x.id);cases.C015.run=state;persist()");v190=boot(false,true,true,true);assert.equal(v190.run("state.scene"),5);assert.equal(v190.run("state.code.mappings.length"),4);assert.equal(v190.run("state.code.decoded"),false);for(const asset of["assets/locations/dataran-jejak-rahsia.webp","assets/characters/arissa.webp","assets/achievements/a20.webp","assets/achievements/a21.webp"]){assert.equal(fs.existsSync(asset),true);assert.equal(fs.readFileSync(asset).subarray(0,4).toString("ascii"),"RIFF");assert.equal(fs.readFileSync("server.js","utf8").includes(asset)||asset.includes("/achievements/"),true)}assert.equal(fs.readFileSync("index.html","utf8").includes("arc4.js"),true);assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(v190.run("allCases.every(c=>Number.isFinite(c.maxXP))"),true);assert.equal(v190.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),4500);assert.deepEqual(JSON.parse(v190.run("JSON.stringify(firstArcCases.map(c=>c.maxXP))")),[150,170,190,210,250]);assert.deepEqual(JSON.parse(v190.run("JSON.stringify([clues1,clues2,clues3,clues4,clues5,...Object.values(secondArcClues),...Object.values(thirdArcClues),c015Clues].map(list=>list.length))")),[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]);assert.equal(v190.run('allCases.map(c=>c.id).join(",")'),"C001,C002,C003,C004,C005,C006,C007,C008,C009,C010,C011,C012,C013,C014,C015");const sceneHotspots=JSON.parse(v190.run("JSON.stringify(Object.entries(scenes).map(([id,scene])=>({id,hotspots:scene.hotspots||[]})))"));for(const scene of sceneHotspots){for(let i=0;i<scene.hotspots.length;i++){const a=scene.hotspots[i];assert.ok(a.x>=0&&a.y>=0&&a.w>0&&a.h>0&&a.x+a.w<=100&&a.y+a.h<=100,`${scene.id}: hotspot ${a.id} outside scene bounds`);for(let j=i+1;j<scene.hotspots.length;j++){const b=scene.hotspots[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`${scene.id}: ${a.id} overlaps ${b.id}`)}}}v190.run("activeCase='C015';state=fresh15();state.scene=1;state.cluesFound=1;cases.C015.run=state;persist()");v190=boot(false,true,true,true);assert.equal(v190.run("activeCase"),"C015");assert.equal(v190.run("state.scene"),1);assert.equal(v190.run("state.cluesFound"),1);assert.equal(v190.run("getTotalBestXP()"),4500);assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);store={};let v210=boot(false,true,true,true,true);assert.equal(v210.run("allCases.length"),19);assert.equal(v210.run("Object.keys(characters).length"),24);assert.equal(v210.run("achievementDefinitions.length"),25);assert.equal(v210.run("getMaximumStars()"),81);assert.equal(v210.run("allCases.reduce((s,c)=>s+c.maxXP,0)"),6470);assert.equal(v210.run("isCaseUnlocked(15)"),false);v210.run("cases.C015.record={status:'completed',stars:5,xpEarned:450}");assert.equal(v210.run("isCaseUnlocked(15)"),true);assert.deepEqual(JSON.parse(v210.run("JSON.stringify(c016Fragments)")),["Selepas latihan tamat,","bawa bekas bahan kraf biru","dari rak persediaan","ke meja pendaftaran","sebelum pukul empat."]);assert.equal(v210.run("c016Clues.length"),5);validateScene(v210,"trainingRoom",["emah","jadual aktiviti","cebisan pesanan","rak persediaan","bekas bahan kraf biru","papan pendaftaran","meja pendaftaran"]);assert.equal(v210.run("cases.C016.run.messageDisplay.every((v,i)=>v===i)"),false);assert.equal(new Set(JSON.parse(v210.run("JSON.stringify(cases.C016.run.messageDisplay)"))).size,5);v210.run("switchCase('C016');render();handleC016Click({hasAttribute:()=>false,dataset:{action:'start'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v210.run("state.scene"),1);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'jadual aktiviti'}})");assert.equal(v210.run("wrong"),true);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'emah'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v210.run("state.scene"),2);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'rak persediaan'}})");assert.equal(v210.run("wrong"),true);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'jadual aktiviti'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v210.run("state.cluesFound"),2);assert.equal(v210.run("state.scene"),3);assert.equal(v210.run("state.scene"),3);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'cebisan pesanan'}})");assert.equal(v210.run("state.folderFound"),true);assert.ok(v210.run("c016Message()").includes("CEBISAN A"));assert.equal(v210.run("c016Message()").includes("CEBISAN 1"),false);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'1'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-undo'}})");assert.equal(v210.run("state.messageOrder.length"),0);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'1'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-clear'}})");assert.equal(v210.run("state.messageOrder.length"),0);for(const i of[1,0,2,3,4])v210.run(`handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'${i}'}})`);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-check'}})");assert.equal(v210.run("state.messageVerified"),false);v210.run("state.messageOrder=[]");for(const i of[0,1,2,3,4])v210.run(`handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'${i}'}})`);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-check'}})");assert.equal(v210.run("state.messageVerified"),true);assert.equal(v210.run("c016Message()").includes("Semak Mesej"),false);assert.ok(v210.run("c016Message()").includes("Pesanan lengkap"));v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{object:'meja pendaftaran'}})");assert.equal(v210.run("wrong"),true);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'bekas bahan kraf biru'}})");assert.equal(v210.run("state.cluesFound"),4);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{object:'papan pendaftaran'}})");assert.equal(v210.run("state.cluesFound"),5);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{object:'meja pendaftaran'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{c016Theory:'0'}})");assert.equal(v210.run("wrong"),true);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{c016Theory:'2'}})");assert.equal(v210.run("state.status"),"completed");assert.equal(v210.run("state.cluesFound"),5);assert.equal(v210.run("state.scene"),8);assert.equal(v210.run("allCases.length"),19);const best210=v210.run("cases.C016.record.xpEarned");v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'replay'}})");assert.equal(v210.run("state.scene"),0);assert.equal(v210.run("cases.C016.record.xpEarned"),best210);v210.run("state=fresh16();state.scene=4;state.cluesFound=2;state.messageVerified=true;state.solved[3]=true;cases.C016.run=state;activeCase='C016';persist()");v210=boot(false,true,true,true,true);assert.equal(v210.run("state.scene"),4);v210.run("handleC016Click({hasAttribute:()=>false,dataset:{object:'bekas bahan kraf biru'}})");assert.equal(v210.run("state.cluesFound"),4);for(const asset of["assets/characters/emah.webp","assets/achievements/a22.svg","assets/locations/ruang-latihan-bayuraya.webp"])assert.equal(fs.existsSync(asset),true);assert.ok(fs.readFileSync("index.html","utf8").includes("arc5.js"));assert.ok(fs.readFileSync("server.js","utf8").includes("/arc5.js"));console.log("PASS: v2.1.1 C016 visual canon, accurate hotspots, neutral shuffled fragments, completed-state UI, partial-save recovery and C001–C015 regression.");store={};let v220=boot(false,true,true,true,true);assert.equal(v220.run("allCases.length"),19);assert.equal(v220.run("Object.keys(characters).length"),24);assert.equal(v220.run("achievementDefinitions.length"),25);assert.equal(v220.run("getMaximumStars()"),81);assert.equal(v220.run("allCases.reduce((s,c)=>s+c.maxXP,0)"),6470);assert.equal(v220.run("isCaseUnlocked(16)"),false);v220.run("cases.C016.record={status:'completed',stars:4,xpEarned:470}");assert.equal(v220.run("isCaseUnlocked(16)"),true);assert.equal(v220.run("c017Clues.length"),5);assert.equal(v220.run("c017Statements.length"),4);validateScene(v220,"mathRecords",["jagjit","nota a","kotak kb17","rekod stok","nota b","resit balai","log penghantaran"]);v220.run("switchCase('C017');home=false;render();handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v220.run("state.scene"),1);for(const[scene,obj,clue]of[[1,"jagjit",0],[2,"kotak kb17",1]]){v220.run(`handleC017Click({hasAttribute:()=>false,dataset:{object:'${obj}'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})`);assert.equal(v220.run("state.cluesFound"),clue)}v220.run("handleC017Click({hasAttribute:()=>false,dataset:{object:'nota a'}})");assert.equal(v220.run("state.noteASeen"),true);assert.equal(v220.run("state.cluesFound"),2);v220.run("handleC017Click({hasAttribute:()=>false,dataset:{object:'nota b'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v220.run("state.noteBSeen"),true);for(const[obj,clue]of[["rekod stok",3],["log penghantaran",4],["resit balai",5]]){v220.run(`handleC017Click({hasAttribute:()=>false,dataset:{object:'${obj}'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})`);assert.equal(v220.run("state.cluesFound"),clue)}assert.equal(v220.run("state.scene"),7);v220.run("handleC017Click({hasAttribute:()=>false,dataset:{c017Status:'conflict'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-classify'}})");assert.equal(v220.run("state.classification.completed[0]"),false);assert.equal(v220.run("wrong"),true);for(const[i,status]of[[0,"supported"],[1,"conflict"],[2,"supported"],[3,"unknown"]])v220.run(`handleC017Click({hasAttribute:()=>false,dataset:{c017Statement:'${i}'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Status:'${status}'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-classify'}})`);assert.equal(v220.run("state.classification.completed.every(Boolean)"),true);const savedClass=v220.run("JSON.stringify(state.classification.completed)");v220.run("handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-review'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-review-close'}})");assert.equal(v220.run("JSON.stringify(state.classification.completed)"),savedClass);v220.run("handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'noteB'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'tag'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-proof-check'}})");assert.equal(v220.run("state.solved[8]"),undefined);v220.run("state.contradictionEvidence=[];handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'stock'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'dispatch'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-proof-check'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v220.run("state.scene"),9);v220.run("handleC017Click({hasAttribute:()=>false,dataset:{c017Theory:'0'}})");assert.equal(v220.run("state.status"),"in_progress");v220.run("handleC017Click({hasAttribute:()=>false,dataset:{c017Theory:'2'}})");assert.equal(v220.run("state.status"),"completed");assert.equal(v220.run("state.scene"),10);assert.equal(v220.run("state.cluesFound"),5);assert.equal(v220.run("state.xpEarned"),500);assert.equal(v220.run("achievementDefinitions.find(a=>a.id==='A23').unlocked()"),true);assert.equal(v220.run("allCases.some(c=>c.id==='C019')"),true);const best220=v220.run("cases.C017.record.xpEarned");v220.run("handleC017Click({hasAttribute:()=>false,dataset:{action:'replay'}})");assert.equal(v220.run("state.scene"),0);assert.equal(v220.run("cases.C017.record.xpEarned"),best220);v220.run("state=fresh17();state.scene=7;state.cluesFound=5;state.classification.answers=['supported',null,null,null];state.classification.completed=[true,false,false,false];cases.C017.run=state;activeCase='C017';persist()");v220=boot(false,true,true,true,true);assert.equal(v220.run("state.scene"),7);assert.equal(v220.run("state.classification.completed[0]"),true);assert.equal(v220.run("KEY"),"detektif-bahasa-v1");for(const asset of["assets/characters/jagjit.webp","assets/locations/kedai-matematik-rekod.webp","assets/achievements/a23.webp"]){assert.equal(fs.existsSync(asset),true);assert.ok(fs.readFileSync("server.js","utf8").includes(asset))}console.log("PASS: v2.2.0 C017, Jagjit, five clues, source-before-question, Cari Percanggahan, evidence verification, save/replay and C001–C016 regression.");assert.equal(v220.run("caseArcDefinitions.length"),4);assert.deepEqual(JSON.parse(v220.run("JSON.stringify(caseArcDefinitions.map(a=>a.ids.length))")),[5,5,5,4]);assert.deepEqual(JSON.parse(v220.run("JSON.stringify(['C001','C005','C006','C010','C011','C015','C016','C017'].map(caseArcIndex))")),[0,0,1,1,2,2,3,3]);v220.run("activeCase='C017';accordionActiveCase='C001';openCaseArc=0");let accordionHtml=v220.run("caseShelf()");assert.ok(accordionHtml.includes('class="case-list-scroll"'));assert.equal((accordionHtml.match(/class="case-arc-toggle"/g)||[]).length,4);assert.equal((accordionHtml.match(/class="case-arc-panel"/g)||[]).length,4);assert.equal((accordionHtml.match(/data-case="C0/g)||[]).length,19);assert.ok(accordionHtml.includes('data-case-arc="3" aria-expanded="true"'));assert.ok(accordionHtml.includes('id="case-arc-panel-0" hidden'));assert.equal(v220.run("openCaseArc"),3);v220.run("openCaseArc=0;accordionActiveCase=activeCase");accordionHtml=v220.run("caseShelf()");assert.ok(accordionHtml.includes('data-case-arc="0" aria-expanded="true"'));v220.run("caseShelf()");assert.equal(v220.run("openCaseArc"),0);v220.run("cases.C016.record={status:'completed',stars:4,xpEarned:470};cases.C017.record={status:'completed',stars:5,xpEarned:500};openCaseArc=3;accordionActiveCase=activeCase");accordionHtml=v220.run("caseShelf()");assert.ok(accordionHtml.includes("FAIL KEEMPAT"));assert.ok(accordionHtml.includes("<b>2/5</b>"));assert.equal(v220.run("KEY"),"detektif-bahasa-v1");assert.equal(v220.run("allCases.length"),19);assert.equal(v220.run("getMaximumStars()"),81);assert.equal(v220.run("allCases.reduce((s,c)=>s+c.maxXP,0)"),6470);assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);console.log("PASS: v2.2.1 four-arc accordion, unified scroll, active-case expansion, historical 2/5 count and unchanged save schema.");store={};let v230=boot(false,true,true,true,true);assert.equal(v230.run("allCases.length"),19);assert.equal(v230.run("Object.keys(locations).length"),12);assert.equal(v230.run("Object.keys(characters).length"),24);assert.equal(v230.run("achievementDefinitions.length"),25);assert.equal(v230.run("getMaximumStars()"),81);assert.equal(v230.run("allCases.reduce((s,c)=>s+c.maxXP,0)"),6470);assert.equal(v230.run("isCaseUnlocked(17)"),false);v230.run("cases.C017.record={status:'completed',stars:5,xpEarned:500}");assert.equal(v230.run("isCaseUnlocked(17)"),true);assert.equal(v230.run("c018Clues.length"),5);assert.deepEqual(JSON.parse(v230.run("JSON.stringify(c018Headlines)")),["Jom Bertukar Buku Cerita!","Jualan Buku Istimewa!","Pertandingan Membaca Pantas!"]);validateScene(v230,"libraryNotice",["arissa poster","folder calon tajuk","ruang tajuk kosong","maklumat buku","jadual program","peraturan program","cikgu farah poster"]);for(const id of["C001","C002","C003","C004"])v230.run(`cases.${id}.record={status:'completed',stars:3,xpEarned:100}`);let shelf230=v230.run("caseShelf()");for(const id of["c001","c002","c003","c004","c005"])assert.ok(shelf230.includes(`assets/cases/${id}.webp`));v230.run("switchCase('C018');home=false;render();handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v230.run("state.scene"),1);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{object:'arissa poster'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'ruang tajuk kosong'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v230.run("state.scene"),3);assert.equal(v230.run("state.cluesFound"),1);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{object:'maklumat buku'}})");assert.equal(v230.run("state.sourceReady"),true);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Info:'1'}})");assert.equal(v230.run("wrong"),true);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Info:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v230.run("state.cluesFound"),2);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Exchange:'1'}})");assert.equal(v230.run("state.solved[4]"),undefined);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Exchange:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'peraturan program'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Rules:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'jadual program'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Schedule:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})");assert.equal(v230.run("state.cluesFound"),5);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{object:'cikgu farah poster'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Main:'1'}})");assert.equal(v230.run("wrong"),true);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Main:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Headline:'1'}})");assert.equal(v230.run("state.solved[9]"),undefined);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Headline:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})");v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'rules'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'schedule'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'c018-support-check'}})");assert.equal(v230.run("state.solved[10]"),undefined);v230.run("state.support=[];handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'bring'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'exchange'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'c018-support-check'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'c018-review'}})");assert.equal(v230.run("state.sourceOpen"),true);assert.equal(v230.run('state.support.join(",")'),"bring,exchange");v230.run("handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'folder calon tajuk'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'ruang tajuk kosong'}})");assert.equal(v230.run("state.titlePlaced"),true);v230.run("handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Theory:'0'}})");assert.equal(v230.run("state.status"),"in_progress");v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Theory:'2'}})");assert.equal(v230.run("state.status"),"completed");assert.equal(v230.run("state.cluesFound"),5);assert.equal(v230.run("state.xpEarned"),480);assert.equal(v230.run("achievementDefinitions.find(a=>a.id==='A24').unlocked()"),true);assert.equal(v230.run("allCases.some(c=>c.id==='C019')"),true);const best230=v230.run("cases.C018.record.xpEarned");v230.run("handleC018Click({hasAttribute:()=>false,dataset:{action:'replay'}})");assert.equal(v230.run("state.scene"),0);assert.equal(v230.run("cases.C018.record.xpEarned"),best230);v230.run("state=fresh18();state.scene=10;state.cluesFound=5;state.headline=0;state.support=['bring'];cases.C018.run=state;activeCase='C018';persist()");v230=boot(false,true,true,true,true);assert.equal(v230.run("state.scene"),10);assert.equal(v230.run("state.support[0]"),"bring");assert.equal(v230.run("KEY"),"detektif-bahasa-v1");v230.run("c018Hint();c018Hint();c018Hint()");assert.equal(v230.run("state.hintLevels.c018"),3);assert.equal(v230.run("state.hintsUsed"),3);const partial230=v230.run("JSON.stringify([state.scene,state.headline,state.support])");v230.run("caseClueReviewHtml()");assert.equal(v230.run("JSON.stringify([state.scene,state.headline,state.support])"),partial230);v230.run("cases.C018.record={status:'completed',stars:4,xpEarned:480};restartCurrentCaseRun()");assert.equal(v230.run("state.scene"),0);assert.equal(v230.run("cases.C018.record.xpEarned"),480);assert.equal(v230.run("characters.arissa.relatedCases.includes('C018')"),true);assert.equal(v230.run("characters.farah.relatedCases.includes('C018')"),true);assert.equal(v230.run("locations.library.relatedCases.includes('C018')"),true);v230.run("cases.C016.record={status:'completed'};cases.C017.record={status:'completed'};cases.C018.record={status:'completed'};openCaseArc=3;accordionActiveCase=activeCase");assert.ok(v230.run("caseShelf()").includes("<b>3/5</b>"));v230.run("for(const c of allCases)cases[c.id].record={status:'completed',stars:c.maxStars,xpEarned:c.maxXP};achievementsOpen=true;renderAchievements()");assert.equal(v230.run('(app.innerHTML.match(/aria-label=\\"A24,/g)||[]).length'),1);assert.equal(v230.run("app.innerHTML.includes('19 / 19')"),true);assert.equal(v230.run("app.innerHTML.includes('81 / 81')"),true);for(const asset of["assets/locations/perpustakaan-sudut-hebahan.webp","assets/achievements/a24.webp",...["c001","c002","c003","c004","c005"].map(x=>`assets/cases/${x}.webp`)]){assert.equal(fs.existsSync(asset),true);assert.ok(fs.readFileSync("server.js","utf8").includes(asset))}console.log("PASS: v2.3.0 C018 source-first Inti Mesej, headline/evidence validation, physical placement, save/replay, A24, premium C001-C005 thumbnails and C001-C017 regression.");store={};let v240=boot(false,true,true,true,true);assert.equal(v240.run("c019Clues.length"),5);assert.equal(v240.run("allCases.length"),19);assert.equal(v240.run("Object.keys(locations).length"),12);assert.equal(v240.run("Object.keys(characters).length"),24);assert.equal(v240.run("achievementDefinitions.length"),25);assert.equal(v240.run("getMaximumStars()"),81);assert.equal(v240.run("allCases.reduce((s,c)=>s+c.maxXP,0)"),6470);assert.equal(v240.run("isCaseUnlocked(18)"),false);v240.run("cases.C018.record={status:'completed',stars:4,xpEarned:480}");assert.equal(v240.run("isCaseUnlocked(18)"),true);assert.equal(v240.run("allCases.some(c=>c.id==='C020')"),false);assert.equal(v240.run("c018PosterSource().includes('Maklumat Aktiviti Komuniti')"),true);assert.equal(v240.run("c018PosterSource().includes('Program Pertukaran Buku Cerita')"),false);assert.equal(v240.run("scenes.libraryNotice.alt.includes('maklumat pertukaran buku')"),false);assert.equal(v240.run("scenes.libraryNotice.hotspots.find(h=>h.id==='maklumat buku').label.includes('pertukaran')"),false);assert.deepEqual(JSON.parse(v240.run("JSON.stringify(c019Witnesses)")),{xiao:{name:"Xiao Feng",time:"9:20 pagi",place:"Pintu masuk utama",observation:"Meja pendaftaran di bahagian depan kelihatan kosong."},ayyash:{name:"Ayyash",time:"9:20 pagi",place:"Belakang pondok aktiviti",observation:"Beberapa pembantu sedang menyediakan kerusi dan bahan melukis."}});validateScene(v240,"parkPerspectives",["xiao feng perspektif","meja pendaftaran depan","pelan kawasan aktiviti","jadual rasmi aktiviti","ayyash perspektif","kawasan persediaan belakang","log penganjur aktiviti"]);const c019Spots=JSON.parse(v240.run("JSON.stringify(scenes.parkPerspectives.hotspots)"));for(let i=0;i<c019Spots.length;i++)for(let j=i+1;j<c019Spots.length;j++){const a=c019Spots[i],b=c019Spots[j],overlap=a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;assert.equal(overlap,false,`C019 overlap: ${a.id} / ${b.id}`)}v240.run("switchCase('C019');home=false;render();handleC019Click({dataset:{action:'next'}})");assert.equal(v240.run("state.scene"),1);assert.ok(v240.nodes["#app"].innerHTML.includes("dua saksi")||v240.nodes["#app"].innerHTML.includes("Temu bual Xiao Feng"));v240.run("handleC019Click({dataset:{object:'xiao feng perspektif'}});handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'ayyash perspektif'}});handleC019Click({dataset:{action:'next'}})");assert.equal(v240.run("state.cluesFound"),2);assert.equal(v240.run("state.scene"),3);v240.run("handleC019Click({dataset:{object:'meja pendaftaran depan'}});handleC019Click({dataset:{object:'kawasan persediaan belakang'}})");assert.equal(v240.run("state.solved[3]"),true);v240.run("handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'pelan kawasan aktiviti'}});handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'jadual rasmi aktiviti'}});handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'log penganjur aktiviti'}})");assert.equal(v240.run("state.cluesFound"),5);assert.equal(v240.run("Object.values(state.solved).filter(Boolean).length>=5"),true);v240.run("handleC019Click({dataset:{action:'next'}});state.viewpoints={xiao:0,ayyash:1};state.compatibility=1;handleC019Click({dataset:{action:'c019-compare-check'}})");assert.equal(v240.run("wrong"),true);assert.equal(v240.run("!!state.solved[7]"),false);v240.run("state.compatibility=0;handleC019Click({dataset:{action:'c019-compare-check'}})");assert.equal(v240.run("state.solved[7]"),true);v240.run("handleC019Click({dataset:{action:'c019-review'}})");assert.equal(v240.run("state.sourceOpen"),true);assert.equal(v240.run("state.viewpoints.xiao"),0);v240.run("handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{c019Inference:'0'}})");assert.equal(v240.run("wrong"),true);v240.run("handleC019Click({dataset:{c019Inference:'1'}})");assert.equal(v240.run("state.solved[8]"),true);v240.run("handleC019Click({dataset:{action:'next'}});state.evidence=['chair','colour'];handleC019Click({dataset:{action:'c019-evidence-check'}})");assert.equal(v240.run("wrong"),true);v240.run("state.evidence=['plan','log'];handleC019Click({dataset:{action:'c019-evidence-check'}})");assert.equal(v240.run("state.solved[9]"),true);assert.ok(v240.run("c019Timeline()").includes("9:20")&&v240.run("c019Timeline()").includes("9:40")&&v240.run("c019Timeline()").includes("10:00"));v240.run("handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{c019Theory:'0'}})");assert.equal(v240.run("state.status"),"in_progress");v240.run("handleC019Click({dataset:{c019Theory:'2'}})");assert.equal(v240.run("state.status"),"completed");assert.equal(v240.run("state.scene"),11);assert.equal(v240.run("state.cluesFound"),5);assert.equal(v240.run("state.stars"),5);assert.equal(v240.run("state.xpEarned"),520);assert.equal(v240.run("achievementDefinitions.find(a=>a.id==='A25').unlocked()"),true);assert.equal(v240.nodes["#app"].innerHTML.includes("Kandungan Fail Keempat setakat ini: 4/5 kes."),true);assert.equal(v240.nodes["#app"].innerHTML.includes("C020"),false);v240.run("openCaseArc=3;accordionActiveCase=activeCase");assert.ok(v240.run("caseShelf()").includes("<b>2/5</b>"));const best240=v240.run("cases.C019.record.xpEarned");v240.run("handleC019Click({dataset:{action:'replay'}})");assert.equal(v240.run("state.scene"),0);assert.equal(v240.run("cases.C019.record.xpEarned"),best240);v240.run("state.scene=7;state.cluesFound=5;state.viewpoints={xiao:0,ayyash:1};state.compatibility=0;state.sourceOpen=true;cases.C019.run=state;persist()");v240=boot(false,true,true,true,true);assert.equal(v240.run("state.scene"),7);assert.equal(v240.run("state.viewpoints.ayyash"),1);assert.equal(v240.run("state.sourceOpen"),true);assert.equal(v240.run("KEY"),"detektif-bahasa-v1");v240.run("c019Hint();c019Hint();c019Hint()");assert.equal(v240.run("state.hintLevels.c019"),3);assert.equal(v240.run("state.hintsUsed"),3);const before240Review=v240.run("JSON.stringify([state.scene,state.viewpoints,state.compatibility,state.evidence,state.hintsUsed])");v240.run("caseClueReviewHtml()");assert.equal(v240.run("JSON.stringify([state.scene,state.viewpoints,state.compatibility,state.evidence,state.hintsUsed])"),before240Review);v240.run("cases.C019.record={status:'completed',stars:5,xpEarned:520};restartCurrentCaseRun()");assert.equal(v240.run("state.scene"),0);assert.equal(v240.run("cases.C019.record.xpEarned"),520);assert.equal(v240.run("characters.xiaoFeng.relatedCases.includes('C019')"),true);assert.equal(v240.run("characters.ayyash.relatedCases.includes('C019')"),true);assert.equal(v240.run("locations.park.relatedCases.includes('C019')"),true);for(const asset of["assets/locations/taman-pondok-aktiviti.webp","assets/achievements/a25.webp"]){assert.equal(fs.existsSync(asset),true);assert.equal(fs.readFileSync(asset).subarray(0,4).toString("ascii"),"RIFF");assert.ok(fs.readFileSync("server.js","utf8").includes(asset))}v240.run("for(const c of allCases)cases[c.id].record={status:'completed',stars:c.maxStars,xpEarned:c.maxXP};achievementsOpen=true;renderAchievements()");assert.equal(v240.run('(app.innerHTML.match(/aria-label=\\"A25,/g)||[]).length'),1);assert.equal(v240.run("app.innerHTML.includes('19 / 19')"),true);assert.equal(v240.run("app.innerHTML.includes('81 / 81')"),true);assert.equal(v240.run("getTotalBestXP()"),6470);assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);console.log("PASS: v2.4.0 C018 neutral source copy, C019 five clues, Banding Perspektif, time/place reasoning, evidence, save/replay, A25 and C001–C018 regression.");const releaseHtml=fs.readFileSync("index.html","utf8"),releaseGame=fs.readFileSync("game.js","utf8"),releaseCss=fs.readFileSync("style.css","utf8");assert.ok(releaseHtml.includes('data-release="v2.11.0"'));assert.ok(releaseHtml.includes('application-name" content="Detektif Bahasa v2.11.0"'));for(const asset of["style.css","mechanics.js","game.js","arc2.js","arc3.js","arc4.js","arc5.js","arc6.js","arc7.js","lensa.js"])assert.ok(releaseHtml.includes(`${asset}?v=2.11.0`),`${asset} release query`);assert.equal(releaseGame.includes("const KEY='detektif-bahasa-v1',RELEASE='v2.11.0 by Zil-el-Saif'"),true);assert.ok(releaseGame.includes("function titleNavigationHtml()"));assert.ok(releaseGame.includes('data-title-navigation-action="resume"'));assert.ok(releaseGame.includes('data-title-navigation-action="agency"'));assert.equal(releaseGame.includes("data-title-resume"),false);assert.equal(releaseGame.includes("data-title-enter"),false);assert.equal(releaseGame.includes("openTitleDestination"),false);assert.equal(releaseCss.includes(".title-actions"),false);assert.equal(releaseCss.includes(".title-primary"),false);assert.equal(releaseCss.includes(".title-secondary"),false);assert.ok(releaseCss.includes(".title-navigation-button{"));assert.ok(releaseCss.includes("min-height:56px"));assert.ok(releaseCss.includes("touch-action:manipulation"));for(const malformed of[{cases:"broken",activeCase:"C019"},{cases:{C001:"broken"},activeCase:"C001"},42]){store={"detektif-bahasa-v1":JSON.stringify(malformed)};const resilient=boot(true,true,true,true,true);assert.equal(resilient.nodes["#app"].innerHTML.includes("title-screen"),true);assert.equal(resilient.run("KEY"),"detektif-bahasa-v1");assert.equal(resilient.run("cases.C001.run.caseId"),"C001");assert.equal(resilient.nodes["#app"].innerHTML.includes('data-title-navigation-action="agency"'),true)}store={};let titleQa=boot(true,true,true,true,true),titleHtml=titleQa.nodes["#app"].innerHTML;assert.equal(titleQa.run("hasResumableRun()"),false);assert.equal(titleHtml.includes('data-title-navigation-action="resume"'),false);assert.equal((titleHtml.match(/data-title-navigation-action=/g)||[]).length,1);assert.equal(titleHtml.includes('data-title-navigation-action="agency"'),true);titleQa.click({titleNavigationAction:"agency"});assert.equal(titleQa.run("home"),true);assert.equal(titleQa.run("titleOpen"),false);const lateRuns=[["C001",1],["C006",2],["C015",3],["C016",4],["C017",5],["C018",6],["C019",7]];for(const[id,scene]of lateRuns){store={};let nav=boot(true,true,true,true,true);nav.run(`activeCase='${id}';state=cases['${id}'].run;state.status='in_progress';state.scene=${scene};state.cluesFound=1;cases['${id}'].run=state;persist();titleOpen=true;render()`);let html=nav.nodes["#app"].innerHTML;assert.equal((html.match(/data-title-navigation-action="resume"/g)||[]).length,1,`${id} one resume control`);assert.equal((html.match(/data-title-navigation-action="agency"/g)||[]).length,1,`${id} one agency control`);nav.click({titleNavigationAction:"resume"});assert.equal(nav.run("activeCase"),id);assert.equal(nav.run("home"),false);assert.equal(nav.run("state.scene"),scene);nav.run("titleOpen=true;render()");nav.click({titleNavigationAction:"agency"});assert.equal(nav.run("home"),true);assert.equal(nav.run("state.scene"),scene)}store={};titleQa=boot(true,true,true,true,true);titleQa.run("activeCase='C019';state=cases.C019.run;state.scene=4;state.cluesFound=3;cases.C019.run=state;persist();titleOpen=true;render()");titleQa=boot(true,true,true,true,true);assert.equal(titleQa.run("activeCase"),"C019");assert.equal(titleQa.nodes["#app"].innerHTML.includes("SAMBUNG SIASATAN"),true);assert.equal(titleQa.run("activateTitleNavigation('resume')"),true);assert.equal(titleQa.run("activateTitleNavigation('resume')"),false);assert.equal(titleQa.run("state.scene"),4);titleQa.run("titleOpen=true;state.scene=0;state.cluesFound=0;state.solved={};cases.C019.record=null;render()");assert.equal(titleQa.run("activateTitleNavigation('resume')"),true);assert.equal(titleQa.run("home"),true);assert.ok(releaseCss.includes(".title-background,.title-shade{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}"));assert.ok(releaseCss.includes("pointer-events:none;filter:drop-shadow"));assert.equal(fs.readFileSync("index.html","utf8").includes("v2.11.0 by Zil-el-Saif"),true);assert.equal(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"),true);console.log("PASS: v2.4.2 rebuilt title navigation, one-action lifecycle, C001/C006/C015-C019 resume, independent Agensi entry, malformed-save recovery and C001-C019 regression.");store={};let legacyTitle=boot(true,true,true,true,true);legacyTitle.run("activeCase='C005';state=fresh5();state.scene=1;cases.C005.run=state;cases.C005.record={caseId:'C005',status:'completed',stars:5,xpEarned:220};cases.C001.run={...fresh1(),scene:2};cases.C001.record={caseId:'C001',status:'completed',stars:3,xpEarned:150};cases.C018.run={...fresh18(),scene:3,cluesFound:1,solved:{1:true,2:true},sourceReady:true};cases.C018.record=null;persist();titleOpen=true;render()");const legacyRecords=legacyTitle.run("JSON.stringify(Object.fromEntries(Object.entries(cases).map(([id,value])=>[id,value.record||null])))"),legacyC018=legacyTitle.run("JSON.stringify(cases.C018.run)");assert.equal(legacyTitle.nodes["#app"].innerHTML.includes('data-title-navigation-action="agency"'),true);legacyTitle.click({titleNavigationAction:"agency"});assert.equal(legacyTitle.run("titleOpen"),false);assert.equal(legacyTitle.run("home"),true);assert.equal(legacyTitle.run("activeCase"),"C005");assert.equal(legacyTitle.run("state.scene"),1);legacyTitle.run("titleOpen=true;render()");legacyTitle.click({titleNavigationAction:"resume"});assert.equal(legacyTitle.run("titleOpen"),false);assert.equal(legacyTitle.run("home"),false);assert.equal(legacyTitle.run("activeCase"),"C005");assert.equal(legacyTitle.run("state.scene"),1);assert.equal(legacyTitle.run("JSON.stringify(Object.fromEntries(Object.entries(cases).map(([id,value])=>[id,value.record||null])))"),legacyRecords);assert.equal(legacyTitle.run("JSON.stringify(cases.C018.run)"),legacyC018);for(const id of["C003","C004"]){legacyTitle.run(`activeCase='${id}';state=cases['${id}'].run;state.scene=1;state.status='in_progress';titleOpen=true;home=true;render()`);legacyTitle.click({titleNavigationAction:"agency"});assert.equal(legacyTitle.run("titleOpen"),false,`${id} title listener guard`)}assert.equal(legacyTitle.run("allCases.length"),19);assert.equal(legacyTitle.run("Object.keys(locations).length"),12);assert.equal(legacyTitle.run("Object.keys(characters).length"),24);assert.equal(legacyTitle.run("achievementDefinitions.length"),25);assert.equal(legacyTitle.run("getMaximumStars()"),81);assert.equal(legacyTitle.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),6470);console.log("PASS: v2.4.3 legacy C003-C005 listener isolation, C005 replay resume, C018 partial preservation and historical record integrity.");store={};let visual244=boot(false,true,true,true,true);visual244.run("activeCase='C018';state=fresh18();cases.C018.run=state;record=null;home=false;render()");assert.equal(visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp"),false,"finished poster hidden before solution");assert.equal(visual244.run("c018PosterAvailable()"),false);assert.equal(visual244.run("c018Headlines[0]"),"Jom Bertukar Buku Cerita!");assert.equal(visual244.run("c018Clues.length"),5);assert.equal(visual244.run("c018Meta.maxStars"),4);assert.equal(visual244.run("c018Meta.maxXP"),480);visual244.run("state.scene=12;state.cluesFound=5;state.solved={1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};state.mainMessage=0;state.headline=0;state.support=['bring','exchange'];state.titleStripReady=true;render()");assert.equal(visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp"),false);const attemptsBeforePoster=visual244.run("state.attempts");visual244.run("handleC018Click({dataset:{object:'ruang tajuk kosong'},hasAttribute:()=>false})");assert.equal(visual244.run("state.titlePlaced"),true);assert.equal(visual244.run("state.solved[12]"),true);assert.equal(visual244.run("c018PosterOpen"),true);assert.equal(visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp?v=2.4.4"),true);assert.equal(visual244.nodes["#app"].innerHTML.includes("Teruskan Siasatan"),true);assert.equal(visual244.run("state.cluesFound"),5);assert.equal(visual244.run("state.status"),"in_progress");assert.equal(visual244.run("state.attempts"),attemptsBeforePoster+1);visual244.click({action:"c018-poster-close"});assert.equal(visual244.run("c018PosterOpen"),false);assert.equal(visual244.run("state.attempts"),attemptsBeforePoster+1);assert.equal(visual244.nodes["#app"].innerHTML.includes("Lihat Poster Siap"),true);visual244.click({action:"c018-poster-open"});assert.equal(visual244.run("c018PosterOpen"),true);assert.equal(visual244.run("state.attempts"),attemptsBeforePoster+1);visual244.click({action:"c018-poster-continue"});assert.equal(visual244.run("state.scene"),13);assert.equal(visual244.run("state.status"),"in_progress");visual244.run("completeC018();home=true;render()");const completedRecord244=visual244.run("JSON.stringify(cases.C018.record)"),completedXp244=visual244.run("cases.C018.record.xpEarned");assert.equal(visual244.nodes["#app"].innerHTML.includes("Lihat Poster Siap"),true);visual244.click({action:"c018-poster-open"});visual244.click({action:"c018-poster-close"});assert.equal(visual244.run("JSON.stringify(cases.C018.record)"),completedRecord244);assert.equal(visual244.run("cases.C018.record.xpEarned"),completedXp244);visual244.run("state=fresh18();cases.C018.run=state;record=cases.C018.record;home=true;render()");assert.equal(visual244.run("c018PosterAvailable()"),true,"historical record unlocks poster review");assert.equal(visual244.nodes["#app"].innerHTML.includes("Lihat Poster Siap"),true);visual244.click({action:"c018-poster-open"});assert.equal(visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp?v=2.4.4"),true);assert.equal(visual244.run("state.scene"),0);assert.equal(visual244.run("state.cluesFound"),0);const visual244Game=fs.readFileSync("game.js","utf8"),visual244Arc3=fs.readFileSync("arc3.js","utf8"),visual244Arc5=fs.readFileSync("arc5.js","utf8"),visual244Server=fs.readFileSync("server.js","utf8"),visual244Css=fs.readFileSync("style.css","utf8");for(const asset of["assets/posters/c018-poster-siap.webp","assets/characters/cikgu-farah.webp","assets/locations/perpustakaan-sudut-hebahan.webp"]){assert.equal(fs.existsSync(asset),true);assert.equal(fs.readFileSync(asset).subarray(0,4).toString("ascii"),"RIFF");assert.equal(visual244Server.includes(asset),true)}assert.equal(visual244Game.includes("portrait:'assets/characters/cikgu-farah.webp'"),true);assert.equal(visual244Game.includes("character.id==='farah'?`${character.portrait}?v=2.4.4`"),true);assert.equal(visual244Arc3.includes("assets/characters/cikgu-farah.webp?v=2.4.4"),true);assert.equal(visual244Arc5.includes("assets/characters/cikgu-farah.webp?v=2.4.4"),true);assert.equal(visual244Game.includes("assets/cikgu-farah.svg"),false);assert.equal(visual244Arc3.includes("assets/cikgu-farah.svg"),false);assert.equal(visual244Arc5.includes("assets/cikgu-farah.svg"),false);assert.ok(visual244Css.includes("@keyframes poster-reveal-in"));assert.ok(visual244Css.includes("@media(prefers-reduced-motion:reduce){.poster-reveal-card,.poster-sparkles i{animation:none!important}"));assert.equal(visual244.run("allCases.length"),19);assert.equal(visual244.run("Object.keys(locations).length"),12);assert.equal(visual244.run("Object.keys(characters).length"),24);assert.equal(visual244.run("achievementDefinitions.length"),25);assert.equal(visual244.run("getMaximumStars()"),81);assert.equal(visual244.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),6470);assert.equal(visual244.run("KEY"),"detektif-bahasa-v1");console.log("PASS: v2.4.6 C018 finished-poster gating/review, historical completion access, reward safety, Cikgu Farah canonical references and C001-C019 invariants.");store={};let lensa=boot(false,true,true,true,true);assert.equal(lensa.run("Object.keys(lensaActivities).length"),19);assert.equal(lensa.run("validateLensaActivities()"),true);assert.deepEqual(JSON.parse(lensa.run("JSON.stringify(Object.keys(lensaActivities))")),Array.from({length:19},(_,i)=>"C"+String(i+6).padStart(3,"0")));for(const id of Array.from({length:16},(_,i)=>"C"+String(i+6).padStart(3,"0"))){assert.equal(lensa.run(`lensaActivities.${id}.caseId`),id);assert.ok(lensa.run(`lensaActivities.${id}.sourceReference.length>0&&lensaActivities.${id}.sourceExcerpt.length>0`));assert.ok(lensa.run(`['select-word','choice','order','multi-choice'].includes(lensaActivities.${id}.interactionType)`))}assert.equal(lensa.run("activeCase='C006';state=cases.C006.run;record=null;state.cluesFound=0;isLensaUnlocked()"),false);assert.equal(lensa.run("lensaView=true;lensaDialogHtml().includes('Sumber belum ditemui')"),true);assert.equal(lensa.run("lensaDialogHtml().includes(lensaActivities.C006.sourceExcerpt)"),false,"locked activity hides source");lensa.run("state.cluesFound=2;lensaView=true;lensaFeedback='';lensaWrong=false");assert.equal(lensa.run("isLensaUnlocked()"),true);assert.equal(lensa.run("activeCase='C014';state=cases.C014.run;record=null;state.cluesFound=5;state.scene=5;isLensaUnlocked()"),false,"C014 decoded location stays hidden before code completion");assert.equal(lensa.run("state.scene=6;isLensaUnlocked()"),true);assert.equal(lensa.run("activeCase='C015';state=cases.C015.run;record=null;state.cluesFound=4;state.scene=5;isLensaUnlocked()"),false,"C015 decoded instruction stays hidden before code completion");assert.equal(lensa.run("state.scene=6;isLensaUnlocked()"),true);assert.equal(lensa.run("activeCase='C018';state=cases.C018.run;record=null;state.cluesFound=5;state.scene=9;isLensaUnlocked()"),false,"C018 answer headline stays hidden before headline completion");assert.equal(lensa.run("state.scene=10;isLensaUnlocked()"),true);lensa.run("activeCase='C006';state=cases.C006.run;record=null;state.cluesFound=2");const lensaRewardBefore=JSON.parse(lensa.run("JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound,achievements:achievementDefinitions.length})"));lensa.run("answerLensa(0)");assert.equal(lensa.run("lensaWrong"),true);assert.equal(lensa.run("lensaFeedback===lensaActivities.C006.wrongAnswerFeedback"),true);assert.equal(lensa.run("isLensaCompleted()"),false);lensa.run("answerLensa(4)");assert.equal(lensa.run("isLensaCompleted()"),true);assert.equal(lensa.run("lensaFeedback.includes('Meletakkan')"),true);assert.deepEqual(JSON.parse(lensa.run("JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound,achievements:achievementDefinitions.length})")),lensaRewardBefore);const c006RecordBefore=lensa.run("JSON.stringify(cases.C006.record)");lensa.run("restartCurrentCaseRun()");assert.equal(lensa.run("lensaBahasa.C006.completed"),true);assert.equal(lensa.run("JSON.stringify(cases.C006.record)"),c006RecordBefore);let lensaRefresh=boot(false,true,true,true,true);assert.equal(lensaRefresh.run("lensaBahasa.C006.completed"),true,"completion survives refresh");assert.equal(lensaRefresh.run("activeCase='C018';state=cases.C018.run;record={status:'completed',xpEarned:480,stars:4};cases.C018.record=record;isLensaUnlocked()"),true);assert.equal(lensaRefresh.run("isLensaCompleted()"),false,"historical case completion grants access, not language completion");const historicalReward=lensaRefresh.run("JSON.stringify(cases.C018.record)");lensaRefresh.run("completeLensa(lensaActivities.C018)");lensaRefresh.run("completeLensa(lensaActivities.C018)");assert.equal(lensaRefresh.run("JSON.stringify(cases.C018.record)"),historicalReward,"repeated language completion does not alter case record");store={"detektif-bahasa-v1":JSON.stringify({version:2,activeCase:"C006",cases:{},muted:false})};let lensaLegacy=boot(false,true,true,true,true);assert.equal(lensaLegacy.run("JSON.stringify(lensaBahasa)"),"{}","legacy save without Lensa data loads");assert.equal(lensaLegacy.run("allCases.length"),19);assert.equal(lensaLegacy.run("Object.keys(locations).length"),12);assert.equal(lensaLegacy.run("Object.keys(characters).length"),24);assert.equal(lensaLegacy.run("achievementDefinitions.length"),25);assert.equal(lensaLegacy.run("getMaximumStars()"),81);assert.equal(lensaLegacy.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),6470);const lensaSource=fs.readFileSync("lensa.js","utf8"),lensaIndex=fs.readFileSync("index.html","utf8");assert.ok(lensaSource.includes("document.addEventListener?.('click'"),"body-level modal uses one delegated listener");assert.equal(lensaSource.includes("app.addEventListener('click'"),false,"Lensa listener is not confined to app subtree");assert.ok(lensaSource.includes("function renderLensaOverlay()"));assert.ok(lensaSource.includes("document.body?.insertAdjacentHTML?document.body:app"));assert.ok(lensaSource.includes("classList?.add('lensa-modal-open')"));assert.ok(lensaSource.includes("window.scrollTo?.(0,lensaScrollY)"));assert.ok(lensaSource.includes("preventScroll:true"));assert.ok(lensaSource.includes("event.key!=='Tab'"));assert.ok(lensaIndex.includes("lensa.js?v=2.11.0"));assert.ok(/['\"]\/lensa\.js['\"]\s*:\s*['\"]lensa\.js['\"]/.test(fs.readFileSync("server.js","utf8")));assert.ok(releaseCss.includes(".lensa-modal-open{overflow:hidden!important}"));assert.ok(releaseCss.includes(".lensa-dialog{position:fixed;inset:0"));assert.ok(releaseCss.includes("100dvh"));assert.equal(releaseCss.includes("+\n/* v2.4.5 — Lensa Bahasa */"),false,"no stray relative selector before modal rule");console.log("PASS: v2.4.6 Lensa Bahasa 15-case mapping, locks, feedback/retry, persistence, historical access and reward/progression isolation.");store={};const gallery246=boot(false,true,true,true,true);gallery246.run("achievementsOpen=true;titleOpen=false;renderAchievements()");const galleryHtml=gallery246.nodes["#app"].innerHTML;assert.equal((galleryHtml.match(/class="achievement-section"/g)||[]).length,4);assert.equal((galleryHtml.match(/class="achievement-grid"/g)||[]).length,4);assert.deepEqual([...galleryHtml.matchAll(/data-achievement-arc="(\d)"/g)].map(match=>Number(match[1])),[1,2,3,4]);for(let index=1;index<=4;index++)assert.ok(galleryHtml.indexOf(`data-achievement-arc="${index}"`)<galleryHtml.indexOf(`data-achievement-arc="${index+1}"`)||index===4);for(let id=1;id<=25;id++){const code=`A${String(id).padStart(2,"0")}`;assert.equal((galleryHtml.match(new RegExp(`aria-label="${code},`,"g"))||[]).length,1,`${code} rendered once`)}const galleryParts=galleryHtml.split(/data-achievement-arc="\d"/).slice(1);assert.deepEqual(galleryParts.map(part=>(part.match(/aria-label="A\d\d,/g)||[]).length),[9,6,6,4]);assert.ok(galleryHtml.includes('src="assets/achievements/a22.svg"'),"A22 keeps its configured SVG artwork");assert.ok(galleryHtml.includes("0 / 19"));assert.ok(galleryHtml.includes("0 / 81"));assert.equal(gallery246.run("KEY"),"detektif-bahasa-v1");assert.equal(gallery246.run("achievementDefinitions.length"),25);const galleryCss=fs.readFileSync("style.css","utf8");assert.ok(galleryCss.includes(".achievement-hero{grid-column:auto}"));assert.ok(galleryCss.includes("@media(max-width:999px)"));assert.ok(galleryCss.includes("@media(max-width:599px)"));console.log("PASS: v2.4.6 independent four-arc achievement sections, exact 9/6/6/4 grouping, non-spanning cards and save-key integrity.");store={};const c020=boot(true,true,true,true,true,true);assert.equal(c020.run("allCases.length"),20);assert.equal(c020.run("Object.keys(locations).length"),12);assert.equal(c020.run("Object.keys(characters).length"),24);assert.equal(c020.run("achievementDefinitions.length"),27);assert.equal(c020.run("getMaximumStars()"),86);assert.equal(c020.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),7020);assert.equal(c020.run("Object.keys(lensaActivities).length"),19);assert.equal(c020.run("c020Meta.title"),"Misteri Mesej Terakhir Bayuraya");assert.equal(c020.run("c020Meta.maxXP"),550);assert.equal(c020.run("c020Meta.maxStars"),5);assert.equal(c020.run("c020Clues.length"),5);assert.equal(c020.run("isCaseUnlocked(19)"),false);validateScene(c020,"communityInformation",["draf arahan lama","sampul cebisan mesej","kad kaunter maklumat","log pindaan rasmi","catatan dua saksi","papan acara","pintu dewan utama"]);assert.deepEqual(JSON.parse(c020.run("JSON.stringify(c020Fragments)")),["Untuk sesi penutup,","ambil kad kumpulan di kaunter maklumat","mulai 2.45 petang.","Tunggu di ruang legar sebelum masuk ke Dewan Utama","pada 3.15 petang."]);assert.equal(c020.run("c020Statements.map(x=>x.answer).join()"),"supported,conflict,unknown,conflict");c020.run("for(const id of ['C016','C017','C018','C019'])cases[id].record={caseId:id,status:'completed',stars:1,xpEarned:1};");assert.equal(c020.run("isCaseUnlocked(19)"),true);c020.run("switchCase('C020');home=false;render()");const c20=data=>c020.run(`handleC020Click({dataset:${JSON.stringify(data)}})`);c20({action:"next"});assert.equal(c020.run("state.scene"),1);c20({object:"papan acara"});assert.equal(c020.run("state.cluesFound"),0);assert.equal(c020.run("wrong"),true);for(const target of["draf arahan lama","log pindaan rasmi","sampul cebisan mesej","kad kaunter maklumat","catatan dua saksi"]){c20({object:target});c20({action:"next"})}assert.equal(c020.run("state.scene"),6);assert.equal(c020.run("state.cluesFound"),5);assert.equal(c020.run("isLensaUnlocked()"),false,"Lensa hidden before message verification");for(const i of[3,1,4,0,2])c20({c020Fragment:String(i)});c20({action:"c020-message-check"});assert.equal(c020.run("state.messageVerified"),false);assert.equal(c020.run("wrong"),true);c20({action:"c020-clear"});for(const i of[0,1,2,3,4])c20({c020Fragment:String(i)});c20({action:"c020-message-check"});assert.equal(c020.run("state.messageVerified"),true);assert.equal(c020.run("state.cluesFound"),5);c20({action:"next"});assert.equal(c020.run("isLensaUnlocked()"),true);c20({c020Status:"unknown"});c20({action:"c020-classify"});assert.equal(c020.run("state.classification.completed[0]"),false);for(const answer of["supported","conflict","unknown","conflict"]){c20({c020Status:answer});c20({action:"c020-classify"})}assert.equal(c020.run("state.classification.completed.every(Boolean)"),true);c20({action:"next"});c20({c020Main:"1"});assert.equal(c020.run("!!state.solved[8]"),false);c20({c020Main:"0"});c20({action:"next"});c20({c020Perspective:"0"});assert.equal(c020.run("!!state.solved[9]"),false);c20({c020Perspective:"2"});c20({action:"next"});c020.run("state.links=['corroborated','superseded','compatible','originated']");c20({action:"c020-evidence-check"});assert.equal(c020.run("!!state.solved[10]"),false);c020.run("state.links=['superseded','corroborated','originated','compatible']");c20({action:"c020-evidence-check"});c20({action:"next"});c20({c020Theory:"0"});assert.equal(c020.run("state.status"),"in_progress");c20({c020Theory:"2"});assert.equal(c020.run("state.status"),"completed");assert.equal(c020.run("state.cluesFound"),5);assert.equal(c020.run("state.xpEarned"),550);assert.equal(c020.run("state.stars"),5);assert.equal(c020.run("achievementDefinitions.find(a=>a.id==='A26').unlocked()"),true);assert.equal(c020.run("achievementDefinitions.find(a=>a.id==='A27').unlocked()"),true);const c020Record=c020.run("JSON.stringify(cases.C020.record)"),c020Xp=c020.run("getTotalBestXP()");c20({action:"replay"});assert.equal(c020.run("state.cluesFound"),0);assert.equal(c020.run("JSON.stringify(cases.C020.record)"),c020Record);assert.equal(c020.run("getTotalBestXP()"),c020Xp);c020.run("achievementsOpen=true;renderAchievements()");const gallery250=c020.nodes["#app"].innerHTML;assert.equal((gallery250.match(/class="achievement-section"/g)||[]).length,4);assert.equal((gallery250.match(/aria-label="A26,/g)||[]).length,1);assert.equal((gallery250.match(/aria-label="A27,/g)||[]).length,1);const groups250=gallery250.split(/data-achievement-arc="\d"/).slice(1);assert.deepEqual(groups250.map(part=>(part.match(/aria-label="A\d\d,/g)||[]).length),[9,6,6,6]);assert.equal(c020.run("KEY"),"detektif-bahasa-v1");assert.equal(fs.existsSync("assets/locations/balai-komuniti-ruang-maklumat.webp"),true);assert.equal(fs.existsSync("assets/achievements/a26.webp"),true);assert.equal(fs.existsSync("assets/achievements/a27.webp"),true);store={"detektif-bahasa-v1":JSON.stringify({version:2,activeCase:"C019",cases:{C019:{run:{caseId:"C019",scene:2,status:"in_progress"},record:null}},muted:false,lensaBahasa:{C006:{completed:true}}})};const legacy250=boot(true,true,true,true,true,true);assert.equal(legacy250.run("!!cases.C020.run"),true);assert.equal(legacy250.run("cases.C019.run.scene"),2);assert.equal(legacy250.run("lensaBahasa.C006.completed"),true);console.log("PASS: v2.5.2 C020 five-clue finale, source-first puzzles, Lensa timing, A26/A27, 9/6/6/6 gallery, replay and legacy-save compatibility.");store={};const c021=boot(true,true,true,true,true,true,true);assert.equal(c021.run("allCases.length"),21);assert.equal(c021.run("achievementDefinitions.length"),28);assert.equal(c021.run("getMaximumStars()"),90);assert.equal(c021.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),7540);assert.equal(c021.run("Object.keys(lensaActivities).length"),19);assert.equal(c021.run("KEY"),"detektif-bahasa-v1");assert.equal(c021.run("c021Meta.title"),"Misteri Si Ringan Tulang");assert.equal(c021.run("c021Meta.maxXP"),520);assert.equal(c021.run("c021Meta.maxStars"),4);assert.equal(c021.run("c021Clues.length"),5);assert.equal(c021.run("isCaseUnlocked(20)"),false);assert.equal(c021.run("caseArcDefinitions[4].name"),"FAIL KELIMA");assert.equal(c021.run("caseArcDefinitions[4].ids.join()"),"C021");assert.equal(c021.run("achievementDefinitions.some(a=>/^A(29|3[0-3])$/.test(a.id))"),false);assert.equal(c021.run("JSON.stringify(normalizeC021({foundClues:[0,99,'x'],evidenceLinks:['rajin']}))").includes("99"),false);validateScene(c021,"parkFigurative",["nota sukarelawan","rekod tugasan","album aktiviti","kad meja sambutan","rekod barang"]);assert.equal(c021.run("c021Kanta.kk1.options[1]"),"Orang yang rajin bekerja.");assert.equal(c021.run("c021Kanta.kk2.options[1]"),"Oleh-oleh yang dibawa daripada perjalanan.");c021.run("cases.C020.record={caseId:'C020',status:'completed',stars:5,xpEarned:550};cases.C020.run.status='completed'");assert.equal(c021.run("isCaseUnlocked(20)"),true);c021.run("switchCase('C021');home=false;state.scene=1;render()");assert.equal(c021.run("c021Ready()"),false);const shelf021=c021.run("caseShelf()");assert.equal((shelf021.match(/class="case-arc-toggle"/g)||[]).length,5);assert.equal((shelf021.match(/FAIL KELIMA/g)||[]).length,1);assert.equal((shelf021.match(/JEJAK MAKNA BAYURAYA/g)||[]).length,1);assert.equal((shelf021.match(/data-case="C021"/g)||[]).length,1);assert.equal((shelf021.match(/id="case-arc-panel-4"/g)||[]).length,1);const c21=data=>c021.run(`handleC021Click({dataset:${JSON.stringify(data)}})`);for(const id of["album aktiviti","nota sukarelawan","rekod barang","rekod tugasan","kad meja sambutan"])c21({object:id});assert.equal(c021.run("state.foundClues.length"),5);assert.equal(c021.run("state.cluesFound"),5);assert.equal(c021.run("state.foundClues.join(',')"),"0,1,2,3,4");c21({c021Action:"kk1"});c21({c021KantaAnswer:"0",kanta:"kk1"});assert.equal(c021.run("wrong"),true);assert.equal(c021.run("state.kanta.kk1.completed"),false);c21({c021KantaAnswer:"1",kanta:"kk1"});c21({c021KantaEvidence:"0",kanta:"kk1"});c21({c021Action:"validate-kanta",kanta:"kk1"});assert.equal(c021.run("state.kanta.kk1.completed"),false);c21({c021KantaEvidence:"1",kanta:"kk1"});c21({c021Action:"validate-kanta",kanta:"kk1"});assert.equal(c021.run("state.kanta.kk1.completed"),true);c21({c021Action:"return-investigation"});c21({c021Action:"kk2"});c21({c021KantaAnswer:"1",kanta:"kk2"});c21({c021KantaEvidence:"3",kanta:"kk2"});c21({c021KantaEvidence:"4",kanta:"kk2"});c21({c021Action:"validate-kanta",kanta:"kk2"});assert.equal(c021.run("state.kanta.kk2.completed"),true);c21({c021Action:"board"});assert.equal(c021.run("c021Board().includes('Bagaimana cara menggunakan Papan Bukti?')"),true);c21({c021Action:"board-help"});assert.equal(c021.run("state.hintsUsed"),0);c21({c021BoardEvidence:"0"});c21({c021Action:"check-board-step"});assert.equal(c021.run("wrong"),true);assert.equal(c021.run("feedback.includes('rekod kerja')"),true);c21({c021BoardEvidence:"1"});c21({c021Action:"check-board-step"});assert.equal(c021.run("state.evidenceLinks[0]"),"rajin");for(const n of["0","1","2"])c21({c021BoardEvidence:n});c21({c021Action:"check-board-step"});assert.equal(c021.run("state.evidenceLinks[1]"),"r03");for(const n of["3","4"])c21({c021BoardEvidence:n});c21({c021Action:"check-board-step"});assert.equal(c021.run("state.evidenceLinks[2]"),"oleh-oleh");assert.equal(c021.run("state.scene"),4);c21({c021Action:"finish-board"});assert.equal(c021.run("state.scene"),5);assert.equal(c021.run("c021Ready()"),true);c21({c021Deduction:"identity:0"});assert.equal(c021.run("state.scene"),5);c21({c021Deduction:"identity:1"});assert.equal(c021.run("state.scene"),6);c21({c021Deduction:"reception:2"});assert.equal(c021.run("state.status"),"in_progress");c21({c021Deduction:"reception:1"});assert.equal(c021.run("state.status"),"completed");assert.equal(c021.run("state.scene"),7);assert.equal(c021.run("state.cluesFound"),5);assert.equal(c021.run("state.xpEarned"),520);assert.equal(c021.run("state.stars"),4);assert.equal(c021.run("achievementDefinitions.find(a=>a.id==='A28').unlocked()"),true);assert.equal(c021.run("caseShelf().includes('1/5')"),true);assert.equal(c021.run("lensaActivities.C021.answerData.exercises.length"),3);assert.equal(c021.run("lensaActivities.C021.answerData.exercises[0].question"),"Ayat manakah menggunakan simpulan bahasa ringan tulang dengan tepat?");assert.equal(c021.run("isLensaUnlocked('C021')"),true);c021.run("activeCase='C021';answerLensa(1)");assert.equal(c021.run("lensaBahasa.C021.step"),1);c021.run("answerLensa(0)");assert.equal(c021.run("lensaBahasa.C021.step"),2);c021.run("answerLensa(0)");assert.equal(c021.run("lensaBahasa.C021.completed"),true);assert.equal(c021.run("state.xpEarned"),520);const c021Best=c021.run("cases.C021.record.xpEarned");c21({action:"replay"});assert.equal(c021.run("state.cluesFound"),0);assert.equal(c021.run("cases.C021.record.xpEarned"),c021Best);c021.run("state=fresh21();cases.C021.run=state;state.hintsUsed=1;completeC021()");assert.equal(c021.run("state.xpEarned"),490);assert.equal(c021.run("cases.C021.record.xpEarned"),520);assert.equal(c021.run("isHistoricallyComplete('C020')"),true);const savedC021=store["detektif-bahasa-v1"];const c021Reload=boot(true,true,true,true,true,true,true);assert.equal(c021Reload.run("cases.C021.record.xpEarned"),520);assert.equal(c021Reload.run("lensaBahasa.C021.completed"),true);assert.equal(c021Reload.run("cases.C020.record.status"),"completed");store={"detektif-bahasa-v1":JSON.stringify({version:2,activeCase:"C001",cases:{C001:{run:{caseId:"C001",status:"completed"},record:{caseId:"C001",status:"completed",stars:3,xpEarned:150}}},muted:true})};const legacy28=boot(true,true,true,true,true,true,true);assert.equal(legacy28.run("cases.C001.record.xpEarned"),150);assert.equal(legacy28.run("cases.C021.run.caseId"),"C021");assert.equal(legacy28.run("cases.C021.record"),null);assert.equal(legacy28.run("muted"),true);for(const asset of["assets/locations/taman-persiapan-c021.webp","assets/achievements/a28.svg"]){assert.equal(fs.existsSync(asset),true);assert.ok(fs.statSync(asset).size>500);assert.equal(fs.readFileSync("server.js","utf8").includes(asset),true)}assert.equal(c021.run("scenes.parkFigurative.image.endsWith('.webp')"),true);const release28=fs.readFileSync("index.html","utf8");assert.ok(release28.includes("arc7.js?v=2.11.0"));assert.ok(release28.includes("v2.11.0 by Zil-el-Saif"));assert.ok(fs.readFileSync("README.md","utf8").includes("v2.11.0 by Zil-el-Saif"));store={"detektif-bahasa-v1":savedC021};let c022=boot(true,true,true,true,true,true,true,true);assert.equal(c022.run("allCases.length"),22);assert.equal(c022.run("achievementDefinitions.length"),29);assert.equal(c022.run("getMaximumStars()"),94);assert.equal(c022.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"),8080);assert.equal(c022.run("Object.keys(lensaActivities).length"),19);assert.equal(c022.run("KEY"),"detektif-bahasa-v1");assert.equal(c022.run("isCaseUnlocked(21)"),true);assert.equal(c022.run("c022Meta.maxXP"),540);assert.equal(c022.run("c022Meta.maxStars"),4);assert.equal(c022.run("c022Clues.length"),5);assert.equal(c022.run("Object.keys(c022Sources).length"),5);assert.equal(c022.run("c022Matches.length"),5);assert.equal(c022.run("caseArcDefinitions.length"),5);assert.equal(c022.run("caseArcDefinitions[4].ids.join()"),"C021,C022");assert.equal(c022.run("caseShelf().includes('KES 023–025 · AKAN DATANG')"),true);assert.equal(c022.run("JSON.stringify(normalizeC022({foundClues:[0,0,99],cluesFound:5})).includes('99')"),false);validateScene(c022,"hallProps",["senarai prop asal","rak peralatan","buku inventori","catatan persiapan","senarai semakan akhir"]);c022.run("switchCase('C022');home=false;render()");const c22=data=>c022.run(`handleC022Click({dataset:${JSON.stringify(data)}})`);for(const object of["senarai prop asal","rak peralatan","buku inventori","catatan persiapan","senarai semakan akhir"])c22({object:object});assert.equal(c022.run("state.cluesFound"),5);assert.equal(c022.run("state.foundClues.length"),5);c22({c022Action:"matches"});c22({c022Classifier:"keping",objectId:"pensel"});c22({c022Action:"verify-match",objectId:"pensel"});assert.equal(c022.run("wrong"),true);for(const[id,answer]of[["pensel","batang"],["kain","helai"],["kad","keping"],["tali","utas"],["kasut","pasang"]]){c22({c022Station:id});c22({c022Classifier:answer,objectId:id});c22({c022Action:"verify-match",objectId:id})}assert.equal(c022.run("c022AllMatches()"),true);c22({c022Action:"board"});c22({c022BoardEvidence:"0"});c22({c022Action:"check-board-step"});assert.equal(c022.run("wrong"),true);c22({c022BoardEvidence:"1"});c22({c022Action:"check-board-step"});for(const n of[1,2])c22({c022BoardEvidence:String(n)});c22({c022Action:"check-board-step"});for(const n of[2,3,4])c22({c022BoardEvidence:String(n)});c22({c022Action:"check-board-step"});assert.equal(c022.run("state.evidenceLinks.join('|')"),"draft|available|verified");c22({c022Action:"finish-board"});assert.equal(c022.run("state.scene"),4);c22({c022Deduction:"cause:0"});assert.equal(c022.run("wrong"),true);c22({c022Deduction:"cause:1"});assert.equal(c022.run("state.scene"),5);c22({c022Deduction:"complete:2"});assert.equal(c022.run("state.status"),"in_progress");c22({c022Deduction:"complete:0"});assert.equal(c022.run("state.status"),"completed");assert.equal(c022.run("state.cluesFound"),5);assert.equal(c022.run("state.xpEarned"),540);assert.equal(c022.run("state.stars"),4);assert.equal(c022.run("achievementDefinitions.find(a=>a.id==='A29').unlocked()"),true);assert.equal(c022.run("isLensaUnlocked('C022')"),true);c022.run("activeCase='C022';answerLensa(0);answerLensa(1);answerLensa(2)");assert.equal(c022.run("lensaBahasa.C022.completed"),true);const c022Best=c022.run("cases.C022.record.xpEarned");c22({action:"replay"});assert.equal(c022.run("state.cluesFound"),0);assert.equal(c022.run("cases.C022.record.xpEarned"),c022Best);const savedC022=store["detektif-bahasa-v1"];c022=boot(true,true,true,true,true,true,true,true);assert.equal(c022.run("cases.C022.record.xpEarned"),540);assert.equal(c022.run("lensaBahasa.C022.completed"),true);assert.equal(c022.run("cases.C021.record.status"),"completed");assert.equal(store["detektif-bahasa-v1"],savedC022);for(const asset of["assets/locations/balai-persiapan-c022.webp","assets/achievements/a29.svg"]){assert.equal(fs.existsSync(asset),true);assert.ok(fs.statSync(asset).size>500);assert.equal(fs.readFileSync("server.js","utf8").includes(asset),true)}console.log("PASS: v2.9.0 C022, five sources, Padanan Objek, guided evidence, two deductions, Lensa C022, A29, replay and legacy-save compatibility.");
+const vm = require("node:vm"),
+  fs = require("node:fs"),
+  assert = require("node:assert/strict");
+let store = {};
+function boot(
+  showTitle = false,
+  withArc2 = false,
+  withArc3 = false,
+  withArc4 = false,
+  withArc5 = false,
+  withArc6 = false,
+  withArc7 = false,
+  withArc8 = false,
+) {
+  const nodes = {},
+    classes = { add() {}, toggle() {}, remove() {} };
+  const ctx = {
+    document: {
+      body: { classList: classes },
+      documentElement: {},
+      querySelector: (s) =>
+        (nodes[s] ??= {
+          innerHTML: "",
+          textContent: "",
+          classList: classes,
+          setAttribute() {},
+          removeAttribute() {},
+          insertAdjacentHTML(position, html) {
+            this.innerHTML += html;
+          },
+          querySelector() {
+            return null;
+          },
+          addEventListener(t, fn) {
+            const prior = this[t];
+            this[t] = (e) => {
+              if (prior) prior(e);
+              if (!e.__immediateStopped) fn(e);
+            };
+          },
+        }),
+    },
+    localStorage: {
+      getItem: (k) => store[k],
+      setItem: (k, v) => (store[k] = v),
+      removeItem: (k) => delete store[k],
+    },
+    window: { scrollTo() {} },
+    console: console,
+  };
+  vm.createContext(ctx);
+  if (withArc3) vm.runInContext(fs.readFileSync("mechanics.js", "utf8"), ctx);
+  vm.runInContext(fs.readFileSync("game.js", "utf8"), ctx);
+  if (withArc2) vm.runInContext(fs.readFileSync("arc2.js", "utf8"), ctx);
+  if (withArc3) vm.runInContext(fs.readFileSync("arc3.js", "utf8"), ctx);
+  if (withArc4) vm.runInContext(fs.readFileSync("arc4.js", "utf8"), ctx);
+  if (withArc5) vm.runInContext(fs.readFileSync("arc5.js", "utf8"), ctx);
+  if (withArc6) vm.runInContext(fs.readFileSync("arc6.js", "utf8"), ctx);
+  if (withArc7) vm.runInContext(fs.readFileSync("arc7.js", "utf8"), ctx);
+  if (withArc8)
+    vm.runInContext(fs.readFileSync("character-presentation.js", "utf8"), ctx);
+  if (withArc8) vm.runInContext(fs.readFileSync("arc8.js", "utf8"), ctx);
+  if (withArc5) vm.runInContext(fs.readFileSync("lensa.js", "utf8"), ctx);
+  if (!showTitle) vm.runInContext("titleOpen=false;render()", ctx);
+  return {
+    run: (c) => vm.runInContext(c, ctx),
+    click: (data) => {
+      const button = {
+        dataset: data,
+        disabled: false,
+        hasAttribute: (n) =>
+          Object.prototype.hasOwnProperty.call(data, n.replace(/^data-/, "")),
+      };
+      nodes["#app"].click({
+        detail: 0,
+        preventDefault() {},
+        stopImmediatePropagation() {
+          this.__immediateStopped = true;
+        },
+        target: {
+          closest: (selector) => {
+            if (selector === "button") return button;
+            if (selector.includes(","))
+              return Object.keys(data).some((k) =>
+                selector.includes(
+                  "data-" + k.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()),
+                ),
+              )
+                ? button
+                : null;
+            const match = selector.match(/^\[data-([^\]]+)\]$/);
+            if (!match) return null;
+            const key = match[1].replace(/-([a-z])/g, (_, c) =>
+              c.toUpperCase(),
+            );
+            return Object.prototype.hasOwnProperty.call(data, key)
+              ? button
+              : null;
+          },
+        },
+      });
+    },
+    change: (data, value) =>
+      nodes["#app"].change({ target: { dataset: data, value: value } }),
+    nodes: nodes,
+  };
+}
+function validateScene(g, name, ids) {
+  const data = JSON.parse(g.run(`JSON.stringify(scenes.${name}.hotspots)`));
+  assert.deepEqual(
+    data.map((h) => h.id),
+    ids,
+  );
+  assert.equal(new Set(data.map((h) => h.id)).size, ids.length);
+  assert.ok(
+    data.every(
+      (h) => h.x >= 0 && h.y >= 0 && h.x + h.w <= 100 && h.y + h.h <= 100,
+    ),
+  );
+  for (let i = 0; i < data.length; i++)
+    for (let j = i + 1; j < data.length; j++) {
+      const a = data[i],
+        b = data[j],
+        overlap =
+          a.x < b.x + b.w &&
+          a.x + a.w > b.x &&
+          a.y < b.y + b.h &&
+          a.y + a.h > b.y;
+      assert.equal(overlap, false, `${name}: ${a.id} bertindih dengan ${b.id}`);
+    }
+}
+let g = boot();
+assert.equal(g.run("getCompletedCaseCount()"), 0);
+assert.equal(g.run("isFirstArcComplete()"), false);
+assert.equal(g.run(`getCaseStatus('C001')`), "not_started");
+assert.equal(g.run(`getCaseStatus('C002')`), "locked");
+assert.equal(g.run(`homeView().includes('Mula Siasatan')`), true);
+assert.equal(g.run("unlocked2()"), false);
+assert.equal(g.run(`homeView().includes('KES 002, terkunci')`), true);
+validateScene(g, "classroom", [
+  "kertas kecil",
+  "kerusi",
+  "buku",
+  "kotak pensel",
+  "botol air",
+  "beg",
+  "meja",
+]);
+validateScene(g, "library", [
+  "rak buku",
+  "kotak pemulangan",
+  "papan kenyataan",
+  "meja membaca",
+  "pustakawan",
+  "kaunter",
+  "beg perpustakaan",
+]);
+validateScene(g, "mathShop", [
+  "papan kenyataan kedai",
+  "rak produk",
+  "bakul",
+  "rak pengambilan",
+  "resit ammar",
+  "beg biru ammar",
+  "beg merah jambu sofia",
+  "pekerja kedai",
+  "kaunter kedai",
+]);
+validateScene(g, "readingCorner", [
+  "rak biru",
+  "cebisan a",
+  "kotak kad cerita",
+  "meja kecil",
+  "cebisan b",
+  "meja membaca",
+  "cebisan c",
+  "troli buku",
+  "cebisan d",
+  "kotak pemulangan bacaan",
+]);
+validateScene(g, "park", [
+  "bangku taman",
+  "pondok",
+  "papan aktiviti",
+  "pokok besar",
+  "bakul hijau",
+  "air pancut",
+  "laluan",
+  "tong sampah",
+]);
+validateScene(g, "bayurayaFestival", [
+  "senarai penghantaran",
+  "meja pendaftaran lama",
+  "cebisan a festival",
+  "cebisan b festival",
+  "papan acara",
+  "cebisan c festival",
+  "khemah biru",
+  "meja pendaftaran baharu",
+  "kotak lencana",
+  "kotak alat tulis",
+]);
+assert.deepEqual(JSON.parse(g.run("JSON.stringify(fragments)")), [
+  "Letakkan kotak kad cerita",
+  "di atas meja kecil",
+  "di belakang rak biru",
+  "selepas waktu rehat.",
+]);
+assert.equal(g.run("unlocked3()"), false);
+assert.equal(g.run(`homeView().includes('KES 003, terkunci')`), true);
+assert.equal(g.run("unlocked4()"), false);
+assert.equal(g.run(`homeView().includes('KES 004, terkunci')`), true);
+assert.equal(g.run("unlocked5()"), false);
+assert.equal(g.run(`homeView().includes('KES 005, terkunci')`), true);
+assert.equal(
+  g.run(
+    `renderScene(null,'beg biru ammar').includes('data-object="beg biru ammar"')`,
+  ),
+  true,
+);
+assert.equal(
+  g.run(
+    `scenes.mathShop.alt.includes('pelekat roket')&&scenes.mathShop.alt.includes('reben putih')`,
+  ),
+  true,
+);
+const a = (x) => g.click({ action: x }),
+  answer = (x) => g.click({ answer: x }),
+  obj = (x) => g.click({ object: x });
+a("start");
+a("next");
+a("next");
+obj("beg");
+obj("kerusi");
+a("next");
+a("note");
+a("next");
+answer("Aynaa");
+a("next");
+answer("membawa");
+a("next");
+answer("perpustakaan");
+a("next");
+a("library");
+obj("beg perpustakaan");
+obj("pustakawan");
+answer("menyerahkan");
+a("next");
+g.run("state.links=['memiliki','membawa','dibawa ke']");
+a("check");
+a("next");
+g.click({ theory: "1" });
+a("next");
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("state.cluesFound"), 5);
+assert.equal(g.run("unlocked2()"), true);
+assert.equal(g.run(`homeView().includes('Misteri Label Tertukar')`), true);
+assert.equal(g.run("getCompletedCaseCount()"), 1);
+assert.equal(g.run(`getCaseStatus('C001')`), "completed");
+assert.equal(
+  g.run(
+    `renderResultPanel().includes('KES BAHARU DIBUKA!')&&renderResultPanel().includes('KES 002')`,
+  ),
+  true,
+);
+assert.equal(
+  g.run(
+    `renderResultPanel().includes('Lihat Fail Kes')&&renderResultPanel().includes('Kembali ke agensi')&&renderResultPanel().includes('Main semula')`,
+  ),
+  true,
+);
+const case1Best = g.run("record.xpEarned");
+g.click({ case: "C002" });
+assert.equal(g.run("activeCase"), "C002");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run(`homeView().includes('⭐⭐ Jejak Tajam')`), true);
+a("start");
+a("next");
+assert.equal(g.run("state.scene"), 1);
+assert.equal(g.run(`getCaseStatus('C002')`), "in_progress");
+assert.equal(g.run(`homeView().includes('Sambung Siasatan')`), true);
+obj("bakul");
+assert.equal(g.run("kluMode()"), "thinking");
+a("hint");
+a("hint");
+a("hint");
+assert.equal(g.run(`state.hintLevels['1:resit ammar']`), 3);
+obj("resit ammar");
+assert.equal(g.run("state.cluesFound"), 1);
+a("next");
+answer("biru");
+assert.equal(g.run("!!state.solved[2]"), false);
+answer("kecil");
+a("next");
+answer("merah jambu");
+assert.equal(g.run("state.cluesFound"), 2);
+a("next");
+obj("beg merah jambu sofia");
+assert.equal(g.run("!!state.solved[4]"), false);
+obj("beg biru ammar");
+assert.equal(g.run("state.cluesFound"), 3);
+a("next");
+obj("beg merah jambu sofia");
+assert.equal(g.run("state.cluesFound"), 4);
+a("next");
+answer("memeriksa");
+assert.equal(g.run("state.cluesFound"), 5);
+a("next");
+a("check2");
+assert.equal(g.run("!!state.solved[7]"), false);
+g.run("state.links=['memiliki','memiliki','berlabel','berlabel']");
+a("check2");
+a("next");
+g.click({ theory2: "0" });
+assert.equal(g.run("state.status"), "in_progress");
+g.click({ theory2: "1" });
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("state.cluesFound"), 5);
+assert.equal(
+  g.run(`clues[2].includes('SOFIA')&&clues[3].includes('AMMAR')`),
+  true,
+);
+a("next");
+assert.equal(g.run("state.scene"), 10);
+const case2Best = g.run("record.xpEarned");
+assert.ok(case2Best >= 140);
+assert.equal(
+  g.run(
+    `renderResultPanel().includes('KES 002 SELESAI')&&renderResultPanel().includes('KES 003')&&renderResultPanel().includes('KES BAHARU DIBUKA!')`,
+  ),
+  true,
+);
+g.click({ case: "C001" });
+assert.equal(g.run("activeCase"), "C001");
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("record.xpEarned"), case1Best);
+a("start");
+a("replay");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("record.xpEarned"), case1Best);
+assert.equal(g.run("unlocked2()"), true);
+g.click({ case: "C002" });
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("record.xpEarned"), case2Best);
+a("start");
+a("replay");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("record.xpEarned"), case2Best);
+assert.equal(g.run(`cases.C001.record.status`), "completed");
+g.nodes["#sound"].onclick();
+g = boot();
+assert.equal(g.run("muted"), true);
+assert.equal(g.run("activeCase"), "C002");
+assert.equal(g.run("unlocked3()"), true);
+g.run("switchCase('C003')");
+assert.equal(g.run("activeCase"), "C003");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run(`homeView().includes('⭐⭐⭐ Jejak Cermat')`), true);
+assert.equal(
+  g.run(`renderScene(null,'cebisan a').includes('data-object="cebisan a"')`),
+  true,
+);
+const c3 = (data) =>
+  g.run(`handleCase3Click({dataset:${JSON.stringify(data)}})`);
+c3({ action: "start" });
+c3({ action: "next" });
+c3({ object: "rak biru" });
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("wrong"), true);
+c3({ object: "cebisan a" });
+assert.equal(g.run("state.cluesFound"), 0);
+c3({ answer: "kotak kad cerita" });
+assert.equal(g.run("state.cluesFound"), 1);
+c3({ action: "next" });
+c3({ object: "cebisan b" });
+assert.equal(g.run("state.cluesFound"), 2);
+c3({ action: "next" });
+c3({ answer: "meja kecil" });
+assert.equal(g.run("state.cluesFound"), 2);
+c3({ answer: "di belakang rak biru" });
+assert.equal(g.run("state.cluesFound"), 3);
+c3({ action: "next" });
+c3({ answer: "selepas waktu rehat" });
+assert.equal(g.run("state.cluesFound"), 4);
+c3({ action: "next" });
+c3({ fragment: "2" });
+assert.equal(g.run("state.sequence.length"), 0);
+c3({ action: "hint" });
+c3({ action: "hint" });
+c3({ action: "hint" });
+assert.equal(g.run(`state.hintLevels['5']`), 3);
+assert.equal(g.run(`feedback.includes('Letakkan kotak kad cerita')`), true);
+for (const i of [0, 1, 2, 3]) c3({ fragment: String(i) });
+assert.equal(g.run("state.sequence.join()"), "0,1,2,3");
+assert.equal(g.run("state.cluesFound"), 4);
+c3({ action: "next" });
+c3({ answer: "selepas" });
+assert.equal(g.run("state.cluesFound"), 4);
+c3({ answer: "di belakang" });
+c3({ action: "next" });
+c3({ object: "meja kecil" });
+assert.equal(g.run("state.cluesFound"), 4);
+c3({ action: "next" });
+c3({ answer: "Ya, satu arahan" });
+assert.equal(g.run("state.cluesFound"), 5);
+c3({ action: "next" });
+c3({ action: "check3" });
+assert.equal(g.run("!!state.solved[9]"), false);
+g.run("state.links=['diikuti oleh','diikuti oleh','diikuti oleh','lokasi']");
+c3({ action: "check3" });
+c3({ action: "next" });
+c3({ theory3: "0" });
+assert.equal(g.run("state.status"), "in_progress");
+c3({ theory3: "1" });
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("state.cluesFound"), 5);
+c3({ action: "next" });
+const case3Best = g.run("record.xpEarned");
+assert.ok(case3Best >= 160);
+assert.equal(
+  g.run(
+    `renderResultPanel().includes('KES 003 SELESAI')&&renderResultPanel().includes('KES 004')&&renderResultPanel().includes('KES BAHARU DIBUKA!')`,
+  ),
+  true,
+);
+g.run("switchCase('C001')");
+assert.equal(g.run(`cases.C003.run.status`), "completed");
+g.run("switchCase('C003')");
+c3({ action: "start" });
+c3({ action: "replay" });
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("record.xpEarned"), case3Best);
+assert.equal(g.run(`cases.C001.record.status`), "completed");
+assert.equal(g.run(`cases.C002.record.status`), "completed");
+assert.equal(g.run("unlocked4()"), true);
+g.run("switchCase('C004')");
+assert.equal(g.run("activeCase"), "C004");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run(`homeView().includes('⭐⭐⭐⭐ Jejak Teliti')`), true);
+assert.equal(
+  g.run(`tasks4[2].quote`),
+  "“Sebelum hujan, saya nampak bakul hijau di bawah bangku.”",
+);
+assert.equal(
+  g.run(`tasks4[4].quote`),
+  "“Ketika hujan mula turun, saya membawa bakul itu ke pondok supaya tidak basah.”",
+);
+assert.equal(
+  g.run(`tasks4[6].quote`),
+  "“Selepas hujan berhenti, saya membawa bakul itu ke sebelah pokok besar untuk aktiviti.”",
+);
+assert.equal(
+  g.run(
+    `renderScene(null,'bakul hijau').includes('data-object="bakul hijau"')`,
+  ),
+  true,
+);
+const c4 = (data) =>
+  g.run(`handleCase4Click({dataset:${JSON.stringify(data)}})`);
+c4({ action: "start" });
+c4({ action: "next" });
+c4({ object: "air pancut" });
+assert.equal(g.run("wrong"), true);
+c4({ object: "bangku taman" });
+assert.equal(g.run("state.cluesFound"), 0);
+c4({ action: "next" });
+c4({ answer: "ketika hujan" });
+assert.equal(g.run("state.cluesFound"), 0);
+c4({ answer: "sebelum hujan" });
+assert.equal(g.run("state.cluesFound"), 1);
+c4({ action: "next" });
+c4({ object: "pondok" });
+c4({ action: "next" });
+c4({ answer: "ke pondok" });
+assert.equal(g.run("state.cluesFound"), 2);
+c4({ action: "next" });
+c4({ answer: "Ya. Hanya seorang boleh betul." });
+assert.equal(g.run("!!state.solved[5]"), false);
+c4({ action: "hint" });
+c4({ action: "hint" });
+c4({ action: "hint" });
+assert.equal(g.run(`state.hintLevels['5']`), 3);
+c4({ answer: "Tidak. Kedua-duanya berlaku pada masa yang berbeza." });
+assert.equal(g.run("state.cluesFound"), 2);
+assert.equal(g.run("state.statementChecks[5]"), true);
+c4({ action: "next" });
+c4({ answer: "selepas hujan berhenti" });
+assert.equal(g.run("state.cluesFound"), 3);
+c4({ action: "next" });
+c4({ answer: "Salah seorang tersalah nampak." });
+assert.equal(g.run("!!state.solved[7]"), false);
+c4({ answer: "Bakul dipindahkan selepas hujan berhenti." });
+assert.equal(g.run("state.statementChecks[7]"), true);
+assert.equal(g.run("state.cluesFound"), 3);
+c4({ action: "next" });
+c4({ object: "papan aktiviti" });
+assert.equal(g.run("state.cluesFound"), 3);
+c4({ answer: "kawasan pokok besar" });
+assert.equal(g.run("state.cluesFound"), 4);
+c4({ action: "next" });
+c4({ object: "pokok besar" });
+assert.equal(g.run("state.cluesFound"), 4);
+c4({ object: "bakul hijau" });
+assert.equal(g.run("state.cluesFound"), 5);
+c4({ action: "next" });
+c4({ action: "check4" });
+assert.equal(g.run("!!state.solved[10]"), false);
+g.run("state.links=['bakul berada','bakul dipindahkan','bakul dipindahkan']");
+c4({ action: "check4" });
+c4({ action: "next" });
+c4({ theory4: "0" });
+assert.equal(g.run("state.status"), "in_progress");
+c4({ theory4: "1" });
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("state.cluesFound"), 5);
+c4({ action: "next" });
+const case4Best = g.run("record.xpEarned");
+assert.ok(case4Best >= 180);
+assert.equal(
+  g.run(
+    `renderResultPanel().includes('KES 004 SELESAI')&&renderResultPanel().includes('KES 005')&&renderResultPanel().includes('KES BAHARU DIBUKA!')`,
+  ),
+  true,
+);
+g.run("switchCase('C002')");
+assert.equal(g.run(`cases.C004.run.status`), "completed");
+g.run("switchCase('C004')");
+c4({ action: "start" });
+c4({ action: "replay" });
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("record.xpEarned"), case4Best);
+assert.equal(g.run(`cases.C003.record.status`), "completed");
+assert.equal(g.run("unlocked5()"), true);
+g.run("switchCase('C005')");
+assert.equal(g.run("activeCase"), "C005");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run(`homeView().includes('⭐⭐⭐⭐⭐ Jejak Utama')`), true);
+assert.equal(
+  g.run(
+    `clues5[0].includes('kotak biru kecil dengan lambang Bayuraya berwarna emas')`,
+  ),
+  true,
+);
+assert.deepEqual(JSON.parse(g.run("JSON.stringify(festivalFragments)")), [
+  "Selepas meja pendaftaran dipindahkan,",
+  "bawa kotak lencana",
+  "ke khemah biru.",
+]);
+assert.equal(
+  g.run(`tasks5[5].quote`),
+  "“Sebelum meja pendaftaran dipindahkan, saya nampak kotak lencana di atas meja lama.”",
+);
+assert.equal(
+  g.run(
+    `renderCase5.toString().includes('Selepas meja pendaftaran dipindahkan, saya nampak kotak biru kecil dibawa ke arah khemah biru.')`,
+  ),
+  true,
+);
+assert.equal(
+  g.run(
+    `renderScene(null,'kotak lencana').includes('data-object="kotak lencana"')`,
+  ),
+  true,
+);
+let c5 = (data) => g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);
+c5({ action: "start" });
+c5({ action: "next" });
+c5({ object: "papan acara" });
+assert.equal(g.run("wrong"), true);
+c5({ object: "senarai penghantaran" });
+assert.equal(g.run("state.cluesFound"), 0);
+c5({ action: "next" });
+c5({ object: "kotak alat tulis" });
+assert.equal(g.run("state.cluesFound"), 0);
+c5({ action: "hint" });
+c5({ action: "hint" });
+c5({ action: "hint" });
+assert.equal(g.run(`state.hintLevels['2:kotak lencana']`), 3);
+c5({ object: "kotak lencana" });
+assert.equal(g.run("state.cluesFound"), 1);
+c5({ action: "next" });
+for (const id of [
+  "cebisan a festival",
+  "cebisan b festival",
+  "cebisan c festival",
+])
+  c5({ object: id });
+assert.equal(g.run("state.cluesFound"), 1);
+assert.equal(g.run("!!state.solved[3]"), true);
+c5({ action: "next" });
+c5({ fragment: "1" });
+assert.equal(g.run("state.sequence.length"), 0);
+c5({ action: "hint" });
+c5({ action: "hint" });
+c5({ action: "hint" });
+assert.equal(g.run(`state.hintLevels['4']`), 3);
+c5({ fragment: "0" });
+assert.equal(g.run("state.sequence.join()"), "0");
+g = boot();
+c5 = (data) => g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);
+assert.equal(g.run("activeCase"), "C005");
+assert.equal(g.run("state.scene"), 4);
+assert.equal(g.run("state.sequence.join()"), "0");
+for (const i of [1, 2]) c5({ fragment: String(i) });
+assert.equal(g.run("state.cluesFound"), 2);
+c5({ action: "next" });
+c5({ answer: "selepas meja dipindahkan" });
+assert.equal(g.run("state.cluesFound"), 2);
+c5({ answer: "sebelum meja pendaftaran dipindahkan" });
+c5({ action: "next" });
+c5({ action: "next" });
+c5({ answer: "Ya. Kotak tidak boleh berada di dua tempat." });
+assert.equal(g.run("!!state.solved[7]"), false);
+c5({ action: "hint" });
+c5({ action: "hint" });
+c5({ action: "hint" });
+assert.equal(g.run(`state.hintLevels['7']`), 3);
+c5({ answer: "Tidak. Mereka melihat kotak pada masa yang berbeza." });
+assert.equal(g.run("state.cluesFound"), 3);
+assert.equal(g.run("state.statementChecks[7]"), true);
+g = boot();
+c5 = (data) => g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);
+assert.equal(g.run("state.scene"), 7);
+assert.equal(g.run("state.cluesFound"), 3);
+c5({ action: "next" });
+c5({ object: "khemah biru" });
+assert.equal(g.run("state.cluesFound"), 3);
+c5({ object: "papan acara" });
+c5({ answer: "Pentas kecil" });
+assert.equal(g.run("state.cluesFound"), 3);
+c5({ answer: "Khemah Biru" });
+assert.equal(g.run("state.cluesFound"), 4);
+c5({ action: "next" });
+c5({ object: "kotak alat tulis" });
+assert.equal(g.run("state.cluesFound"), 4);
+c5({ object: "kotak lencana" });
+assert.equal(g.run("state.cluesFound"), 5);
+c5({ action: "next" });
+c5({ action: "check5" });
+assert.equal(g.run("!!state.solved[10]"), false);
+g.run(
+  "state.links=['dikenal melalui','dipindahkan ke','membawa','ditemui di']",
+);
+c5({ action: "check5" });
+g = boot();
+c5 = (data) => g.run(`handleCase5Click({dataset:${JSON.stringify(data)}})`);
+assert.equal(g.run("state.scene"), 10);
+assert.equal(g.run("!!state.solved[10]"), true);
+c5({ action: "next" });
+c5({ theory5: "0" });
+assert.equal(g.run("state.status"), "in_progress");
+c5({ theory5: "2" });
+assert.equal(g.run("state.status"), "completed");
+assert.equal(g.run("state.cluesFound"), 5);
+c5({ action: "next" });
+assert.equal(
+  g.run(`renderCase5.toString().includes('Fail Pertama Lengkap!')`),
+  true,
+);
+const case5Best = g.run("record.xpEarned");
+assert.ok(case5Best >= 220);
+assert.equal(g.run("getCompletedCaseCount()"), 5);
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.equal(
+  g.run(`renderResultPanel().includes('Fail Pertama Lengkap!')`),
+  true,
+);
+assert.equal(g.run(`renderResultPanel().includes('skill-badges')`), true);
+assert.equal(g.run(`homeView().includes('5/5 Kes Selesai')`), true);
+assert.equal(g.run(`caseShelf().includes('Fail Pertama Lengkap')`), true);
+g.run("switchCase('C001')");
+assert.equal(g.run(`cases.C005.run.status`), "completed");
+g.run("switchCase('C005')");
+c5({ action: "start" });
+c5({ action: "replay" });
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("record.xpEarned"), case5Best);
+assert.equal(g.run(`cases.C004.record.status`), "completed");
+assert.equal(g.run(`cases.C001.record.status`), "completed");
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.equal(g.run("getCompletedCaseCount()"), 5);
+assert.equal(g.run(`getCaseStatus('C005')`), "completed");
+c5({ action: "next" });
+assert.equal(g.run(`getCaseStatus('C005')`), "in_progress");
+assert.equal(g.run("isFirstArcComplete()"), true);
+g.run("switchCase('C003')");
+assert.equal(g.run(`cases.C005.run.scene`), 1);
+g.run("switchCase('C005')");
+assert.equal(g.run("state.scene"), 1);
+g.run("switchCase('C001')");
+a("start");
+a("replay");
+assert.equal(g.run("state.cluesFound"), 0);
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.equal(g.run("getCompletedCaseCount()"), 5);
+assert.equal(g.run(`cases.C005.record.status`), "completed");
+a("next");
+assert.equal(g.run(`getCaseStatus('C001')`), "in_progress");
+g.run("switchCase('C005')");
+assert.equal(g.run("state.scene"), 1);
+assert.equal(g.run("isFirstArcComplete()"), true);
+store = {
+  "detektif-bahasa-v1": JSON.stringify({
+    run: {
+      caseId: "Y2-C001",
+      scene: 8,
+      cluesFound: 4,
+      objects: ["beg", "kerusi"],
+      solved: { 2: true, 3: true, 4: true, 5: true, 6: true },
+      hintLevels: {},
+      errors: {},
+      links: ["", "", ""],
+      libraryEntered: true,
+    },
+    record: { caseId: "Y2-C001", status: "completed", xpEarned: 150, stars: 3 },
+    muted: false,
+  }),
+};
+g = boot();
+assert.equal(g.run("activeCase"), "C001");
+assert.equal(g.run("state.caseId"), "C001");
+assert.equal(g.run("state.cluesFound"), 4);
+assert.equal(g.run("unlocked2()"), true);
+assert.equal(g.run(`cases.C002.run.cluesFound`), 0);
+store = {};
+g = boot();
+assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(locations))")), [
+  "agency",
+  "school",
+  "library",
+  "mathShop",
+  "park",
+  "square",
+]);
+assert.equal(g.run("getExplorationCount()"), 1);
+assert.equal(g.run(`getLocationStatus('agency')`), "discovered");
+assert.equal(g.run(`getLocationStatus('school')`), "undiscovered");
+assert.equal(g.run(`getLocationStatus('library')`), "undiscovered");
+assert.equal(g.run(`getLocationStatus('mathShop')`), "undiscovered");
+assert.equal(g.run(`renderMap.toString().includes('data-location=')`), true);
+assert.equal(g.run(`renderMap.toString().includes('aria-label=')`), true);
+assert.equal(
+  g.run(
+    `locationPanel('school').includes('Lokasi belum ditemui')&&!locationPanel('school').includes('Misteri Beg Merah')`,
+  ),
+  true,
+);
+g.nodes["#map-nav"].onclick();
+assert.equal(g.run("mapOpen"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("1/6"), true);
+g.click({ location: "school" });
+assert.equal(g.run("selectedLocation"), "school");
+assert.equal(g.nodes["#app"].innerHTML.includes("Lokasi belum ditemui"), true);
+g.run(
+  "cases.C001.record={status:'completed',stars:3,xpEarned:150};cases.C001.run.status='completed';render()",
+);
+assert.equal(g.run(`getLocationStatus('school')`), "investigated");
+assert.equal(g.run(`getLocationStatus('library')`), "investigated");
+assert.equal(g.run(`getLocationStatus('mathShop')`), "discovered");
+assert.equal(g.run("getExplorationCount()"), 4);
+assert.equal(g.run(`locationPanel('library').includes('KES 001')`), true);
+assert.equal(g.run(`locationPanel('library').includes('KES 003')`), false);
+g.run(
+  "cases.C002.record={status:'completed'};cases.C002.run.status='completed';cases.C003.record={status:'completed'};cases.C003.run.status='completed';cases.C004.record={status:'completed'};cases.C004.run.status='completed'",
+);
+assert.equal(g.run(`getLocationStatus('mathShop')`), "investigated");
+assert.equal(g.run(`getLocationStatus('park')`), "investigated");
+assert.equal(g.run(`getLocationStatus('square')`), "discovered");
+assert.equal(g.run("getExplorationCount()"), 6);
+assert.equal(
+  g.run(
+    `locationPanel('library').includes('KES 001')&&locationPanel('library').includes('KES 003')`,
+  ),
+  true,
+);
+g.run(
+  "cases.C005.record={status:'completed'};cases.C005.run.status='completed';render()",
+);
+assert.equal(g.run(`getLocationStatus('square')`), "investigated");
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("Fail Pertama Lengkap"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("6/6"), true);
+const v8save = JSON.stringify({
+  version: 2,
+  activeCase: "C002",
+  cases: JSON.parse(g.run("JSON.stringify(cases)")),
+  muted: true,
+});
+store = { "detektif-bahasa-v1": v8save };
+g = boot();
+assert.equal(g.run("activeCase"), "C002");
+assert.equal(g.run("muted"), true);
+assert.equal(g.run("getExplorationCount()"), 6);
+assert.equal(g.run(`cases.C001.record.status`), "completed");
+store = {};
+g = boot();
+assert.equal(g.run("getCompletedCaseCount()"), 0);
+assert.equal(g.run("getExplorationCount()"), 1);
+assert.equal(g.run("getTotalBestStars()"), 0);
+assert.equal(g.run("getMaximumStars()"), 18);
+assert.equal(g.run("getTotalBestXP()"), 0);
+assert.equal(g.run("achievementDefinitions.length"), 9);
+assert.equal(g.run("achievementDefinitions.filter(a=>a.unlocked()).length"), 0);
+assert.equal(
+  g.run(`achievementCard(achievementDefinitions[0]).includes('Belum dicapai')`),
+  true,
+);
+g.nodes["#achievements-nav"].onclick();
+assert.equal(g.run("achievementsOpen"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("PENCAPAIAN DETEKTIF"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("0 / 5"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("1 / 6"), true);
+g.run(
+  "cases.C001.record={status:'completed',stars:3,xpEarned:150};cases.C001.run.status='completed'",
+);
+assert.equal(g.run(`achievementDefinitions[0].unlocked()`), true);
+assert.equal(g.run(`achievementDefinitions[1].unlocked()`), false);
+g.run(
+  "cases.C002.record={status:'completed',stars:3,xpEarned:170};cases.C002.run.status='completed';cases.C003.record={status:'completed',stars:3,xpEarned:190};cases.C003.run.status='completed'",
+);
+assert.equal(
+  g.run("achievementDefinitions.slice(0,3).every(a=>a.unlocked())"),
+  true,
+);
+assert.equal(g.run(`achievementDefinitions[3].unlocked()`), false);
+g.run(
+  "cases.C004.record={status:'completed',stars:4,xpEarned:210};cases.C004.run.status='completed'",
+);
+assert.equal(g.run(`achievementDefinitions[3].unlocked()`), true);
+assert.equal(g.run(`achievementDefinitions[4].unlocked()`), false);
+g.run(
+  "cases.C005.record={status:'completed',stars:5,xpEarned:220};cases.C005.run.status='completed'",
+);
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.equal(g.run("getExplorationCount()"), 6);
+assert.equal(g.run("getTotalBestStars()"), 18);
+assert.equal(g.run("getTotalBestXP()"), 940);
+assert.equal(g.run("hasFiveStarRecord()"), true);
+assert.equal(g.run("hasMaximumRecords()"), true);
+assert.equal(g.run("achievementDefinitions.every(a=>a.unlocked())"), true);
+g.run("cases.C005.record={...cases.C005.record,xpEarned:250}");
+assert.equal(g.run("getTotalBestXP()"), 970);
+g.run("cases.C001.run=fresh1();cases.C005.run=fresh5()");
+assert.equal(g.run(`achievementDefinitions[0].unlocked()`), true);
+assert.equal(g.run(`achievementDefinitions[4].unlocked()`), true);
+assert.equal(g.run(`achievementDefinitions[5].unlocked()`), true);
+assert.equal(g.run(`achievementDefinitions[8].unlocked()`), true);
+const v9save = JSON.stringify({
+  version: 2,
+  activeCase: "C005",
+  cases: JSON.parse(g.run("JSON.stringify(cases)")),
+  muted: false,
+});
+store = { "detektif-bahasa-v1": v9save };
+g = boot();
+assert.equal(g.run("activeCase"), "C005");
+assert.equal(g.run("achievementDefinitions.every(a=>a.unlocked())"), true);
+assert.equal(g.run("getExplorationCount()"), 6);
+g.run("mapOpen=true;achievementsOpen=false;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"), true);
+store = {};
+g = boot();
+assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(characters))")), [
+  "klu",
+  "aynaa",
+  "farah",
+  "hakim",
+  "meiLing",
+  "librarian",
+  "ammar",
+  "sofia",
+  "shopWorker",
+  "ivy",
+  "kumar",
+  "maria",
+  "azzam",
+  "pakRahim",
+]);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 1);
+assert.equal(g.run(`isCharacterDiscovered('klu')`), true);
+assert.equal(g.run(`isCharacterDiscovered('aynaa')`), false);
+assert.equal(
+  g.run(
+    `characterCard(characters.aynaa).includes('????')&&!characterCard(characters.aynaa).includes('Aynaa')`,
+  ),
+  true,
+);
+g.nodes["#characters-nav"].onclick();
+assert.equal(g.run("charactersOpen"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("FAIL PENDUDUK"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("1 / 14"), true);
+g.run(
+  "cases.C001.record={status:'completed'};cases.C001.run.status='completed'",
+);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 6);
+g.run(
+  "cases.C002.record={status:'completed'};cases.C002.run.status='completed'",
+);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 9);
+g.run(
+  "cases.C003.record={status:'completed'};cases.C003.run.status='completed'",
+);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 11);
+g.run(
+  "cases.C004.record={status:'completed'};cases.C004.run.status='completed'",
+);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 14);
+g.run(
+  "cases.C005.record={status:'completed'};cases.C005.run.status='completed'",
+);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 14);
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.deepEqual(
+  JSON.parse(g.run("JSON.stringify(characters.aynaa.relatedCases)")),
+  ["C001", "C005"],
+);
+assert.deepEqual(
+  JSON.parse(g.run("JSON.stringify(characters.librarian.relatedCases)")),
+  ["C001", "C003"],
+);
+assert.deepEqual(
+  JSON.parse(g.run("JSON.stringify(characters.azzam.relatedCases)")),
+  ["C004", "C005"],
+);
+assert.equal(
+  g.run(
+    `characterDetail('aynaa').includes('Sekolah Bayuraya')&&characterDetail('aynaa').includes('Dataran Bayuraya')`,
+  ),
+  true,
+);
+assert.equal(
+  g.run(
+    `characterDetail('librarian').includes('KES 001')&&characterDetail('librarian').includes('KES 003')`,
+  ),
+  true,
+);
+assert.equal(
+  g.run(
+    `characterDetail('azzam').includes('Taman Bayuraya')&&characterDetail('azzam').includes('Dataran Bayuraya')`,
+  ),
+  true,
+);
+for (const f of [
+  "assets/cikgu-farah.svg",
+  "assets/hakim.svg",
+  "assets/mei-ling.svg",
+  "assets/pustakawan.svg",
+])
+  assert.equal(fs.existsSync(f), true);
+const serverSource = fs.readFileSync("server.js", "utf8");
+for (const route of [
+  "/assets/cikgu-farah.svg",
+  "/assets/hakim.svg",
+  "/assets/mei-ling.svg",
+  "/assets/pustakawan.svg",
+  "/assets/locations/peta-bayuraya.svg",
+])
+  assert.equal(serverSource.includes(route), true);
+const v10save = JSON.stringify({
+  version: 2,
+  activeCase: "C003",
+  cases: JSON.parse(g.run("JSON.stringify(cases)")),
+  muted: true,
+});
+store = { "detektif-bahasa-v1": v10save };
+g = boot();
+assert.equal(g.run("activeCase"), "C003");
+assert.equal(g.run("muted"), true);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 14);
+g.run("charactersOpen=false;achievementsOpen=true;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("PENCAPAIAN DETEKTIF"), true);
+g.run("achievementsOpen=false;mapOpen=true;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"), true);
+store = {};
+g = boot();
+const guideStateBefore = g.run("JSON.stringify({activeCase,cases,muted})");
+g.nodes["#guide-nav"].onclick();
+const guideHtml = g.nodes["#app"].innerHTML;
+assert.equal(g.run("guideOpen"), true);
+assert.equal(guideHtml.includes("PANDUAN DETEKTIF"), true);
+assert.equal(g.run("guideSections.length"), 6);
+for (const heading of [
+  "Cara Bermain",
+  "Siasatan Lokasi",
+  "KLU & Bantuan",
+  "Mekanik Siasatan",
+  "Dunia Bayuraya",
+  "Simpanan & Kawalan",
+])
+  assert.equal(guideHtml.includes(heading), true);
+for (const word of [
+  "CARI",
+  "BACA",
+  "SAMBUNG",
+  "FIKIR",
+  "0/3",
+  "1/3",
+  "2/3",
+  "3/3",
+  "Tab",
+  "Enter",
+  "Space",
+  "Tetikus",
+  "sentuhan",
+  "Bunyi: Hidup",
+  "Main semula",
+])
+  assert.equal(guideHtml.includes(word), true);
+assert.equal(
+  guideHtml.includes(
+    "Kemajuan dan pilihan bunyi disimpan secara automatik pada peranti dan pelayar ini.",
+  ),
+  true,
+);
+for (const spoiler of [
+  "Misteri Label Tertukar",
+  "Misteri Nota Terpotong",
+  "Misteri Jejak di Taman",
+  "Misteri Persiapan Hari Bayuraya",
+  "telah dicuri",
+  "label dua pesanan telah tertukar",
+])
+  assert.equal(guideHtml.includes(spoiler), false);
+assert.equal(
+  g.run("JSON.stringify({activeCase,cases,muted})"),
+  guideStateBefore,
+);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes('id="guide-nav"') &&
+    !fs
+      .readFileSync("index.html", "utf8")
+      .includes("Panduan<small>Akan datang"),
+  true,
+);
+g.run("guideOpen=false;mapOpen=true;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("PETA BAYURAYA"), true);
+g.run("mapOpen=false;achievementsOpen=true;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("PENCAPAIAN DETEKTIF"), true);
+g.run("achievementsOpen=false;charactersOpen=true;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("FAIL PENDUDUK"), true);
+store = { "detektif-bahasa-v1": v10save };
+g = boot();
+assert.equal(g.run("activeCase"), "C003");
+assert.equal(g.run("muted"), true);
+g.nodes["#guide-nav"].onclick();
+assert.equal(g.nodes["#app"].innerHTML.includes("Panduan Detektif"), true);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 14);
+assert.deepEqual(
+  JSON.parse(g.run("JSON.stringify(firstArcCases.map(c=>c.difficulty))")),
+  [
+    "⭐ Jejak Awal",
+    "⭐⭐ Jejak Tajam",
+    "⭐⭐⭐ Jejak Cermat",
+    "⭐⭐⭐⭐ Jejak Teliti",
+    "⭐⭐⭐⭐⭐ Jejak Utama",
+  ],
+);
+assert.deepEqual(
+  JSON.parse(g.run("JSON.stringify(firstArcCases.map(c=>c.maxStars))")),
+  [3, 3, 3, 4, 5],
+);
+assert.equal(g.run("getMaximumStars()"), 18);
+assert.deepEqual(
+  JSON.parse(
+    g.run(
+      "JSON.stringify([clues1.length,clues2.length,clues3.length,clues4.length,clues5.length])",
+    ),
+  ),
+  [5, 5, 5, 5, 5],
+);
+assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(scenes))")), [
+  "classroom",
+  "library",
+  "mathShop",
+  "park",
+  "readingCorner",
+  "bayurayaFestival",
+]);
+assert.equal(
+  g.run(
+    `typeof renderLibraryScene==='undefined'&&typeof renderFestivalScene==='undefined'`,
+  ),
+  true,
+);
+assert.equal(g.run(`caseStatusText('C001',0).includes('SELESAI')`), true);
+assert.equal(g.run(`caseStatusText('C002',1).includes('SELESAI')`), true);
+g.run(
+  `[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>{cases[id].record={status:'completed',stars,xpEarned};cases[id].run.status='completed'})`,
+);
+assert.equal(g.run(`getTotalBestXP()`), 970);
+assert.equal(g.run(`getTotalBestStars()`), 18);
+assert.equal(g.run(`achievementDefinitions.filter(a=>a.unlocked()).length`), 9);
+assert.equal(g.run(`getExplorationCount()`), 6);
+assert.equal(g.run(`getDiscoveredCharacterCount()`), 14);
+assert.equal(g.run(`isFirstArcComplete()`), true);
+const playerCopy =
+  fs.readFileSync("game.js", "utf8") + fs.readFileSync("index.html", "utf8");
+assert.equal(/\bAina\b/.test(playerCopy), false);
+assert.equal(/Tahun\s+[0-9]/i.test(playerCopy), false);
+assert.equal(/Agensi Bayuraya/i.test(playerCopy), false);
+const canonicalCharacterNames = [
+  "KLU",
+  "Aynaa",
+  "Cikgu Farah",
+  "Hakim",
+  "Mei Ling",
+  "Pustakawan Bayuraya",
+  "Ammar",
+  "Sofia",
+  "Pekerja Kedai Matematik",
+  "Ivy",
+  "Kumar",
+  "Maria",
+  "Azzam",
+  "Pak Rahim",
+];
+assert.deepEqual(
+  JSON.parse(g.run("JSON.stringify(Object.values(characters).map(c=>c.name))")),
+  canonicalCharacterNames,
+);
+const characterPortraits = JSON.parse(
+  g.run("JSON.stringify(Object.values(characters).map(c=>c.portrait))"),
+);
+assert.equal(characterPortraits[0], "assets/klu.svg");
+for (const portrait of characterPortraits.slice(1)) {
+  assert.equal(
+    portrait.startsWith("assets/characters/") && portrait.endsWith(".webp"),
+    true,
+  );
+  assert.equal(fs.existsSync(portrait), true);
+  assert.ok(fs.statSync(portrait).size > 2e4);
+  assert.equal(
+    fs.readFileSync(portrait).subarray(0, 4).toString("ascii"),
+    "RIFF",
+  );
+}
+assert.equal(new Set(characterPortraits).size, 14);
+assert.equal(g.run(`tasks1[4].portrait`), "assets/characters/aynaa.webp");
+assert.equal(g.run(`tasks1[5].portrait`), "assets/characters/hakim.webp");
+assert.equal(g.run(`tasks1[6].portrait`), "assets/characters/mei-ling.webp");
+assert.equal(g.run(`tasks1[8].portrait`), "assets/characters/pustakawan.webp");
+assert.equal(g.run(`tasks1[8].name`), "Pustakawan Bayuraya");
+assert.equal(g.run(`tasks3[3].name`), "Ivy");
+assert.equal(g.run(`tasks3[8].portrait`), "assets/characters/pustakawan.webp");
+const runtimeSource = fs.readFileSync("game.js", "utf8");
+for (const obsolete of [
+  "aynaa",
+  "ammar",
+  "sofia",
+  "ivy",
+  "kumar",
+  "maria",
+  "azzam",
+  "pak-rahim",
+  "shop-worker",
+  "cikgu-farah",
+  "hakim",
+  "mei-ling",
+  "pustakawan",
+])
+  assert.equal(runtimeSource.includes(`assets/${obsolete}.svg`), false);
+assert.equal(runtimeSource.includes("Ivy Chian"), false);
+assert.equal(/\bAina\b/.test(runtimeSource), false);
+assert.equal(
+  runtimeSource.includes("kedai-matematik\\assets") ||
+    runtimeSource.includes("kedai-matematik/assets"),
+  false,
+);
+for (const portrait of characterPortraits.slice(1))
+  assert.equal(serverSource.includes("/" + portrait), true);
+assert.equal(serverSource.includes("image/webp"), true);
+const characterCss = fs.readFileSync("style.css", "utf8");
+assert.equal(
+  characterCss.includes(".character-card.klu-card img{object-fit:contain}"),
+  true,
+);
+assert.equal(
+  characterCss.includes(
+    '.character-detail>img[src$="klu.svg"]{object-fit:contain}',
+  ),
+  true,
+);
+assert.equal(
+  g.run(`characterCard(characters.shopWorker).includes('character-portrait')`),
+  true,
+);
+assert.equal(
+  g.run(`characterDetail('shopWorker').includes('character-detail-portrait')`),
+  true,
+);
+assert.equal(
+  characterCss.includes('img[src$="shop-worker.webp"]{transform:scale(1.23)}'),
+  true,
+);
+assert.equal(g.run(`characters.ivy.name`), "Ivy");
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+const mapAsset = "assets/locations/peta-bayuraya.webp";
+assert.equal(fs.existsSync(mapAsset), true);
+assert.equal(
+  fs.readFileSync(mapAsset).subarray(0, 4).toString("ascii"),
+  "RIFF",
+);
+assert.ok(fs.statSync(mapAsset).size > 15e4);
+assert.equal(runtimeSource.includes(mapAsset), true);
+assert.equal(
+  runtimeSource.includes('<img src="assets/locations/peta-bayuraya.svg"'),
+  false,
+);
+assert.equal(serverSource.includes("/" + mapAsset), true);
+store = {};
+g = boot();
+g.nodes["#map-nav"].onclick();
+const redesignedMapHtml = g.nodes["#app"].innerHTML;
+assert.equal((redesignedMapHtml.match(/data-location=/g) || []).length, 6);
+assert.equal(redesignedMapHtml.includes("map-art-fallback"), true);
+assert.equal(redesignedMapHtml.includes("map-hotspot-layer"), true);
+assert.equal(redesignedMapHtml.includes(mapAsset), true);
+assert.equal(g.run("getExplorationCount()"), 1);
+g.click({ location: "agency" });
+assert.equal(g.run("selectedLocation"), "agency");
+assert.equal(
+  g.nodes["#app"].innerHTML.includes("Agensi Detektif Bahasa"),
+  true,
+);
+const mapCoordinates = JSON.parse(
+  g.run(
+    "JSON.stringify(Object.values(locations).map(({id,x,y,w,h})=>({id,x,y,w,h})))",
+  ),
+);
+for (const area of mapCoordinates) {
+  for (const key of ["x", "y", "w", "h"])
+    assert.ok(area[key] >= 0 && area[key] <= 100);
+  assert.ok(area.x + area.w <= 100 && area.y + area.h <= 100);
+}
+for (let i = 0; i < mapCoordinates.length; i++)
+  for (let j = i + 1; j < mapCoordinates.length; j++) {
+    const a = mapCoordinates[i],
+      b = mapCoordinates[j],
+      overlap =
+        a.x < b.x + b.w &&
+        a.x + a.w > b.x &&
+        a.y < b.y + b.h &&
+        a.y + a.h > b.y;
+    assert.equal(overlap, false, `${a.id} overlaps ${b.id}`);
+  }
+const mapCss = fs.readFileSync("style.css", "utf8");
+assert.equal(
+  mapCss.includes(".map-art-fallback") &&
+    mapCss.includes("pointer-events:none"),
+  true,
+);
+assert.equal(mapCss.includes("touch-action:pan-x pan-y"), true);
+g.run(
+  "for(const id of ['C001','C002','C003','C004','C005']){cases[id].record={status:'completed'};cases[id].run.status='completed'}",
+);
+assert.equal(g.run("getExplorationCount()"), 6);
+assert.equal(g.run("isFirstArcComplete()"), true);
+store = {};
+g = boot(true);
+assert.equal(g.run("titleOpen"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("MASUK AGENSI"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("SAMBUNG SIASATAN"), false);
+const titleState = g.run("JSON.stringify({activeCase,cases,muted})");
+g.run("renderTitle()");
+assert.equal(g.run("JSON.stringify({activeCase,cases,muted})"), titleState);
+g.run("cases.C001.run.scene=2;persist();render()");
+assert.equal(g.run("hasResumableRun()"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("SAMBUNG SIASATAN"), true);
+g.run(
+  "for(const id of ['C001','C002','C003','C004','C005']){cases[id].run.status='completed';cases[id].record={status:'completed',stars:firstArcCases.find(c=>c.id===id).maxStars,xpEarned:100}};render()",
+);
+assert.equal(g.run("hasResumableRun()"), false);
+assert.equal(g.nodes["#app"].innerHTML.includes("Fail Pertama Lengkap"), true);
+assert.equal(g.nodes["#app"].innerHTML.includes("MASUK AGENSI"), true);
+g.run("parentOpen=true;titleOpen=false;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("RUANG IBU BAPA"), true);
+for (const value of ["5 / 5", "6 / 6", "14 / 14", "18 / 18"])
+  assert.equal(g.nodes["#app"].innerHTML.includes(value), true);
+assert.equal(
+  g.nodes["#app"].innerHTML.includes(
+    "assets/support/sokong-detektif-bahasa.png",
+  ),
+  true,
+);
+g.run("resetConfirm=true;render()");
+assert.equal(g.nodes["#app"].innerHTML.includes("Padam Kemajuan"), true);
+store["permainan-lain"] = "kekal";
+g.run("resetDetektifProgress()");
+assert.equal(store["permainan-lain"], "kekal");
+assert.equal(g.run("getCompletedCaseCount()"), 0);
+assert.equal(g.run("getExplorationCount()"), 1);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 1);
+assert.equal(g.run("achievementDefinitions.filter(a=>a.unlocked()).length"), 0);
+for (const item of JSON.parse(
+  g.run(
+    "JSON.stringify(achievementDefinitions.map(a=>({id:a.id,title:a.title})))",
+  ),
+)) {
+  const file = `assets/achievements/${item.id.toLowerCase()}.webp`;
+  assert.equal(fs.existsSync(file), true);
+  assert.equal(
+    g.run(
+      `achievementCard(achievementDefinitions.find(a=>a.id==='${item.id}')).includes('${file}')`,
+    ),
+    true,
+  );
+}
+assert.equal(fs.existsSync("assets/ui/title-bayuraya.webp"), true);
+assert.equal(fs.existsSync("assets/support/sokong-detektif-bahasa.png"), true);
+for (const name of [
+  "classroom",
+  "library",
+  "mathShop",
+  "readingCorner",
+  "park",
+  "bayurayaFestival",
+]) {
+  assert.equal(g.run(`scenes.${name}.image.endsWith('.webp')`), true);
+  assert.equal(fs.existsSync(g.run(`scenes.${name}.image`)), true);
+}
+store = {};
+g = boot(true, true);
+assert.equal(g.run("allCases.length"), 10);
+assert.equal(g.run("secondArcCases.length"), 5);
+assert.equal(g.run("achievementDefinitions.length"), 15);
+assert.equal(g.run("Object.keys(characters).length"), 18);
+assert.equal(g.run("Object.keys(locations).length"), 10);
+assert.equal(g.run("getCompletedCaseCount()"), 0);
+assert.equal(g.run("getExplorationCount()"), 1);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 1);
+assert.equal(g.run("getMaximumStars()"), 40);
+assert.equal(g.run(`isCaseUnlocked(5)`), false);
+g.run("cases.C005.record={status:'completed',stars:5,xpEarned:250}");
+assert.equal(g.run(`isCaseUnlocked(5)`), true);
+for (const [name, ids] of Object.entries({
+  bakery: [
+    "papan pesanan",
+    "dulang biru",
+    "rak penyejuk",
+    "bakul penghantaran",
+    "kaunter roti",
+    "buku pesanan",
+    "rak roti",
+    "kak suri",
+    "klip pesanan",
+  ],
+  market: [
+    "senarai belian",
+    "bakul a",
+    "bakul b",
+    "bakul c",
+    "gerai sayur",
+    "gerai buah",
+    "resit pasar",
+    "penimbang",
+    "encik hafiz",
+  ],
+  vetClinic: [
+    "bekas haiwan",
+    "kaunter klinik",
+    "papan temujanji",
+    "rekod klinik",
+    "pintu hijau",
+    "pintu biru",
+    "kad bilik dua",
+    "dr hana",
+  ],
+  communityHall: [
+    "notis a",
+    "notis b",
+    "jadual dewan",
+    "log pejabat",
+    "kaunter komuniti",
+    "dewan utama",
+    "bilik lain",
+    "puan suraya",
+  ],
+  memoryFinale: [
+    "pentas",
+    "kawasan berbumbung",
+    "kotak kenangan",
+    "papan acara memori",
+    "meja pameran",
+  ],
+}))
+  validateScene(g, name, ids);
+for (const id of ["C006", "C007", "C008", "C009", "C010"])
+  assert.equal(g.run(`secondArcClues.${id}.length`), 5);
+assert.equal(g.run("secondTasks.C006[2].items.length"), 4);
+assert.equal(g.run("secondTasks.C010[1].items.length"), 5);
+assert.equal(g.run("secondTasks.C007[4].target"), "bakul b");
+assert.equal(g.run("secondTasks.C008[4].target"), "kad bilik dua");
+assert.equal(g.run("secondTasks.C009[1].target"), "notis b");
+assert.equal(g.run("secondTasks.C010[4].target"), "kotak kenangan");
+assert.equal(
+  g.run(
+    "achievementDefinitions.find(a=>a.id==='A09').description.includes('Fail Pertama')",
+  ),
+  true,
+);
+assert.equal(
+  g.run("achievementDefinitions.slice(9).map(a=>a.id).join(',')"),
+  "A10,A11,A12,A13,A14,A15",
+);
+for (const path of JSON.parse(
+  g.run(
+    "JSON.stringify(secondArcCases.map(c=>scenes[c.scene].image).concat(Object.values(characters).slice(-4).map(c=>c.portrait)))",
+  ),
+))
+  assert.equal(fs.existsSync(path), true);
+for (let i = 10; i <= 15; i++)
+  assert.equal(fs.existsSync(`assets/achievements/a${i}.webp`), true);
+store = {};
+let legacy = { version: 2, activeCase: "C001", muted: true, cases: {} };
+for (const [id, xp] of [
+  ["C001", 150],
+  ["C002", 170],
+  ["C003", 180],
+  ["C004", 220],
+  ["C005", 250],
+])
+  legacy.cases[id] = {
+    run: {
+      caseId: id,
+      status: "completed",
+      scene: 0,
+      cluesFound: 5,
+      stars: id === "C005" ? 5 : id === "C004" ? 4 : 3,
+      xpEarned: xp,
+    },
+    record: {
+      status: "completed",
+      stars: id === "C005" ? 5 : id === "C004" ? 4 : 3,
+      xpEarned: xp,
+    },
+  };
+store["detektif-bahasa-v1"] = JSON.stringify(legacy);
+g = boot(true, true);
+assert.equal(g.run("isFirstArcComplete()"), true);
+assert.equal(g.run("isCaseUnlocked(5)"), true);
+assert.equal(g.run("cases.C006.run.caseId"), "C006");
+assert.equal(g.run("cases.C001.record.status"), "completed");
+assert.equal(g.run("getExplorationCount()"), 6);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 14);
+g.run("cases.C006.run.scene=1");
+assert.equal(g.run("getExplorationCount()"), 7);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 15);
+for (const id of ["C006", "C007", "C008", "C009", "C010"]) {
+  g.run(
+    `switchCase('${id}');home=false;state=({C006:fresh6,C007:fresh7,C008:fresh8,C009:fresh9,C010:fresh10})['${id}']();record=cases['${id}'].record||null;state.scene=1`,
+  );
+  for (let scene = 1; scene <= 5; scene++) {
+    const type = g.run("secondTask().type");
+    if (type === "scene")
+      g.run("handleSecondClick({dataset:{object:secondTask().target}})");
+    else if (type === "sequence") {
+      const len = g.run("secondTask().items.length");
+      g.run("handleSecondClick({dataset:{secondFragment:99}})");
+      assert.equal(g.run("wrong"), true);
+      for (let i = 0; i < len; i++)
+        g.run(`handleSecondClick({dataset:{secondFragment:'${i}'}})`);
+    } else {
+      g.run("handleSecondClick({dataset:{secondAnswer:99}})");
+      assert.equal(g.run("wrong"), true);
+      g.run(
+        "handleSecondClick({dataset:{secondAnswer:String(secondTask().answer)}})",
+      );
+    }
+    assert.equal(g.run("state.cluesFound"), scene);
+    g.run("handleSecondClick({dataset:{action:'next'}})");
+  }
+  g.run(
+    "state.links=[...evidenceRelations[activeCase]];handleSecondClick({dataset:{action:'second-check'}})",
+  );
+  assert.equal(g.run("!!state.solved[6]"), true);
+  g.run(
+    "handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondTheory:'0'}})",
+  );
+  assert.equal(g.run("state.status"), "in_progress");
+  g.run("handleSecondClick({dataset:{secondTheory:'2'}})");
+  assert.equal(g.run("state.status"), "completed");
+  assert.equal(g.run("state.cluesFound"), 5);
+  g.run("handleSecondClick({dataset:{action:'next'}})");
+  assert.equal(g.run("state.scene"), 9);
+}
+assert.equal(g.run("isSecondArcComplete()"), true);
+assert.equal(g.run("getCompletedCaseCount()"), 10);
+assert.equal(g.run("getExplorationCount()"), 10);
+assert.equal(g.run("getDiscoveredCharacterCount()"), 18);
+assert.equal(g.run("getTotalBestStars()"), 40);
+assert.equal(g.run("getTotalBestXP()"), 2580);
+assert.equal(
+  g.run("achievementDefinitions.filter(a=>a.unlocked()).length"),
+  15,
+);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("style.css", "utf8").includes(".title-navigation-agency"),
+  true,
+);
+console.log(
+  "PASS: v1.4.0 continuity, mechanics foundation and Second Arc C006–C010, 10-location map, 15 achievements, 18 characters, save compatibility and First Arc regression.",
+);
+const mechanicCtx = {};
+vm.createContext(mechanicCtx);
+vm.runInContext(fs.readFileSync("mechanics.js", "utf8"), mechanicCtx);
+const M = mechanicCtx.DetektifMechanics;
+assert.ok(M);
+let completed = 0,
+  riddleCfg = {
+    title: "Teka objek",
+    prompt: "Ada nombor tetapi bukan jam.",
+    choices: ["Pintu", "Papan", "Kad"],
+    answer: 2,
+    hints: ["Baca ciri.", "Cari benda bernombor.", "Jawapannya ialah kad."],
+  },
+  riddle = M.createSession(riddleCfg, () => completed++);
+let html = M.renderRiddleTask(riddleCfg, riddle.state);
+assert.ok(
+  html.includes("<h2") &&
+    html.includes('<button type="button"') &&
+    html.includes('data-riddle-answer="2"') &&
+    html.includes('role="status"'),
+);
+assert.equal(riddle.getKluMode(), "neutral");
+riddle.answer(0);
+assert.equal(riddle.state.status, "retry");
+assert.equal(riddle.getKluMode(), "thinking");
+riddle.hint();
+assert.equal(riddle.getKluMode(), "hint");
+riddle.hint();
+riddle.hint();
+riddle.hint();
+assert.equal(riddle.state.hints, 3);
+riddle.answer(2);
+riddle.answer(2);
+assert.equal(riddle.getKluMode(), "excited");
+assert.equal(completed, 1);
+let triviaDone = 0,
+  triviaCfg = {
+    question: "Bilakah kotak dipindahkan?",
+    source: "Selepas hujan, kotak diletakkan di bawah meja.",
+    choices: ["Sebelum hujan", "Ketika hujan", "Selepas hujan"],
+    answer: 2,
+    hints: [
+      "Cari penanda masa.",
+      "Perhatikan perkataan selepas.",
+      "Pilih selepas hujan.",
+    ],
+  },
+  trivia = M.createSession(triviaCfg, () => triviaDone++);
+html = M.renderInvestigationTrivia(triviaCfg, trivia.state);
+assert.ok(
+  html.includes("<blockquote>") && html.includes('data-trivia-answer="2"'),
+);
+trivia.answer(1);
+assert.equal(trivia.state.status, "retry");
+trivia.answer(2);
+assert.equal(triviaDone, 1);
+let matchDone = 0,
+  matchCfg = {
+    title: "Padankan bukti",
+    left: [
+      { id: "Aynaa", label: "Aynaa" },
+      { id: "Azzam", label: "Azzam" },
+    ],
+    right: [
+      { id: "awal", label: "Sebelum" },
+      { id: "akhir", label: "Selepas" },
+    ],
+    pairs: [
+      { left: "Aynaa", right: "awal" },
+      { left: "Azzam", right: "akhir" },
+    ],
+    hints: ["Bandingkan orang.", "Semak masa.", "Padankan awal dan akhir."],
+  },
+  matching = M.createSession(matchCfg, () => matchDone++);
+html = M.renderClueMatchingTask(matchCfg, matching.state);
+assert.ok(
+  html.includes('data-match-side="left"') &&
+    html.includes('aria-pressed="false"'),
+);
+matching.match("left", "Aynaa");
+assert.equal(matching.state.status, "selected");
+matching.match("right", "akhir");
+assert.equal(matching.state.status, "retry");
+assert.equal(matching.getKluMode(), "thinking");
+matching.match("left", "Aynaa");
+matching.match("right", "awal");
+assert.equal(matching.state.matches.length, 1);
+assert.equal(matching.getKluMode(), "excited");
+html = M.renderClueMatchingTask(matchCfg, matching.state);
+assert.ok(html.includes("DIPADANKAN"));
+matching.match("left", "Azzam");
+matching.match("right", "akhir");
+matching.match("right", "akhir");
+assert.equal(matching.getKluMode(), "celebrate");
+assert.equal(matchDone, 1);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("mechanics.js"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("game.js", "utf8").includes("const KEY='detektif-bahasa-v1'"),
+  true,
+);
+assert.equal(g.run("allCases.length"), 10);
+assert.equal(g.run("Object.keys(characters).length"), 18);
+assert.equal(g.run("achievementDefinitions.length"), 15);
+console.log(
+  "PASS: v1.4.0 character continuity, mechanics foundation and C001–C010 regression.",
+);
+store = {};
+let h = boot(false, true, true);
+assert.equal(h.run("allCases.length"), 14);
+assert.equal(h.run("Object.keys(locations).length"), 12);
+assert.equal(h.run("Object.keys(characters).length"), 21);
+assert.equal(h.run("achievementDefinitions.length"), 19);
+assert.equal(h.run("getMaximumStars()"), 58);
+assert.equal(h.run("isCaseUnlocked(10)"), false);
+assert.equal(h.run("isCaseUnlocked(11)"), false);
+assert.equal(h.run("isCaseUnlocked(12)"), false);
+assert.equal(h.run("isCharacterDiscovered('ayyash')"), false);
+assert.equal(h.run("isCharacterDiscovered('affan')"), false);
+assert.equal(h.run("getLocationStatus('station')"), "undiscovered");
+assert.equal(h.run("getLocationStatus('gallery')"), "undiscovered");
+validateScene(h, "busStation", [
+  "kaunter tiket",
+  "platform 1",
+  "platform 2",
+  "platform 3",
+  "jam besar",
+  "papan jadual",
+  "bangku panjang",
+  "tong sampah",
+  "jalur tulisan",
+]);
+h.run(
+  "[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>cases[id].record={status:'completed',stars,xpEarned});for(const c of secondArcCases)cases[c.id].record={status:'completed',stars:c.maxStars,xpEarned:c.maxXP};cases.C010.run.status='completed';activeCase='C010';state=cases.C010.run;record=cases.C010.record",
+);
+assert.equal(h.run("isCaseUnlocked(10)"), true);
+assert.equal(h.run("getLocationStatus('station')"), "discovered");
+assert.equal(h.run("getExplorationCount()"), 11);
+assert.equal(h.run("getDiscoveredCharacterCount()"), 18);
+h.run("switchCase('C011');home=false;state.scene=1;render()");
+assert.equal(h.run("activeCase"), "C011");
+assert.equal(
+  h.run("renderC011Task(c011Task(),false).includes('data-riddle-answer')"),
+  true,
+);
+h.run("handleC011Click({dataset:{riddleAnswer:'2'}})");
+assert.equal(h.run("wrong"), true);
+for (let i = 0; i < 4; i++) h.run("handleC011Click({dataset:{action:'hint'}})");
+assert.equal(h.run("state.hintLevels['C011-1']"), 3);
+h.run("handleC011Click({dataset:{riddleAnswer:'0'}})");
+assert.equal(h.run("state.cluesFound"), 1);
+h.run(
+  "handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{riddleAnswer:'1'}});handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{riddleAnswer:'2'}});handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{thirdAnswer:'1'}});handleC011Click({dataset:{action:'next'}})",
+);
+assert.equal(h.run("state.cluesFound"), 4);
+assert.equal(h.run("isCharacterDiscovered('ayyash')"), true);
+assert.equal(h.run("getDiscoveredCharacterCount()"), 19);
+h.run("handleC011Click({dataset:{object:'tong sampah'}})");
+assert.equal(h.run("wrong"), true);
+h.run("handleC011Click({dataset:{object:'jalur tulisan'}})");
+assert.equal(h.run("state.cluesFound"), 5);
+h.run(
+  "handleC011Click({dataset:{action:'next'}});state.links=['berada berhampiran','berada di','ditemui di belakang'];handleC011Click({dataset:{action:'third-check'}})",
+);
+assert.equal(h.run("state.solved[6]"), true);
+h.run(
+  "handleC011Click({dataset:{action:'next'}});handleC011Click({dataset:{thirdTheory:'0'}})",
+);
+assert.equal(h.run("state.status"), "in_progress");
+h.run("handleC011Click({dataset:{thirdTheory:'2'}})");
+assert.equal(h.run("state.status"), "completed");
+assert.equal(h.run("state.cluesFound"), 5);
+assert.equal(h.run("state.xpEarned"), 300);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A16').unlocked()"),
+  true,
+);
+assert.equal(h.run("getLocationStatus('station')"), "investigated");
+h.run("handleC011Click({dataset:{action:'next'}})");
+assert.equal(h.run("renderC011Result().includes('KES 011 SELESAI')"), true);
+const best11 = h.run("record.xpEarned");
+h.run("handleC011Click({dataset:{action:'replay'}})");
+assert.equal(h.run("state.cluesFound"), 0);
+assert.equal(h.run("cases.C011.record.xpEarned"), best11);
+assert.equal(h.run("getTotalBestXP()"), 2910 - 30);
+h.run("state=fresh11();state.cluesFound=5;state.solved[6]=true;completeC011()");
+assert.equal(h.run("state.xpEarned"), 330);
+assert.equal(h.run("state.stars"), 4);
+assert.equal(h.run("getTotalBestXP()"), 2910);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A14').unlocked()"),
+  true,
+);
+assert.equal(fs.existsSync("assets/locations/stesen-bas-bayuraya.webp"), true);
+assert.equal(fs.existsSync("assets/characters/ayyash.webp"), true);
+assert.equal(fs.existsSync("assets/achievements/a16.webp"), true);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(fs.readFileSync("index.html", "utf8").includes("arc3.js"), true);
+validateScene(h, "heritageGallery", [
+  "model pameran",
+  "kad maklumat",
+  "foto arkib",
+  "label a",
+  "label b",
+  "label c",
+  "meja maklumat",
+  "papan maklumat",
+]);
+const expandedMap = JSON.parse(
+  h.run(
+    "JSON.stringify(Object.values(locations).map(({id,x,y,w,h})=>({id,x,y,w,h})))",
+  ),
+);
+for (let i = 0; i < expandedMap.length; i++)
+  for (let j = i + 1; j < expandedMap.length; j++) {
+    const a = expandedMap[i],
+      b = expandedMap[j],
+      overlap =
+        a.x < b.x + b.w &&
+        a.x + a.w > b.x &&
+        a.y < b.y + b.h &&
+        a.y + a.h > b.y;
+    assert.equal(overlap, false, `Peta v1.6: ${a.id} bertindih dengan ${b.id}`);
+  }
+assert.equal(h.run("thirdArcClues.C012.length"), 5);
+assert.equal(h.run("isCaseUnlocked(11)"), true);
+assert.equal(h.run("getLocationStatus('gallery')"), "discovered");
+h.run("switchCase('C012');home=false;state.scene=1;render()");
+assert.equal(h.run("activeCase"), "C012");
+assert.equal(h.nodes["#app"].innerHTML.includes("TRIVIA SIASATAN"), true);
+h.run("handleC012Click({dataset:{triviaAnswer:'2'}})");
+assert.equal(h.run("wrong"), true);
+for (let i = 0; i < 4; i++) h.run("handleC012Click({dataset:{action:'hint'}})");
+assert.equal(h.run("state.hintLevels['C012-1']"), 3);
+h.run("handleC012Click({dataset:{triviaAnswer:'0'}})");
+assert.equal(h.run("state.cluesFound"), 1);
+h.run(
+  "handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{action:'c012-affan'}})",
+);
+assert.equal(h.run("state.cluesFound"), 2);
+assert.equal(h.run("isCharacterDiscovered('affan')"), true);
+h.run(
+  "handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{triviaAnswer:'1'}});handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{triviaAnswer:'0'}});handleC012Click({dataset:{action:'next'}})",
+);
+assert.equal(h.run("state.cluesFound"), 4);
+h.run("handleC012Click({dataset:{object:'label a'}})");
+assert.equal(h.run("wrong"), true);
+h.run("handleC012Click({dataset:{object:'foto arkib'}})");
+assert.equal(h.run("state.cluesFound"), 5);
+h.run(
+  "handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{action:'c012-check'}})",
+);
+assert.equal(h.run("!!state.solved[6]"), false);
+h.run(
+  "state.links=['dibuat daripada','digunakan untuk','sepadan dengan'];handleC012Click({dataset:{action:'c012-check'}})",
+);
+assert.equal(h.run("state.solved[6]"), true);
+h.run(
+  "handleC012Click({dataset:{action:'next'}});handleC012Click({dataset:{c012Theory:'1'}})",
+);
+assert.equal(h.run("state.status"), "in_progress");
+h.run("handleC012Click({dataset:{c012Theory:'0'}})");
+assert.equal(h.run("state.status"), "completed");
+assert.equal(h.run("state.cluesFound"), 5);
+assert.equal(h.run("state.xpEarned"), 320);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A17').unlocked()"),
+  true,
+);
+assert.equal(h.run("getLocationStatus('gallery')"), "investigated");
+const best12 = h.run("record.xpEarned");
+h.run("handleC012Click({dataset:{action:'replay'}})");
+assert.equal(h.run("state.cluesFound"), 0);
+assert.equal(h.run("cases.C012.record.xpEarned"), best12);
+h.run("state=fresh12();state.cluesFound=5;state.solved[6]=true;completeC012()");
+assert.equal(h.run("state.xpEarned"), 350);
+assert.equal(h.run("state.stars"), 4);
+assert.equal(h.run("getTotalBestXP()"), 3260);
+assert.equal(h.run("getTotalBestStars()"), 48);
+assert.equal(h.run("getCompletedCaseCount()"), 12);
+assert.equal(h.run("getExplorationCount()"), 12);
+assert.equal(h.run("getDiscoveredCharacterCount()"), 20);
+assert.equal(
+  h.run("achievementDefinitions.filter(a=>a.unlocked()).length"),
+  17,
+);
+for (const asset of [
+  "assets/locations/galeri-warisan-bayuraya.webp",
+  "assets/characters/affan.webp",
+  "assets/achievements/a17.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.equal(fs.readFileSync(asset).subarray(0, 4).toString("ascii"), "RIFF");
+}
+for (const asset of [
+  "assets/locations/galeri-warisan-bayuraya.webp",
+  "assets/characters/affan.webp",
+])
+  assert.equal(fs.readFileSync("server.js", "utf8").includes(asset), true);
+assert.equal(
+  /Array\.from\(\{\s*length:\s*21/.test(fs.readFileSync("server.js", "utf8")),
+  true,
+);
+assert.equal(
+  fs.readFileSync("mechanics.js", "utf8").includes("renderInvestigationTrivia"),
+  true,
+);
+assert.equal(
+  fs
+    .readFileSync("arc3.js", "utf8")
+    .includes("investigationMechanics.renderInvestigationTrivia"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("game.js", "utf8").includes("const KEY='detektif-bahasa-v1'"),
+  true,
+);
+const preservedC011 = h.run("JSON.stringify(cases.C011.record)");
+h.run("switchCase('C001');switchCase('C012')");
+assert.equal(h.run("activeCase"), "C012");
+assert.equal(h.run("JSON.stringify(cases.C011.record)"), preservedC011);
+console.log(
+  "PASS: v1.6.0 C011–C012, Trivia Siasatan, five clues, records, Affan, A16–A17, 12-location map and C001–C010 regression.",
+);
+validateScene(h, "mathPacking", [
+  "bakul penghantaran",
+  "kotak biru kecil",
+  "tiub kuning",
+  "kotak hijau",
+  "pekerja kedai pembungkusan",
+  "slip pesanan",
+  "pita pembungkusan",
+  "tag penghantaran",
+]);
+assert.equal(h.run("thirdArcClues.C013.length"), 5);
+assert.equal(h.run("isCaseUnlocked(12)"), true);
+assert.equal(h.run("thirdArcCases.find(c=>c.id==='C013').maxXP"), 380);
+h.run("switchCase('C013');home=false;state.scene=1;render()");
+assert.equal(h.run("activeCase"), "C013");
+assert.equal(
+  h.nodes["#app"].innerHTML.includes("KEDAI MATEMATIK · SUDUT PEMBUNGKUSAN"),
+  true,
+);
+h.run("handleC013Click({dataset:{object:'kotak biru kecil'}})");
+assert.equal(h.run("wrong"), true);
+h.run("handleC013Click({dataset:{object:'slip pesanan'}})");
+assert.equal(h.run("state.cluesFound"), 1);
+h.run(
+  "handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{action:'c013-witness-2'}});handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{action:'c013-witness-3'}});handleC013Click({dataset:{action:'next'}})",
+);
+assert.equal(h.run("state.cluesFound"), 3);
+assert.equal(h.nodes["#app"].innerHTML.includes("PADANAN PETUNJUK"), true);
+h.run(
+  "handleC013Click({dataset:{matchSide:'left',matchId:'kotak biru kecil'}});handleC013Click({dataset:{matchSide:'right',matchId:'balai komuniti'}})",
+);
+assert.equal(h.run("state.matching.status"), "retry");
+assert.equal(h.run("state.matching.matches.length"), 0);
+for (let i = 0; i < 4; i++) h.run("handleC013Click({dataset:{action:'hint'}})");
+assert.equal(h.run("state.matching.hints"), 3);
+assert.equal(h.run("state.matching.feedback.includes('Bantuan 3/3')"), true);
+h.run(
+  "handleC013Click({dataset:{matchSide:'left',matchId:'kotak biru kecil'}});handleC013Click({dataset:{matchSide:'right',matchId:'perpustakaan'}})",
+);
+assert.equal(h.run("state.matching.matches.length"), 1);
+const partial13 = JSON.parse(JSON.stringify(store));
+h = boot(false, true, true);
+assert.equal(h.run("activeCase"), "C013");
+assert.equal(h.run("state.matching.matches.length"), 1);
+assert.equal(h.run("state.cluesFound"), 3);
+assert.deepEqual(JSON.parse(JSON.stringify(store)), partial13);
+h.run(
+  "handleC013Click({dataset:{matchSide:'left',matchId:'tiub kuning'}});handleC013Click({dataset:{matchSide:'right',matchId:'balai komuniti'}});handleC013Click({dataset:{matchSide:'left',matchId:'kotak hijau'}});handleC013Click({dataset:{matchSide:'right',matchId:'klinik haiwan'}})",
+);
+assert.equal(h.run("state.matching.status"), "completed");
+assert.equal(h.run("state.cluesFound"), 4);
+assert.equal(h.run("state.matching.matches.length"), 3);
+h.run("handleC013Click({dataset:{matchSide:'left',matchId:'kotak hijau'}})");
+assert.equal(h.run("state.cluesFound"), 4);
+h.run(
+  "handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{object:'pita pembungkusan'}})",
+);
+assert.equal(h.run("wrong"), true);
+h.run("handleC013Click({dataset:{object:'tag penghantaran'}})");
+assert.equal(h.run("state.cluesFound"), 5);
+h.run(
+  "handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{action:'c013-check'}})",
+);
+assert.equal(h.run("!!state.solved[6]"), false);
+h.run(
+  "state.links=['sepadan dengan','sepadan dengan','sepadan dengan'];handleC013Click({dataset:{action:'c013-check'}})",
+);
+assert.equal(h.run("state.solved[6]"), true);
+h.run(
+  "handleC013Click({dataset:{action:'next'}});handleC013Click({dataset:{c013Theory:'0'}})",
+);
+assert.equal(h.run("state.status"), "in_progress");
+h.run("handleC013Click({dataset:{c013Theory:'2'}})");
+assert.equal(h.run("state.status"), "completed");
+assert.equal(h.run("state.cluesFound"), 5);
+assert.equal(h.run("state.xpEarned"), 350);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A18').unlocked()"),
+  true,
+);
+const best13 = h.run("record.xpEarned");
+h.run("state.scene=9;render();handleC013Click({dataset:{action:'replay'}})");
+assert.equal(h.run("state.cluesFound"), 0);
+assert.equal(h.run("cases.C013.record.xpEarned"), best13);
+assert.equal(h.run("cases.C012.record.xpEarned"), 350);
+h.run("state=fresh13();state.cluesFound=5;state.solved[6]=true;completeC013()");
+assert.equal(h.run("state.xpEarned"), 380);
+assert.equal(h.run("state.stars"), 5);
+assert.equal(h.run("getTotalBestXP()"), 3640);
+assert.equal(h.run("getTotalBestStars()"), 53);
+assert.equal(h.run("getCompletedCaseCount()"), 13);
+assert.equal(h.run("getExplorationCount()"), 12);
+assert.equal(h.run("getDiscoveredCharacterCount()"), 20);
+assert.equal(
+  h.run("achievementDefinitions.filter(a=>a.unlocked()).length"),
+  18,
+);
+for (const asset of [
+  "assets/locations/kedai-matematik-pembungkusan.webp",
+  "assets/achievements/a18.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.equal(fs.readFileSync(asset).subarray(0, 4).toString("ascii"), "RIFF");
+}
+assert.equal(
+  fs
+    .readFileSync("server.js", "utf8")
+    .includes("assets/locations/kedai-matematik-pembungkusan.webp"),
+  true,
+);
+assert.equal(
+  fs
+    .readFileSync("server.js", "utf8")
+    .replace(/\s/g, "")
+    .includes("Array.from({length:21}"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("mechanics.js", "utf8").includes("renderClueMatchingTask"),
+  true,
+);
+assert.equal(
+  fs
+    .readFileSync("arc3.js", "utf8")
+    .includes("investigationMechanics.renderClueMatchingTask"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("game.js", "utf8").includes("const KEY='detektif-bahasa-v1'"),
+  true,
+);
+const preservedC012 = h.run("JSON.stringify(cases.C012.record)");
+h.run("switchCase('C001');switchCase('C013')");
+assert.equal(h.run("activeCase"), "C013");
+assert.equal(h.run("JSON.stringify(cases.C012.record)"), preservedC012);
+console.log(
+  "PASS: v1.7.0 C013, production Padanan Petunjuk, five clues, save/resume, A18 and C001–C012 regression.",
+);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(h.run("allCases.length"), 14);
+assert.equal(h.run("Object.keys(locations).length"), 12);
+assert.equal(h.run("Object.keys(characters).length"), 21);
+assert.equal(h.run("achievementDefinitions.length"), 19);
+assert.equal(h.run("getMaximumStars()"), 58);
+assert.equal(h.run("getTotalBestXP()"), 3640);
+assert.equal(h.run("KEY"), "detektif-bahasa-v1");
+h.run(
+  "activeCase='C006';state=fresh6();cases.C006.run=state;record=cases.C006.record;home=false;state.scene=4;state.cluesFound=3;state.hintsUsed=2;state.attempts=5;state.sequence=[0];feedback='kekal';wrong=true",
+);
+const c006Before = h.run("JSON.stringify(state)");
+const review3 = h.run("caseClueReviewHtml()");
+assert.ok(review3.includes("PETUNJUK DITEMUI — 3/5"));
+assert.ok(
+  review3.includes(h.run("secondArcClues.C006[0]")) &&
+    review3.includes(h.run("secondArcClues.C006[2]")),
+);
+assert.equal(review3.includes(h.run("secondArcClues.C006[3]")), false);
+assert.equal((review3.match(/Belum ditemui/g) || []).length, 2);
+assert.equal(h.run("JSON.stringify(state)"), c006Before);
+h.run("caseUtilityView='review';caseUtilityView=''");
+assert.equal(h.run("JSON.stringify(state)"), c006Before);
+const review0 = h.run("state.cluesFound=0;caseClueReviewHtml()");
+assert.ok(review0.includes("Belum ada petunjuk ditemui."));
+assert.equal(review0.includes(h.run("secondArcClues.C006[0]")), false);
+const review1 = h.run("state.cluesFound=1;caseClueReviewHtml()");
+assert.ok(review1.includes(h.run("secondArcClues.C006[0]")));
+assert.equal(review1.includes(h.run("secondArcClues.C006[1]")), false);
+const review5 = h.run("state.cluesFound=5;caseClueReviewHtml()");
+assert.ok(review5.includes("PETUNJUK DITEMUI — 5/5"));
+assert.equal(
+  review5.indexOf(h.run("secondArcClues.C006[0]")) <
+    review5.indexOf(h.run("secondArcClues.C006[4]")),
+  true,
+);
+h.run(
+  "state.cluesFound=3;state.scene=4;state.sequence=[0];const snap=JSON.stringify(state);caseUtilityView='restart';caseUtilityView='';if(JSON.stringify(state)!==snap)throw Error('cancel mutated run')",
+);
+const otherRun = h.run("JSON.stringify(cases.C005.run)"),
+  best6 = h.run(
+    "cases.C006.record=JSON.parse(JSON.stringify({...fresh6(),status:'completed',stars:4,xpEarned:250}));record=cases.C006.record;JSON.stringify(cases.C006.record)",
+  );
+h.run("restartCurrentCaseRun()");
+assert.equal(h.run("state.scene"), 0);
+assert.equal(h.run("state.cluesFound"), 0);
+assert.equal(h.run("state.hintsUsed"), 0);
+assert.equal(h.run("state.attempts"), 0);
+assert.equal(h.run("state.sequence.length"), 0);
+assert.equal(h.run("JSON.stringify(cases.C006.record)"), best6);
+assert.equal(h.run("JSON.stringify(cases.C005.run)"), otherRun);
+assert.equal(h.run("isCaseUnlocked(6)"), true);
+for (const [id, setup, checks] of [
+  [
+    "C001",
+    "state.scene=6;state.cluesFound=3;state.objects=['beg'];state.links=['memiliki','','']",
+    "state.scene===0&&state.cluesFound===0&&state.objects.length===0&&state.links.every(v=>!v)",
+  ],
+  [
+    "C003",
+    "state.scene=5;state.cluesFound=4;state.sequence=[0,1];state.hintsUsed=2",
+    "state.scene===0&&state.sequence.length===0&&state.hintsUsed===0",
+  ],
+  [
+    "C010",
+    "state.scene=5;state.cluesFound=4;state.sequence=[0];state.statementChecks={x:true}",
+    "state.scene===0&&state.sequence.length===0&&Object.keys(state.statementChecks).length===0",
+  ],
+  [
+    "C011",
+    "state.scene=3;state.cluesFound=2;state.hintsUsed=3;state.hintLevels={'C011-1':3}",
+    "state.scene===0&&state.cluesFound===0&&state.hintsUsed===0&&Object.keys(state.hintLevels).length===0",
+  ],
+  [
+    "C012",
+    "state.scene=3;state.cluesFound=2;state.hintsUsed=1;state.hintLevels={'C012-1':1}",
+    "state.scene===0&&state.cluesFound===0&&state.hintsUsed===0&&Object.keys(state.hintLevels).length===0",
+  ],
+  [
+    "C013",
+    "state.scene=4;state.cluesFound=3;state.matching.matches=[{left:'kotak biru kecil',right:'perpustakaan'}];state.matching.selected={side:'left',id:'tiub kuning'};state.matching.hints=1",
+    "state.scene===0&&state.cluesFound===0&&state.matching.matches.length===0&&state.matching.selected===null&&state.matching.hints===0",
+  ],
+]) {
+  h.run(
+    `activeCase='${id}';state=freshRunFor('${id}');cases['${id}'].run=state;record=cases['${id}'].record||null;${setup}`,
+  );
+  const historical = h.run(`JSON.stringify(cases['${id}'].record)`);
+  h.run("restartCurrentCaseRun()");
+  assert.equal(h.run(checks), true, `${id} run reset`);
+  assert.equal(
+    h.run(`JSON.stringify(cases['${id}'].record)`),
+    historical,
+    `${id} record preserved`,
+  );
+}
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A16').unlocked()"),
+  true,
+);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A17').unlocked()"),
+  true,
+);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A18').unlocked()"),
+  true,
+);
+assert.ok(
+  fs.readFileSync("style.css", "utf8").includes(".case-utility-dialog"),
+);
+assert.ok(
+  fs
+    .readFileSync("arc3.js", "utf8")
+    .includes("document.addEventListener?.('keydown'"),
+);
+console.log(
+  "PASS: v1.7.1 clue review, C006 recovery, confirmed per-case restart, historical records and C001/C003/C006/C010–C013 mechanic resets.",
+);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(h.run("allCases.length"), 14);
+assert.equal(h.run("Object.keys(locations).length"), 12);
+assert.equal(h.run("Object.keys(characters).length"), 21);
+assert.equal(h.run("achievementDefinitions.length"), 19);
+assert.equal(h.run("getMaximumStars()"), 58);
+assert.equal(h.run("isCaseUnlocked(13)"), true);
+assert.equal(h.run("thirdArcClues.C014.length"), 5);
+assert.equal(h.run("thirdArcCases.find(c=>c.id==='C014').maxXP"), 410);
+assert.deepEqual(
+  JSON.parse(
+    h.run(
+      "JSON.stringify(c014Symbols.map(({symbol,meaning})=>[symbol,meaning]))",
+    ),
+  ),
+  [
+    ["◆", "BELAKANG"],
+    ["▣", "PAPAN"],
+    ["●", "BIRU"],
+    ["★", "UTAMA"],
+  ],
+);
+validateScene(h, "communityPrep", [
+  "kad berlian",
+  "kad papan",
+  "kad bulat",
+  "kad bintang",
+  "nota kod",
+  "papan biru utama",
+  "sampul arahan",
+  "puan suraya",
+  "xiao feng",
+  "rak simpanan",
+]);
+h.run("switchCase('C014');home=false;state.scene=1;render()");
+assert.equal(h.run("activeCase"), "C014");
+assert.equal(h.run("isCharacterDiscovered('xiaoFeng')"), true);
+assert.equal(
+  h.nodes["#app"].innerHTML.includes("balai-komuniti-bilik-persediaan"),
+  true,
+);
+h.run("handleC014Click({dataset:{object:'rak simpanan'}})");
+assert.equal(h.run("wrong"), true);
+h.run("handleC014Click({dataset:{object:'kad berlian'}})");
+assert.equal(h.run("state.cluesFound"), 1);
+assert.deepEqual(JSON.parse(h.run("JSON.stringify(state.code.mappings)")), [
+  "diamond",
+]);
+h.run(
+  "handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'kad papan'}})",
+);
+const c014Partial = JSON.parse(JSON.stringify(store));
+h = boot(false, true, true);
+assert.equal(h.run("activeCase"), "C014");
+assert.equal(h.run("state.cluesFound"), 2);
+assert.deepEqual(JSON.parse(h.run("JSON.stringify(state.code.mappings)")), [
+  "diamond",
+  "board",
+]);
+assert.deepEqual(JSON.parse(JSON.stringify(store)), c014Partial);
+h.run(
+  "handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'kad bulat'}});handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'kad bintang'}});handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'nota kod'}})",
+);
+assert.equal(h.run("state.cluesFound"), 5);
+assert.equal(h.run("state.code.mappings.length"), 4);
+h.run(
+  "handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{symbolAnswer:'1'}})",
+);
+assert.equal(h.run("state.code.decoded"), false);
+for (let i = 0; i < 4; i++) h.run("handleC014Click({dataset:{symbolHint:''}})");
+assert.equal(h.run("state.code.hints"), 3);
+assert.equal(h.run("state.hintsUsed"), 3);
+h.run("handleC014Click({dataset:{symbolAnswer:'0'}})");
+assert.equal(h.run("state.code.decoded"), true);
+const review14 = h.run("caseClueReviewHtml()");
+assert.ok(review14.includes("PETUNJUK DITEMUI — 5/5"));
+assert.equal(h.run("state.code.decoded"), true);
+h.run(
+  "handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{object:'sampul arahan'}})",
+);
+assert.equal(h.run("wrong"), true);
+h.run("handleC014Click({dataset:{object:'papan biru utama'}})");
+assert.equal(h.run("state.solved[7]"), true);
+h.run(
+  "handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{action:'c014-check'}})",
+);
+assert.equal(h.run("!!state.solved[8]"), false);
+h.run(
+  "state.links=['menerangkan','membawa kepada','ditemui'];handleC014Click({dataset:{action:'c014-check'}})",
+);
+assert.equal(h.run("state.solved[8]"), true);
+h.run(
+  "handleC014Click({dataset:{action:'next'}});handleC014Click({dataset:{c014Theory:'0'}})",
+);
+assert.equal(h.run("state.status"), "in_progress");
+h.run("handleC014Click({dataset:{c014Theory:'2'}})");
+assert.equal(h.run("state.status"), "completed");
+assert.equal(h.run("state.cluesFound"), 5);
+assert.equal(h.run("state.xpEarned"), 380);
+assert.equal(h.run("state.stars"), 4);
+assert.equal(
+  h.run("achievementDefinitions.find(a=>a.id==='A19').unlocked()"),
+  true,
+);
+const best14 = h.run("record.xpEarned");
+h.run("state.scene=11;render();handleC014Click({dataset:{action:'replay'}})");
+assert.equal(h.run("state.cluesFound"), 0);
+assert.equal(h.run("state.code.mappings.length"), 0);
+assert.equal(h.run("cases.C014.record.xpEarned"), best14);
+h.run("state=fresh14();state.cluesFound=5;state.solved[8]=true;completeC014()");
+assert.equal(h.run("state.xpEarned"), 410);
+assert.equal(h.run("state.stars"), 5);
+assert.equal(h.run("getTotalBestXP()"), 4050);
+assert.equal(h.run("getTotalBestStars()"), 58);
+assert.equal(h.run("getCompletedCaseCount()"), 14);
+assert.equal(h.run("getExplorationCount()"), 12);
+assert.equal(h.run("getDiscoveredCharacterCount()"), 21);
+assert.equal(
+  h.run("achievementDefinitions.filter(a=>a.unlocked()).length"),
+  19,
+);
+const record14 = h.run("JSON.stringify(cases.C014.record)");
+h.run(
+  "activeCase='C014';state=fresh14();cases.C014.run=state;record=cases.C014.record;state.scene=6;state.cluesFound=5;state.code.mappings=['diamond','board','circle','star'];state.code.hints=2;restartCurrentCaseRun()",
+);
+assert.equal(h.run("state.scene"), 0);
+assert.equal(h.run("state.code.mappings.length"), 0);
+assert.equal(h.run("state.code.hints"), 0);
+assert.equal(h.run("JSON.stringify(cases.C014.record)"), record14);
+const codeHtml = M.renderSymbolCodeTask(
+  {
+    title: "Kod",
+    symbols: [{ id: "a", symbol: "◆", name: "berlian", meaning: "BELAKANG" }],
+    choices: ["Belakang"],
+    answer: 0,
+  },
+  { mappings: ["a"], hints: 1, feedback: "Semak" },
+);
+assert.ok(
+  codeHtml.includes('data-symbol-answer="0"') &&
+    codeHtml.includes("data-symbol-hint") &&
+    codeHtml.includes("BELAKANG") &&
+    codeHtml.includes('aria-live="polite"'),
+);
+for (const asset of [
+  "assets/locations/balai-komuniti-bilik-persediaan.webp",
+  "assets/characters/xiao-feng.webp",
+  "assets/achievements/a19.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.equal(fs.readFileSync(asset).subarray(0, 4).toString("ascii"), "RIFF");
+}
+for (const asset of [
+  "assets/locations/balai-komuniti-bilik-persediaan.webp",
+  "assets/characters/xiao-feng.webp",
+])
+  assert.equal(fs.readFileSync("server.js", "utf8").includes(asset), true);
+assert.equal(
+  fs
+    .readFileSync("server.js", "utf8")
+    .replace(/\s/g, "")
+    .includes("Array.from({length:21}"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("game.js", "utf8").includes("const KEY='detektif-bahasa-v1'"),
+  true,
+);
+assert.ok(fs.readFileSync("style.css", "utf8").includes(".symbol-code-task"));
+console.log(
+  "PASS: v1.8.0 C014, Kod Simbol, Xiao Feng, A19, five clues, save/recovery, 14-case totals and C001–C013 regression.",
+);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+store = {};
+let hotfix = boot(false, true, true);
+hotfix.run(
+  "[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250]].forEach(([id,stars,xpEarned])=>cases[id].record={status:'completed',stars,xpEarned});activeCase='C006';state=fresh6();state.scene=6;state.cluesFound=5;state.solved={1:true,2:true,3:true,4:true,5:true};cases.C006.run=state;record=null;home=false;persist();render()",
+);
+const brokenSave = JSON.parse(JSON.stringify(store));
+hotfix = boot(true, true, true);
+hotfix.run("titleOpen=false;home=false;render()");
+assert.equal(hotfix.run("activeCase"), "C006");
+assert.equal(hotfix.run("state.scene"), 6);
+assert.equal(hotfix.run("state.cluesFound"), 5);
+assert.ok(
+  hotfix.nodes["#app"].innerHTML.includes("KAD PESANAN") &&
+    hotfix.nodes["#app"].innerHTML.includes("DULANG BIRU") &&
+    hotfix.nodes["#app"].innerHTML.includes("PEMBANTU PENGHANTARAN"),
+);
+hotfix.change({ secondLink: "0" }, "tidak berkaitan");
+hotfix.change({ secondLink: "1" }, "dipindahkan ke");
+hotfix.change({ secondLink: "2" }, "ditemui di bawah");
+hotfix.change({ secondLink: "3" }, "tidak mengambil");
+assert.equal(hotfix.run("state.links[0]"), "tidak berkaitan");
+hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");
+assert.equal(hotfix.run("!!state.solved[6]"), false);
+assert.equal(
+  hotfix.run("feedback.includes('belum menerangkan perjalanan kad')"),
+  true,
+);
+hotfix.change({ secondLink: "0" }, "diletakkan di sebelah");
+const beforeReview = hotfix.run("JSON.stringify(state.links)");
+assert.ok(
+  hotfix.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 5/5"),
+);
+assert.equal(hotfix.run("JSON.stringify(state.links)"), beforeReview);
+hotfix.run("caseUtilityView='review';caseUtilityView=''");
+assert.equal(hotfix.run("JSON.stringify(state.links)"), beforeReview);
+hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");
+assert.equal(hotfix.run("state.solved[6]"), true);
+hotfix.run("handleSecondClick({dataset:{action:'next'}})");
+assert.equal(hotfix.run("state.scene"), 7);
+hotfix.run("handleSecondClick({dataset:{secondTheory:'0'}})");
+assert.equal(hotfix.run("state.status"), "in_progress");
+hotfix.run("handleSecondClick({dataset:{secondTheory:'2'}})");
+assert.equal(hotfix.run("state.status"), "completed");
+assert.equal(hotfix.run("state.cluesFound"), 5);
+assert.equal(hotfix.run("state.xpEarned"), 250);
+assert.equal(hotfix.run("isCaseUnlocked(6)"), true);
+const completed6 = hotfix.run("JSON.stringify(cases.C006.record)");
+hotfix.run(
+  "state.scene=9;handleSecondClick({dataset:{action:'replay'}});state.scene=6;state.cluesFound=5;state.links=['x','','',''];restartCurrentCaseRun()",
+);
+assert.equal(hotfix.run("state.scene"), 0);
+assert.equal(hotfix.run("state.links.every(v=>!v)"), true);
+assert.equal(hotfix.run("JSON.stringify(cases.C006.record)"), completed6);
+assert.equal(hotfix.run("isCaseUnlocked(6)"), true);
+store = brokenSave;
+hotfix = boot(false, true, true);
+assert.equal(hotfix.run("state.cluesFound"), 5);
+for (const [i, v] of [
+  "diletakkan di sebelah",
+  "dipindahkan ke",
+  "ditemui di bawah",
+  "tidak mengambil",
+].entries())
+  hotfix.change({ secondLink: String(i) }, v);
+hotfix.run(
+  "handleSecondClick({dataset:{action:'second-check'}});handleSecondClick({dataset:{action:'next'}})",
+);
+assert.equal(hotfix.run("state.scene"), 7);
+assert.equal(hotfix.run("!!state.solved[6]"), true);
+assert.equal(hotfix.run("allCases.length"), 14);
+assert.equal(hotfix.run("Object.keys(locations).length"), 12);
+assert.equal(hotfix.run("Object.keys(characters).length"), 21);
+assert.equal(hotfix.run("achievementDefinitions.length"), 19);
+assert.equal(hotfix.run("getMaximumStars()"), 58);
+assert.equal(hotfix.run("c014Symbols.map(x=>x.symbol).join(' ')"), "◆ ▣ ● ★");
+assert.equal(
+  hotfix.run("c014Symbols.map(x=>x.meaning).join(' ')"),
+  "BELAKANG PAPAN BIRU UTAMA",
+);
+console.log(
+  "PASS: v1.8.1 C006_EVIDENCE_BLOCKER, dropdown persistence, old-save acceptance, clue review, restart, deduction and C014 regression.",
+);
+for (const id of ["C006", "C007", "C008", "C009", "C010"]) {
+  hotfix.run(
+    `activeCase='${id}';state=({C006:fresh6,C007:fresh7,C008:fresh8,C009:fresh9,C010:fresh10})['${id}']();cases['${id}'].run=state;record=cases['${id}'].record||null;state.scene=6;state.cluesFound=5;home=false;render()`,
+  );
+  hotfix.change({ secondLink: "0" }, "tidak berkaitan");
+  hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");
+  assert.equal(
+    hotfix.run("!!state.solved[6]"),
+    false,
+    `${id} wrong board rejected`,
+  );
+  const relations = JSON.parse(
+    hotfix.run(`JSON.stringify(evidenceRelations['${id}'])`),
+  );
+  relations.forEach((value, i) =>
+    hotfix.change({ secondLink: String(i) }, value),
+  );
+  hotfix.run("handleSecondClick({dataset:{action:'second-check'}})");
+  assert.equal(
+    hotfix.run("!!state.solved[6]"),
+    true,
+    `${id} dropdown board accepted`,
+  );
+}
+function assertHotspotPoint(runtime, sceneName, x, y, expected) {
+  const hits = JSON.parse(
+    runtime.run(
+      `JSON.stringify(scenes.${sceneName}.hotspots.filter(h=>${x}>=h.x&&${x}<=h.x+h.w&&${y}>=h.y&&${y}<=h.y+h.h).map(h=>h.id))`,
+    ),
+  );
+  assert.deepEqual(
+    hits,
+    [expected],
+    `${sceneName} (${x},${y}) should resolve only ${expected}`,
+  );
+}
+validateScene(hotfix, "market", [
+  "senarai belian",
+  "bakul a",
+  "bakul b",
+  "bakul c",
+  "gerai sayur",
+  "gerai buah",
+  "resit pasar",
+  "penimbang",
+  "encik hafiz",
+]);
+validateScene(hotfix, "vetClinic", [
+  "bekas haiwan",
+  "kaunter klinik",
+  "papan temujanji",
+  "rekod klinik",
+  "pintu hijau",
+  "pintu biru",
+  "kad bilik dua",
+  "dr hana",
+]);
+validateScene(hotfix, "communityHall", [
+  "notis a",
+  "notis b",
+  "jadual dewan",
+  "log pejabat",
+  "kaunter komuniti",
+  "dewan utama",
+  "bilik lain",
+  "puan suraya",
+]);
+for (const [sceneName, points] of Object.entries({
+  market: [
+    [26, 87, "senarai belian"],
+    [17, 59, "bakul a"],
+    [50, 60, "bakul b"],
+    [83, 59, "bakul c"],
+    [9, 25, "gerai sayur"],
+    [88, 24, "gerai buah"],
+    [72, 88, "resit pasar"],
+    [68, 35, "penimbang"],
+    [40, 20, "encik hafiz"],
+  ],
+  vetClinic: [
+    [52, 74, "bekas haiwan"],
+    [40, 50, "kaunter klinik"],
+    [53, 27, "papan temujanji"],
+    [76, 88, "rekod klinik"],
+    [71, 38, "pintu hijau"],
+    [87, 38, "pintu biru"],
+    [71, 10, "kad bilik dua"],
+    [22, 48, "dr hana"],
+  ],
+  communityHall: [
+    [15, 22, "notis a"],
+    [26, 22, "notis b"],
+    [71, 31, "jadual dewan"],
+    [45, 88, "log pejabat"],
+    [28, 55, "kaunter komuniti"],
+    [51, 38, "dewan utama"],
+    [85, 38, "bilik lain"],
+    [11, 50, "puan suraya"],
+  ],
+}))
+  for (const [x, y, id] of points)
+    assertHotspotPoint(hotfix, sceneName, x, y, id);
+assert.equal(hotfix.run("secondTasks.C007[4].target"), "bakul b");
+assert.equal(
+  hotfix.run("scenes.market.hotspots.find(h=>h.id==='bakul b').label"),
+  "Bakul B dengan dua tomato, sayur hijau dan tiga limau",
+);
+assert.deepEqual(
+  JSON.parse(hotfix.run("JSON.stringify(evidenceLabels.C007)")),
+  [
+    ["SENARAI BELIAN", "CIRI PESANAN"],
+    ["BAKUL B", "ITEM DIPERLUKAN"],
+    ["BAKUL B", "MINUMAN BERBUNGKUS"],
+    ["BAKUL B", "RESIT BALAI KOMUNITI"],
+  ],
+);
+assert.deepEqual(
+  JSON.parse(hotfix.run("JSON.stringify(evidenceLabels.C008)")),
+  [
+    ["KUCING KOLAR BIRU", "JANJI TEMU 10:00"],
+    ["KUCING KOLAR BIRU", "PEMERIKSAAN BIASA"],
+    ["KUCING KOLAR BIRU", "PINTU HIJAU"],
+    ["KUCING KOLAR BIRU", "BILIK REHAT 2"],
+  ],
+);
+assert.deepEqual(
+  JSON.parse(hotfix.run("JSON.stringify(evidenceLabels.C009)")),
+  [
+    ["NOTIS A", "MAKLUMAT ASAL"],
+    ["NOTIS B", "MAKLUMAT TERKINI"],
+    ["LOG PEJABAT", "NOTIS B"],
+    ["JADUAL DEWAN UTAMA", "NOTIS B"],
+  ],
+);
+for (const [id, fresh, wrongTarget, rightTarget] of [
+  ["C007", "fresh7", "bakul a", "bakul b"],
+  ["C008", "fresh8", "pintu hijau", "kad bilik dua"],
+  ["C009", "fresh9", "notis a", "notis b"],
+]) {
+  hotfix.run(
+    `activeCase='${id}';state=${fresh}();cases['${id}'].run=state;record=cases['${id}'].record||null;home=false;state.scene=${id === "C009" ? 2 : 5};render()`,
+  );
+  hotfix.run(`handleSecondClick({dataset:{object:'${wrongTarget}'}})`);
+  assert.equal(hotfix.run("wrong"), true, `${id} wrong scene target rejected`);
+  hotfix.run(`handleSecondClick({dataset:{object:'${rightTarget}'}})`);
+  assert.equal(
+    hotfix.run(`state.solved[${id === "C009" ? 2 : 5}]`),
+    true,
+    `${id} aligned target accepted`,
+  );
+}
+for (const [id, fresh, sceneId] of [
+  ["C007", "fresh7", "market"],
+  ["C008", "fresh8", "vetClinic"],
+  ["C009", "fresh9", "communityHall"],
+]) {
+  hotfix.run(
+    `activeCase='${id}';state=${fresh}();state.scene=3;state.cluesFound=2;state.sceneProgress['${sceneId}']=['saved hotspot'];cases['${id}'].run=state;persist()`,
+  );
+  hotfix = boot(false, true, true);
+  assert.equal(hotfix.run("activeCase"), id);
+  assert.equal(hotfix.run("state.scene"), 3);
+  assert.equal(hotfix.run("state.cluesFound"), 2);
+  assert.deepEqual(
+    JSON.parse(hotfix.run(`JSON.stringify(state.sceneProgress['${sceneId}'])`)),
+    ["saved hotspot"],
+  );
+}
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.existsSync("assets/locations/klinik-haiwan-bayuraya.webp"),
+  true,
+);
+console.log(
+  "PASS: v1.8.2 C007_HOTSPOT_ALIGNMENT_CONFIG, C008_HOTSPOT_ALIGNMENT_CONFIG, C009_HOTSPOT_ALIGNMENT_CONFIG, evidence accuracy and save recovery.",
+);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+let v183 = boot(false, true, true);
+v183.run(
+  "[['C001',3,150],['C002',3,170],['C003',3,190],['C004',4,210],['C005',5,250],['C006',4,250],['C007',4,290],['C008',4,310],['C009',5,340]].forEach(([id,stars,xpEarned])=>cases[id].record={status:'completed',stars,xpEarned});activeCase='C010';state=fresh10();cases.C010.run=state;record=null;home=false;file=false;render()",
+);
+let v183html = v183.nodes["#app"].innerHTML;
+assert.ok(
+  v183html.includes("Kotak Kenangan sepatutnya berada di meja persembahan"),
+);
+assert.ok(v183html.includes("Jejaki perjalanannya"));
+assert.equal(v183html.includes("Tanda khas apakah"), false);
+v183.run("handleSecondClick({dataset:{action:'next'}})");
+v183html = v183.nodes["#app"].innerHTML;
+assert.ok(v183html.includes("REKOD KEDAI ROTI"));
+assert.ok(v183html.includes("reben kuning yang diikat pada pemegangnya"));
+assert.ok(
+  v183html.indexOf("REKOD KEDAI ROTI") < v183html.indexOf("Tanda khas apakah"),
+);
+v183.run("handleSecondClick({dataset:{secondAnswer:'0'}})");
+assert.equal(v183.run("state.cluesFound"), 1);
+v183.run("handleSecondClick({dataset:{action:'next'}})");
+v183html = v183.nodes["#app"].innerHTML;
+assert.ok(v183html.includes("REKOD PERJALANAN"));
+for (let i = 0; i < 5; i++)
+  v183.run(`handleSecondClick({dataset:{secondFragment:'${i}'}})`);
+assert.equal(v183.run("state.cluesFound"), 2);
+assert.deepEqual(
+  JSON.parse(v183.run("JSON.stringify(state.sequence)")),
+  [0, 1, 2, 3, 4],
+);
+v183.run(
+  "handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondAnswer:'1'}});handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondAnswer:'1'}});handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{object:'kotak kenangan'}})",
+);
+assert.equal(v183.run("state.cluesFound"), 5);
+assert.equal(v183.run("secondArcClues.C010.length"), 5);
+const c010BeforeReview = v183.run("JSON.stringify(state)");
+assert.ok(v183.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 5/5"));
+assert.equal(v183.run("JSON.stringify(state)"), c010BeforeReview);
+v183.run(
+  "handleSecondClick({dataset:{action:'next'}});state.links=['bergerak ke','bergerak ke','diserahkan ke','dihantar ke'];handleSecondClick({dataset:{action:'second-check'}})",
+);
+assert.equal(v183.run("!!state.solved[6]"), false);
+assert.deepEqual(JSON.parse(v183.run("JSON.stringify(evidenceLabels.C010)")), [
+  ["KOTAK KENANGAN", "REBEN KUNING"],
+  ["LOG BALAI KOMUNITI", "DATARAN BAYURAYA"],
+  ["HUJAN RENYAI", "KAWASAN BERBUMBUNG"],
+  ["AZZAM", "PENTAS"],
+]);
+const c010Relations = JSON.parse(
+  v183.run("JSON.stringify(evidenceRelations.C010)"),
+);
+c010Relations.forEach((value, i) =>
+  v183.change({ secondLink: String(i) }, value),
+);
+v183.run("handleSecondClick({dataset:{action:'second-check'}})");
+assert.equal(v183.run("state.solved[6]"), true);
+v183.run(
+  "handleSecondClick({dataset:{action:'next'}});handleSecondClick({dataset:{secondTheory:'0'}})",
+);
+assert.equal(v183.run("state.status"), "in_progress");
+v183.run("handleSecondClick({dataset:{secondTheory:'2'}})");
+assert.equal(v183.run("state.status"), "completed");
+v183.run("handleSecondClick({dataset:{action:'next'}})");
+v183html = v183.nodes["#app"].innerHTML;
+assert.ok(v183html.includes("FAIL KEDUA LENGKAP"));
+assert.ok(v183html.includes("FAIL KETIGA — JEJAK RAHSIA BAYURAYA"));
+assert.ok(v183html.includes("KES 011 · Misteri Simbol di Papan Tanda"));
+validateScene(v183, "busStation", [
+  "kaunter tiket",
+  "platform 1",
+  "platform 2",
+  "platform 3",
+  "jam besar",
+  "papan jadual",
+  "bangku panjang",
+  "tong sampah",
+  "jalur tulisan",
+]);
+assert.deepEqual(
+  JSON.parse(
+    v183.run(
+      "JSON.stringify(scenes.busStation.hotspots.filter(h=>h.id.startsWith('platform ')).map(({id,x,y,w,h})=>({id,x,y,w,h})))",
+    ),
+  ),
+  [
+    { id: "platform 1", x: 24, y: 33, w: 10, h: 13 },
+    { id: "platform 2", x: 40, y: 23, w: 13, h: 15 },
+    { id: "platform 3", x: 74, y: 12, w: 16, h: 15 },
+  ],
+);
+for (const [id, nextNumber, nextTitle] of [
+  ["C011", "KES 012", "Misteri Label Pameran"],
+  ["C012", "KES 013", "Misteri Tag Penghantaran"],
+  ["C013", "KES 014", "Misteri Kod Empat Simbol"],
+]) {
+  v183.run(
+    `cases['${id}'].record={status:'completed',stars:4,xpEarned:300};activeCase='${id}'`,
+  );
+  const result = v183.run(`thirdNextCasePanel('${id}')`);
+  assert.ok(result.includes("KES BAHARU DIBUKA"));
+  assert.ok(result.includes(nextNumber));
+  assert.ok(result.includes(nextTitle));
+  assert.equal(result.includes("FAIL KETIGA DIBUKA"), false);
+}
+const c014End = v183.run("thirdNextCasePanel('C014')");
+assert.ok(c014End.includes("SEMUA KES YANG TERSEDIA TELAH DISELESAIKAN"));
+assert.ok(c014End.includes("Jejak Rahsia Bayuraya akan diteruskan"));
+assert.equal(c014End.includes("KES 015"), false);
+assert.equal(c014End.includes("FAIL KETIGA LENGKAP"), false);
+const completed10 = v183.run("JSON.stringify(cases.C010.record)");
+v183.run(
+  "activeCase='C010';state=fresh10();state.scene=4;state.cluesFound=3;state.sequence=[0,1];state.links=['bergerak ke','','',''];cases.C010.run=state;persist()",
+);
+v183 = boot(false, true, true);
+assert.equal(v183.run("activeCase"), "C010");
+assert.equal(v183.run("state.scene"), 4);
+assert.equal(v183.run("state.cluesFound"), 3);
+assert.deepEqual(
+  JSON.parse(v183.run("JSON.stringify(state.sequence)")),
+  [0, 1],
+);
+assert.equal(v183.run("state.links[0]"), "bergerak ke");
+assert.equal(v183.run("JSON.stringify(cases.C010.record)"), completed10);
+v183.run("restartCurrentCaseRun()");
+assert.equal(v183.run("state.scene"), 0);
+v183.run("home=false;render()");
+assert.ok(
+  v183.nodes["#app"].innerHTML.includes(
+    "Hari penutup aktiviti komuniti Bayuraya",
+  ),
+);
+assert.equal(v183.run("allCases.length"), 14);
+assert.equal(v183.run("Object.keys(locations).length"), 12);
+assert.equal(v183.run("Object.keys(characters).length"), 21);
+assert.equal(v183.run("achievementDefinitions.length"), 19);
+assert.equal(v183.run("getMaximumStars()"), 58);
+assert.equal(v183.run("KEY"), "detektif-bahasa-v1");
+console.log(
+  "PASS: v1.8.3 C010 briefing/source/route/evidence/deduction, C011 platform audit, C011-C014 next-case results and save compatibility.",
+);
+store = {};
+let v190 = boot(false, true, true, true);
+assert.equal(v190.run("allCases.length"), 15);
+assert.equal(v190.run("Object.keys(locations).length"), 12);
+assert.equal(v190.run("Object.keys(characters).length"), 22);
+assert.equal(v190.run("achievementDefinitions.length"), 21);
+assert.equal(v190.run("getMaximumStars()"), 63);
+assert.equal(v190.run("KEY"), "detektif-bahasa-v1");
+assert.equal(v190.run("isCaseUnlocked(14)"), false);
+v190.run("cases.C014.record={status:'completed',stars:5,xpEarned:410}");
+assert.equal(v190.run("isCaseUnlocked(14)"), true);
+assert.ok(v190.run("thirdNextCasePanel('C014')").includes("KES 015"));
+assert.equal(v190.run("c015Clues.length"), 5);
+assert.equal(v190.run("c015Symbols.map(x=>x.symbol).join(' ')"), "◆ ● ▣ ★");
+assert.equal(
+  v190.run("c015Symbols.map(x=>x.meaning).join(' ')"),
+  "KUNCI BAWAH MEJA PENTAS",
+);
+assert.equal(
+  v190.run("c015Code.symbols.map(x=>x.symbol).join(' ')"),
+  "◆ ● ▣ ★",
+);
+validateScene(v190, "secretFinale", [
+  "peti jejak",
+  "puan suraya",
+  "papan persediaan",
+  "meja persediaan",
+  "pentas utama",
+  "kad arahan",
+  "bawah meja pentas",
+]);
+assert.ok(
+  v190
+    .run("investigationMechanics.renderRiddleTask(c015Riddle,fresh15().riddle)")
+    .includes("data-riddle-answer"),
+);
+assert.ok(
+  v190
+    .run(
+      "investigationMechanics.renderInvestigationTrivia(c015Trivia,fresh15().trivia)",
+    )
+    .includes("CATATAN PERSEDIAAN"),
+);
+assert.ok(
+  v190
+    .run(
+      "investigationMechanics.renderClueMatchingTask(c015Matching,fresh15().matching)",
+    )
+    .includes("data-match-side"),
+);
+assert.ok(
+  v190
+    .run("investigationMechanics.renderSymbolCodeTask(c015Code,fresh15().code)")
+    .includes("data-symbol-answer"),
+);
+v190.run("switchCase('C015');render()");
+let v190html = v190.nodes["#app"].innerHTML;
+assert.ok(v190html.includes('data-action="start"'));
+assert.ok(v190html.includes("c015-case-cover"));
+v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'start'}})");
+assert.equal(v190.run("home"), false);
+v190html = v190.nodes["#app"].innerHTML;
+assert.ok(v190html.includes("Kunci Peti Jejak"));
+assert.ok(v190html.includes("sengaja disimpan dengan selamat"));
+assert.ok(v190.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 0/5"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{object:'papan persediaan'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 0);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{object:'peti jejak'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 1);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{riddleAnswer:'0'}})",
+);
+assert.equal(v190.run("wrong"), true);
+v190.run(
+  "c015Hint('riddle');handleC015Click({hasAttribute:()=>false,dataset:{riddleAnswer:'1'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 2);
+v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}})");
+assert.equal(
+  v190.run("state.sceneProgress.secretFinale.includes('kad arahan')"),
+  false,
+);
+assert.equal(
+  v190.nodes["#app"].innerHTML.includes("CATATAN PERSEDIAAN"),
+  false,
+);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{object:'kad arahan'}})",
+);
+assert.ok(v190.nodes["#app"].innerHTML.includes("CATATAN PERSEDIAAN"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{triviaAnswer:'0'}})",
+);
+assert.equal(v190.run("wrong"), true);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{triviaAnswer:'1'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 3);
+v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}})");
+v190html = v190.nodes["#app"].innerHTML;
+assert.ok(
+  v190html.includes("KAD RUJUKAN SIMBOL") ||
+    v190html.includes("Kad Rujukan Simbol"),
+);
+assert.ok(v190html.includes("Digunakan untuk membuka Peti Jejak."));
+assert.ok(v190html.includes("Menunjukkan arah ke bahagian bawah."));
+assert.equal(v190html.includes("◆ = KUNCI"), false);
+assert.equal(v190.run("state.matching.referenceSeen"), false);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'reference-close'}})",
+);
+assert.equal(v190.run("state.matching.referenceSeen"), true);
+assert.ok(v190.nodes["#app"].innerHTML.includes("CARA PADANKAN"));
+assert.ok(v190.nodes["#app"].innerHTML.includes("Lihat Kad Rujukan"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'diamond'}})",
+);
+assert.ok(v190.run("state.matching.feedback").includes("DIPILIH"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'under'}})",
+);
+assert.equal(v190.run("state.matching.matches.length"), 0);
+assert.ok(v190.run("state.matching.feedback").includes("kad ◆"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'diamond'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'key'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'circle'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'under'}})",
+);
+assert.equal(v190.run("state.matching.matches.length"), 2);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'reference-open'}})",
+);
+assert.equal(v190.run("state.matching.referenceOpen"), true);
+assert.ok(v190.nodes["#app"].innerHTML.includes("Kad Rujukan Simbol"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'reference-close'}})",
+);
+assert.equal(v190.run("state.matching.matches.length"), 2);
+assert.equal(v190.run("state.matching.referenceOpen"), false);
+v190.run(
+  "state.matching.matches=[];state.matching.selected=null;persist();render()",
+);
+for (const [l, r] of [
+  ["diamond", "key"],
+  ["circle", "under"],
+  ["square", "table"],
+  ["star", "stage"],
+])
+  v190.run(
+    `handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'${l}'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'${r}'}})`,
+  );
+assert.equal(v190.run("state.matching.matches.length"), 4);
+assert.equal(v190.run("state.cluesFound"), 4);
+assert.equal(v190.run("state.code.mappings.length"), 4);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'left',matchId:'diamond'}});handleC015Click({hasAttribute:()=>false,dataset:{matchSide:'right',matchId:'key'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 4);
+v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}})");
+v190html = v190.nodes["#app"].innerHTML;
+for (const word of [
+  "KUNCI",
+  "BAWAH",
+  "MEJA",
+  "PENTAS",
+  "kiri ke kanan",
+  "Apakah arahan penuh?",
+])
+  assert.ok(v190html.includes(word));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{symbolAnswer:'1'}})",
+);
+assert.equal(v190.run("state.code.decoded"), false);
+v190.run(
+  "c015Hint('code');c015Hint('code');handleC015Click({hasAttribute:()=>false,dataset:{symbolAnswer:'0'}})",
+);
+assert.equal(v190.run("state.code.decoded"), true);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{object:'meja persediaan'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 4);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{object:'bawah meja pentas'}})",
+);
+assert.equal(v190.run("state.cluesFound"), 5);
+assert.ok(v190.run("caseClueReviewHtml()").includes("PETUNJUK DITEMUI — 5/5"));
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});state.links=['memerlukan','ialah','menunjukkan lokasi','salah'];handleC015Click({hasAttribute:()=>false,dataset:{action:'c015-check'}})",
+);
+assert.equal(v190.run("!!state.solved[7]"), false);
+v190.run(
+  "state.links=['memerlukan','ialah','menunjukkan lokasi','ditemui di'];handleC015Click({hasAttribute:()=>false,dataset:{action:'c015-check'}})",
+);
+assert.equal(v190.run("state.solved[7]"), true);
+v190.run(
+  "handleC015Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC015Click({hasAttribute:()=>false,dataset:{c015Theory:'0'}})",
+);
+assert.equal(v190.run("state.status"), "in_progress");
+v190.run("handleC015Click({hasAttribute:()=>false,dataset:{c015Theory:'2'}})");
+assert.equal(v190.run("state.status"), "completed");
+assert.equal(v190.run("state.cluesFound"), 5);
+assert.equal(v190.run("state.stars"), 4);
+assert.equal(v190.run("state.xpEarned"), 420);
+assert.equal(
+  v190.run("achievementDefinitions.find(a=>a.id==='A20').unlocked()"),
+  true,
+);
+const c015Best = v190.run("cases.C015.record.xpEarned");
+v190.run("handleC015Click({hasAttribute:()=>false,dataset:{action:'replay'}})");
+assert.equal(v190.run("state.scene"), 0);
+assert.equal(v190.run("cases.C015.record.xpEarned"), c015Best);
+assert.equal(v190.run("isCharacterDiscovered('arissa')"), true);
+v190.run(
+  "state=fresh15();state.cluesFound=5;state.solved[7]=true;completeC015();['C001','C002','C003','C004','C005','C006','C007','C008','C009','C010','C011','C012','C013','C014'].forEach((id,i)=>cases[id].record={status:'completed',stars:allCases[i].maxStars,xpEarned:[150,170,190,210,250,250,290,310,340,420,330,350,380,410][i]})",
+);
+assert.equal(v190.run("state.xpEarned"), 450);
+assert.equal(v190.run("state.stars"), 5);
+assert.equal(v190.run("getTotalBestXP()"), 4500);
+assert.equal(v190.run("getTotalBestStars()"), 63);
+assert.equal(v190.run("getCompletedCaseCount()"), 15);
+assert.equal(
+  v190.run("achievementDefinitions.find(a=>a.id==='A21').unlocked()"),
+  true,
+);
+assert.equal(v190.run("getDiscoveredCharacterCount()"), 22);
+v190.run(
+  "activeCase='C015';state=fresh15();state.scene=4;state.cluesFound=3;state.matching.referenceSeen=true;state.matching.referenceOpen=true;state.matching.matches=[{left:'diamond',right:'key'},{left:'circle',right:'under'}];cases.C015.run=state;persist()",
+);
+v190 = boot(false, true, true, true);
+assert.equal(v190.run("activeCase"), "C015");
+assert.equal(v190.run("state.scene"), 4);
+assert.equal(v190.run("state.matching.matches.length"), 2);
+assert.equal(v190.run("state.matching.referenceOpen"), true);
+const preserved15 = v190.run("JSON.stringify(cases.C015.record)");
+v190.run("restartCurrentCaseRun()");
+assert.equal(v190.run("state.scene"), 0);
+assert.equal(v190.run("state.cluesFound"), 0);
+assert.equal(v190.run("state.matching.matches.length"), 0);
+assert.equal(v190.run("state.matching.referenceSeen"), false);
+assert.equal(v190.run("JSON.stringify(cases.C015.record)"), preserved15);
+const partialPairs = [
+  { left: "diamond", right: "key" },
+  { left: "circle", right: "under" },
+  { left: "square", right: "table" },
+];
+for (let count = 1; count <= 3; count++) {
+  v190.run(
+    `activeCase='C015';state=fresh15();state.scene=4;state.cluesFound=3;state.matching.referenceSeen=true;state.matching.matches=${JSON.stringify(partialPairs.slice(0, count))};cases.C015.run=state;persist()`,
+  );
+  v190 = boot(false, true, true, true);
+  assert.equal(v190.run("state.scene"), 4);
+  assert.equal(v190.run("state.matching.matches.length"), count);
+}
+v190.run(
+  "activeCase='C015';state=fresh15();state.scene=5;state.cluesFound=4;state.solved[4]=true;state.matching.referenceSeen=true;state.matching.matches=c015Pairs.map(x=>({...x}));state.code.mappings=c015Symbols.map(x=>x.id);cases.C015.run=state;persist()",
+);
+v190 = boot(false, true, true, true);
+assert.equal(v190.run("state.scene"), 5);
+assert.equal(v190.run("state.code.mappings.length"), 4);
+assert.equal(v190.run("state.code.decoded"), false);
+for (const asset of [
+  "assets/locations/dataran-jejak-rahsia.webp",
+  "assets/characters/arissa.webp",
+  "assets/achievements/a20.webp",
+  "assets/achievements/a21.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.equal(fs.readFileSync(asset).subarray(0, 4).toString("ascii"), "RIFF");
+  assert.equal(
+    fs.readFileSync("server.js", "utf8").includes(asset) ||
+      asset.includes("/achievements/"),
+    true,
+  );
+}
+assert.equal(fs.readFileSync("index.html", "utf8").includes("arc4.js"), true);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(v190.run("allCases.every(c=>Number.isFinite(c.maxXP))"), true);
+assert.equal(v190.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 4500);
+assert.deepEqual(
+  JSON.parse(v190.run("JSON.stringify(firstArcCases.map(c=>c.maxXP))")),
+  [150, 170, 190, 210, 250],
+);
+assert.deepEqual(
+  JSON.parse(
+    v190.run(
+      "JSON.stringify([clues1,clues2,clues3,clues4,clues5,...Object.values(secondArcClues),...Object.values(thirdArcClues),c015Clues].map(list=>list.length))",
+    ),
+  ),
+  [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+);
+assert.equal(
+  v190.run('allCases.map(c=>c.id).join(",")'),
+  "C001,C002,C003,C004,C005,C006,C007,C008,C009,C010,C011,C012,C013,C014,C015",
+);
+const sceneHotspots = JSON.parse(
+  v190.run(
+    "JSON.stringify(Object.entries(scenes).map(([id,scene])=>({id,hotspots:scene.hotspots||[]})))",
+  ),
+);
+for (const scene of sceneHotspots) {
+  for (let i = 0; i < scene.hotspots.length; i++) {
+    const a = scene.hotspots[i];
+    assert.ok(
+      a.x >= 0 &&
+        a.y >= 0 &&
+        a.w > 0 &&
+        a.h > 0 &&
+        a.x + a.w <= 100 &&
+        a.y + a.h <= 100,
+      `${scene.id}: hotspot ${a.id} outside scene bounds`,
+    );
+    for (let j = i + 1; j < scene.hotspots.length; j++) {
+      const b = scene.hotspots[j],
+        overlap =
+          a.x < b.x + b.w &&
+          a.x + a.w > b.x &&
+          a.y < b.y + b.h &&
+          a.y + a.h > b.y;
+      assert.equal(overlap, false, `${scene.id}: ${a.id} overlaps ${b.id}`);
+    }
+  }
+}
+v190.run(
+  "activeCase='C015';state=fresh15();state.scene=1;state.cluesFound=1;cases.C015.run=state;persist()",
+);
+v190 = boot(false, true, true, true);
+assert.equal(v190.run("activeCase"), "C015");
+assert.equal(v190.run("state.scene"), 1);
+assert.equal(v190.run("state.cluesFound"), 1);
+assert.equal(v190.run("getTotalBestXP()"), 4500);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+store = {};
+let v210 = boot(false, true, true, true, true);
+assert.equal(v210.run("allCases.length"), 19);
+assert.equal(v210.run("Object.keys(characters).length"), 24);
+assert.equal(v210.run("achievementDefinitions.length"), 25);
+assert.equal(v210.run("getMaximumStars()"), 81);
+assert.equal(v210.run("allCases.reduce((s,c)=>s+c.maxXP,0)"), 6470);
+assert.equal(v210.run("isCaseUnlocked(15)"), false);
+v210.run("cases.C015.record={status:'completed',stars:5,xpEarned:450}");
+assert.equal(v210.run("isCaseUnlocked(15)"), true);
+assert.deepEqual(JSON.parse(v210.run("JSON.stringify(c016Fragments)")), [
+  "Selepas latihan tamat,",
+  "bawa bekas bahan kraf biru",
+  "dari rak persediaan",
+  "ke meja pendaftaran",
+  "sebelum pukul empat.",
+]);
+assert.equal(v210.run("c016Clues.length"), 5);
+validateScene(v210, "trainingRoom", [
+  "emah",
+  "jadual aktiviti",
+  "cebisan pesanan",
+  "rak persediaan",
+  "bekas bahan kraf biru",
+  "papan pendaftaran",
+  "meja pendaftaran",
+]);
+assert.equal(
+  v210.run("cases.C016.run.messageDisplay.every((v,i)=>v===i)"),
+  false,
+);
+assert.equal(
+  new Set(JSON.parse(v210.run("JSON.stringify(cases.C016.run.messageDisplay)")))
+    .size,
+  5,
+);
+v210.run(
+  "switchCase('C016');render();handleC016Click({hasAttribute:()=>false,dataset:{action:'start'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v210.run("state.scene"), 1);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'jadual aktiviti'}})",
+);
+assert.equal(v210.run("wrong"), true);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'emah'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v210.run("state.scene"), 2);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'rak persediaan'}})",
+);
+assert.equal(v210.run("wrong"), true);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'jadual aktiviti'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v210.run("state.cluesFound"), 2);
+assert.equal(v210.run("state.scene"), 3);
+assert.equal(v210.run("state.scene"), 3);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'cebisan pesanan'}})",
+);
+assert.equal(v210.run("state.folderFound"), true);
+assert.ok(v210.run("c016Message()").includes("CEBISAN A"));
+assert.equal(v210.run("c016Message()").includes("CEBISAN 1"), false);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'1'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-undo'}})",
+);
+assert.equal(v210.run("state.messageOrder.length"), 0);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'1'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-clear'}})",
+);
+assert.equal(v210.run("state.messageOrder.length"), 0);
+for (const i of [1, 0, 2, 3, 4])
+  v210.run(
+    `handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'${i}'}})`,
+  );
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-check'}})",
+);
+assert.equal(v210.run("state.messageVerified"), false);
+v210.run("state.messageOrder=[]");
+for (const i of [0, 1, 2, 3, 4])
+  v210.run(
+    `handleC016Click({hasAttribute:()=>false,dataset:{c016Fragment:'${i}'}})`,
+  );
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{action:'c016-check'}})",
+);
+assert.equal(v210.run("state.messageVerified"), true);
+assert.equal(v210.run("c016Message()").includes("Semak Mesej"), false);
+assert.ok(v210.run("c016Message()").includes("Pesanan lengkap"));
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{object:'meja pendaftaran'}})",
+);
+assert.equal(v210.run("wrong"), true);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'bekas bahan kraf biru'}})",
+);
+assert.equal(v210.run("state.cluesFound"), 4);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{object:'papan pendaftaran'}})",
+);
+assert.equal(v210.run("state.cluesFound"), 5);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{object:'meja pendaftaran'}});handleC016Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC016Click({hasAttribute:()=>false,dataset:{c016Theory:'0'}})",
+);
+assert.equal(v210.run("wrong"), true);
+v210.run("handleC016Click({hasAttribute:()=>false,dataset:{c016Theory:'2'}})");
+assert.equal(v210.run("state.status"), "completed");
+assert.equal(v210.run("state.cluesFound"), 5);
+assert.equal(v210.run("state.scene"), 8);
+assert.equal(v210.run("allCases.length"), 19);
+const best210 = v210.run("cases.C016.record.xpEarned");
+v210.run("handleC016Click({hasAttribute:()=>false,dataset:{action:'replay'}})");
+assert.equal(v210.run("state.scene"), 0);
+assert.equal(v210.run("cases.C016.record.xpEarned"), best210);
+v210.run(
+  "state=fresh16();state.scene=4;state.cluesFound=2;state.messageVerified=true;state.solved[3]=true;cases.C016.run=state;activeCase='C016';persist()",
+);
+v210 = boot(false, true, true, true, true);
+assert.equal(v210.run("state.scene"), 4);
+v210.run(
+  "handleC016Click({hasAttribute:()=>false,dataset:{object:'bekas bahan kraf biru'}})",
+);
+assert.equal(v210.run("state.cluesFound"), 4);
+for (const asset of [
+  "assets/characters/emah.webp",
+  "assets/achievements/a22.svg",
+  "assets/locations/ruang-latihan-bayuraya.webp",
+])
+  assert.equal(fs.existsSync(asset), true);
+assert.ok(fs.readFileSync("index.html", "utf8").includes("arc5.js"));
+assert.ok(fs.readFileSync("server.js", "utf8").includes("/arc5.js"));
+console.log(
+  "PASS: v2.1.1 C016 visual canon, accurate hotspots, neutral shuffled fragments, completed-state UI, partial-save recovery and C001–C015 regression.",
+);
+store = {};
+let v220 = boot(false, true, true, true, true);
+assert.equal(v220.run("allCases.length"), 19);
+assert.equal(v220.run("Object.keys(characters).length"), 24);
+assert.equal(v220.run("achievementDefinitions.length"), 25);
+assert.equal(v220.run("getMaximumStars()"), 81);
+assert.equal(v220.run("allCases.reduce((s,c)=>s+c.maxXP,0)"), 6470);
+assert.equal(v220.run("isCaseUnlocked(16)"), false);
+v220.run("cases.C016.record={status:'completed',stars:4,xpEarned:470}");
+assert.equal(v220.run("isCaseUnlocked(16)"), true);
+assert.equal(v220.run("c017Clues.length"), 5);
+assert.equal(v220.run("c017Statements.length"), 4);
+validateScene(v220, "mathRecords", [
+  "jagjit",
+  "nota a",
+  "kotak kb17",
+  "rekod stok",
+  "nota b",
+  "resit balai",
+  "log penghantaran",
+]);
+v220.run(
+  "switchCase('C017');home=false;render();handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v220.run("state.scene"), 1);
+for (const [scene, obj, clue] of [
+  [1, "jagjit", 0],
+  [2, "kotak kb17", 1],
+]) {
+  v220.run(
+    `handleC017Click({hasAttribute:()=>false,dataset:{object:'${obj}'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})`,
+  );
+  assert.equal(v220.run("state.cluesFound"), clue);
+}
+v220.run("handleC017Click({hasAttribute:()=>false,dataset:{object:'nota a'}})");
+assert.equal(v220.run("state.noteASeen"), true);
+assert.equal(v220.run("state.cluesFound"), 2);
+v220.run(
+  "handleC017Click({hasAttribute:()=>false,dataset:{object:'nota b'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v220.run("state.noteBSeen"), true);
+for (const [obj, clue] of [
+  ["rekod stok", 3],
+  ["log penghantaran", 4],
+  ["resit balai", 5],
+]) {
+  v220.run(
+    `handleC017Click({hasAttribute:()=>false,dataset:{object:'${obj}'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})`,
+  );
+  assert.equal(v220.run("state.cluesFound"), clue);
+}
+assert.equal(v220.run("state.scene"), 7);
+v220.run(
+  "handleC017Click({hasAttribute:()=>false,dataset:{c017Status:'conflict'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-classify'}})",
+);
+assert.equal(v220.run("state.classification.completed[0]"), false);
+assert.equal(v220.run("wrong"), true);
+for (const [i, status] of [
+  [0, "supported"],
+  [1, "conflict"],
+  [2, "supported"],
+  [3, "unknown"],
+])
+  v220.run(
+    `handleC017Click({hasAttribute:()=>false,dataset:{c017Statement:'${i}'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Status:'${status}'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-classify'}})`,
+  );
+assert.equal(v220.run("state.classification.completed.every(Boolean)"), true);
+const savedClass = v220.run("JSON.stringify(state.classification.completed)");
+v220.run(
+  "handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-review'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-review-close'}})",
+);
+assert.equal(
+  v220.run("JSON.stringify(state.classification.completed)"),
+  savedClass,
+);
+v220.run(
+  "handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'noteB'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'tag'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-proof-check'}})",
+);
+assert.equal(v220.run("state.solved[8]"), undefined);
+v220.run(
+  "state.contradictionEvidence=[];handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'stock'}});handleC017Click({hasAttribute:()=>false,dataset:{c017Proof:'dispatch'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'c017-proof-check'}});handleC017Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v220.run("state.scene"), 9);
+v220.run("handleC017Click({hasAttribute:()=>false,dataset:{c017Theory:'0'}})");
+assert.equal(v220.run("state.status"), "in_progress");
+v220.run("handleC017Click({hasAttribute:()=>false,dataset:{c017Theory:'2'}})");
+assert.equal(v220.run("state.status"), "completed");
+assert.equal(v220.run("state.scene"), 10);
+assert.equal(v220.run("state.cluesFound"), 5);
+assert.equal(v220.run("state.xpEarned"), 500);
+assert.equal(
+  v220.run("achievementDefinitions.find(a=>a.id==='A23').unlocked()"),
+  true,
+);
+assert.equal(v220.run("allCases.some(c=>c.id==='C019')"), true);
+const best220 = v220.run("cases.C017.record.xpEarned");
+v220.run("handleC017Click({hasAttribute:()=>false,dataset:{action:'replay'}})");
+assert.equal(v220.run("state.scene"), 0);
+assert.equal(v220.run("cases.C017.record.xpEarned"), best220);
+v220.run(
+  "state=fresh17();state.scene=7;state.cluesFound=5;state.classification.answers=['supported',null,null,null];state.classification.completed=[true,false,false,false];cases.C017.run=state;activeCase='C017';persist()",
+);
+v220 = boot(false, true, true, true, true);
+assert.equal(v220.run("state.scene"), 7);
+assert.equal(v220.run("state.classification.completed[0]"), true);
+assert.equal(v220.run("KEY"), "detektif-bahasa-v1");
+for (const asset of [
+  "assets/characters/jagjit.webp",
+  "assets/locations/kedai-matematik-rekod.webp",
+  "assets/achievements/a23.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.ok(fs.readFileSync("server.js", "utf8").includes(asset));
+}
+console.log(
+  "PASS: v2.2.0 C017, Jagjit, five clues, source-before-question, Cari Percanggahan, evidence verification, save/replay and C001–C016 regression.",
+);
+assert.equal(v220.run("caseArcDefinitions.length"), 4);
+assert.deepEqual(
+  JSON.parse(
+    v220.run("JSON.stringify(caseArcDefinitions.map(a=>a.ids.length))"),
+  ),
+  [5, 5, 5, 4],
+);
+assert.deepEqual(
+  JSON.parse(
+    v220.run(
+      "JSON.stringify(['C001','C005','C006','C010','C011','C015','C016','C017'].map(caseArcIndex))",
+    ),
+  ),
+  [0, 0, 1, 1, 2, 2, 3, 3],
+);
+v220.run("activeCase='C017';accordionActiveCase='C001';openCaseArc=0");
+let accordionHtml = v220.run("caseShelf()");
+assert.ok(accordionHtml.includes('class="case-list-scroll"'));
+assert.equal((accordionHtml.match(/class="case-arc-toggle"/g) || []).length, 4);
+assert.equal((accordionHtml.match(/class="case-arc-panel"/g) || []).length, 4);
+assert.equal((accordionHtml.match(/data-case="C0/g) || []).length, 19);
+assert.ok(accordionHtml.includes('data-case-arc="3" aria-expanded="true"'));
+assert.ok(accordionHtml.includes('id="case-arc-panel-0" hidden'));
+assert.equal(v220.run("openCaseArc"), 3);
+v220.run("openCaseArc=0;accordionActiveCase=activeCase");
+accordionHtml = v220.run("caseShelf()");
+assert.ok(accordionHtml.includes('data-case-arc="0" aria-expanded="true"'));
+v220.run("caseShelf()");
+assert.equal(v220.run("openCaseArc"), 0);
+v220.run(
+  "cases.C016.record={status:'completed',stars:4,xpEarned:470};cases.C017.record={status:'completed',stars:5,xpEarned:500};openCaseArc=3;accordionActiveCase=activeCase",
+);
+accordionHtml = v220.run("caseShelf()");
+assert.ok(accordionHtml.includes("FAIL KEEMPAT"));
+assert.ok(accordionHtml.includes("<b>2/5</b>"));
+assert.equal(v220.run("KEY"), "detektif-bahasa-v1");
+assert.equal(v220.run("allCases.length"), 19);
+assert.equal(v220.run("getMaximumStars()"), 81);
+assert.equal(v220.run("allCases.reduce((s,c)=>s+c.maxXP,0)"), 6470);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+console.log(
+  "PASS: v2.2.1 four-arc accordion, unified scroll, active-case expansion, historical 2/5 count and unchanged save schema.",
+);
+store = {};
+let v230 = boot(false, true, true, true, true);
+assert.equal(v230.run("allCases.length"), 19);
+assert.equal(v230.run("Object.keys(locations).length"), 12);
+assert.equal(v230.run("Object.keys(characters).length"), 24);
+assert.equal(v230.run("achievementDefinitions.length"), 25);
+assert.equal(v230.run("getMaximumStars()"), 81);
+assert.equal(v230.run("allCases.reduce((s,c)=>s+c.maxXP,0)"), 6470);
+assert.equal(v230.run("isCaseUnlocked(17)"), false);
+v230.run("cases.C017.record={status:'completed',stars:5,xpEarned:500}");
+assert.equal(v230.run("isCaseUnlocked(17)"), true);
+assert.equal(v230.run("c018Clues.length"), 5);
+assert.deepEqual(JSON.parse(v230.run("JSON.stringify(c018Headlines)")), [
+  "Jom Bertukar Buku Cerita!",
+  "Jualan Buku Istimewa!",
+  "Pertandingan Membaca Pantas!",
+]);
+validateScene(v230, "libraryNotice", [
+  "arissa poster",
+  "folder calon tajuk",
+  "ruang tajuk kosong",
+  "maklumat buku",
+  "jadual program",
+  "peraturan program",
+  "cikgu farah poster",
+]);
+for (const id of ["C001", "C002", "C003", "C004"])
+  v230.run(`cases.${id}.record={status:'completed',stars:3,xpEarned:100}`);
+let shelf230 = v230.run("caseShelf()");
+for (const id of ["c001", "c002", "c003", "c004", "c005"])
+  assert.ok(shelf230.includes(`assets/cases/${id}.webp`));
+v230.run(
+  "switchCase('C018');home=false;render();handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v230.run("state.scene"), 1);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{object:'arissa poster'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'ruang tajuk kosong'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v230.run("state.scene"), 3);
+assert.equal(v230.run("state.cluesFound"), 1);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{object:'maklumat buku'}})",
+);
+assert.equal(v230.run("state.sourceReady"), true);
+v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Info:'1'}})");
+assert.equal(v230.run("wrong"), true);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{c018Info:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v230.run("state.cluesFound"), 2);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{c018Exchange:'1'}})",
+);
+assert.equal(v230.run("state.solved[4]"), undefined);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{c018Exchange:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'peraturan program'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Rules:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'jadual program'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Schedule:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+assert.equal(v230.run("state.cluesFound"), 5);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{object:'cikgu farah poster'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Main:'1'}})",
+);
+assert.equal(v230.run("wrong"), true);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{c018Main:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Headline:'1'}})",
+);
+assert.equal(v230.run("state.solved[9]"), undefined);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{c018Headline:'0'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}})",
+);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'rules'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'schedule'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'c018-support-check'}})",
+);
+assert.equal(v230.run("state.solved[10]"), undefined);
+v230.run(
+  "state.support=[];handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'bring'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Support:'exchange'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'c018-support-check'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'c018-review'}})",
+);
+assert.equal(v230.run("state.sourceOpen"), true);
+assert.equal(v230.run('state.support.join(",")'), "bring,exchange");
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'folder calon tajuk'}});handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{object:'ruang tajuk kosong'}})",
+);
+assert.equal(v230.run("state.titlePlaced"), true);
+v230.run(
+  "handleC018Click({hasAttribute:()=>false,dataset:{action:'next'}});handleC018Click({hasAttribute:()=>false,dataset:{c018Theory:'0'}})",
+);
+assert.equal(v230.run("state.status"), "in_progress");
+v230.run("handleC018Click({hasAttribute:()=>false,dataset:{c018Theory:'2'}})");
+assert.equal(v230.run("state.status"), "completed");
+assert.equal(v230.run("state.cluesFound"), 5);
+assert.equal(v230.run("state.xpEarned"), 480);
+assert.equal(
+  v230.run("achievementDefinitions.find(a=>a.id==='A24').unlocked()"),
+  true,
+);
+assert.equal(v230.run("allCases.some(c=>c.id==='C019')"), true);
+const best230 = v230.run("cases.C018.record.xpEarned");
+v230.run("handleC018Click({hasAttribute:()=>false,dataset:{action:'replay'}})");
+assert.equal(v230.run("state.scene"), 0);
+assert.equal(v230.run("cases.C018.record.xpEarned"), best230);
+v230.run(
+  "state=fresh18();state.scene=10;state.cluesFound=5;state.headline=0;state.support=['bring'];cases.C018.run=state;activeCase='C018';persist()",
+);
+v230 = boot(false, true, true, true, true);
+assert.equal(v230.run("state.scene"), 10);
+assert.equal(v230.run("state.support[0]"), "bring");
+assert.equal(v230.run("KEY"), "detektif-bahasa-v1");
+v230.run("c018Hint();c018Hint();c018Hint()");
+assert.equal(v230.run("state.hintLevels.c018"), 3);
+assert.equal(v230.run("state.hintsUsed"), 3);
+const partial230 = v230.run(
+  "JSON.stringify([state.scene,state.headline,state.support])",
+);
+v230.run("caseClueReviewHtml()");
+assert.equal(
+  v230.run("JSON.stringify([state.scene,state.headline,state.support])"),
+  partial230,
+);
+v230.run(
+  "cases.C018.record={status:'completed',stars:4,xpEarned:480};restartCurrentCaseRun()",
+);
+assert.equal(v230.run("state.scene"), 0);
+assert.equal(v230.run("cases.C018.record.xpEarned"), 480);
+assert.equal(v230.run("characters.arissa.relatedCases.includes('C018')"), true);
+assert.equal(v230.run("characters.farah.relatedCases.includes('C018')"), true);
+assert.equal(v230.run("locations.library.relatedCases.includes('C018')"), true);
+v230.run(
+  "cases.C016.record={status:'completed'};cases.C017.record={status:'completed'};cases.C018.record={status:'completed'};openCaseArc=3;accordionActiveCase=activeCase",
+);
+assert.ok(v230.run("caseShelf()").includes("<b>3/5</b>"));
+v230.run(
+  "for(const c of allCases)cases[c.id].record={status:'completed',stars:c.maxStars,xpEarned:c.maxXP};achievementsOpen=true;renderAchievements()",
+);
+assert.equal(
+  v230.run('(app.innerHTML.match(/aria-label=\\"A24,/g)||[]).length'),
+  1,
+);
+assert.equal(v230.run("app.innerHTML.includes('19 / 19')"), true);
+assert.equal(v230.run("app.innerHTML.includes('81 / 81')"), true);
+for (const asset of [
+  "assets/locations/perpustakaan-sudut-hebahan.webp",
+  "assets/achievements/a24.webp",
+  ...["c001", "c002", "c003", "c004", "c005"].map(
+    (x) => `assets/cases/${x}.webp`,
+  ),
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.ok(fs.readFileSync("server.js", "utf8").includes(asset));
+}
+console.log(
+  "PASS: v2.3.0 C018 source-first Inti Mesej, headline/evidence validation, physical placement, save/replay, A24, premium C001-C005 thumbnails and C001-C017 regression.",
+);
+store = {};
+let v240 = boot(false, true, true, true, true);
+assert.equal(v240.run("c019Clues.length"), 5);
+assert.equal(v240.run("allCases.length"), 19);
+assert.equal(v240.run("Object.keys(locations).length"), 12);
+assert.equal(v240.run("Object.keys(characters).length"), 24);
+assert.equal(v240.run("achievementDefinitions.length"), 25);
+assert.equal(v240.run("getMaximumStars()"), 81);
+assert.equal(v240.run("allCases.reduce((s,c)=>s+c.maxXP,0)"), 6470);
+assert.equal(v240.run("isCaseUnlocked(18)"), false);
+v240.run("cases.C018.record={status:'completed',stars:4,xpEarned:480}");
+assert.equal(v240.run("isCaseUnlocked(18)"), true);
+assert.equal(v240.run("allCases.some(c=>c.id==='C020')"), false);
+assert.equal(
+  v240.run("c018PosterSource().includes('Maklumat Aktiviti Komuniti')"),
+  true,
+);
+assert.equal(
+  v240.run("c018PosterSource().includes('Program Pertukaran Buku Cerita')"),
+  false,
+);
+assert.equal(
+  v240.run("scenes.libraryNotice.alt.includes('maklumat pertukaran buku')"),
+  false,
+);
+assert.equal(
+  v240.run(
+    "scenes.libraryNotice.hotspots.find(h=>h.id==='maklumat buku').label.includes('pertukaran')",
+  ),
+  false,
+);
+assert.deepEqual(JSON.parse(v240.run("JSON.stringify(c019Witnesses)")), {
+  xiao: {
+    name: "Xiao Feng",
+    time: "9:20 pagi",
+    place: "Pintu masuk utama",
+    observation: "Meja pendaftaran di bahagian depan kelihatan kosong.",
+  },
+  ayyash: {
+    name: "Ayyash",
+    time: "9:20 pagi",
+    place: "Belakang pondok aktiviti",
+    observation:
+      "Beberapa pembantu sedang menyediakan kerusi dan bahan melukis.",
+  },
+});
+validateScene(v240, "parkPerspectives", [
+  "xiao feng perspektif",
+  "meja pendaftaran depan",
+  "pelan kawasan aktiviti",
+  "jadual rasmi aktiviti",
+  "ayyash perspektif",
+  "kawasan persediaan belakang",
+  "log penganjur aktiviti",
+]);
+const c019Spots = JSON.parse(
+  v240.run("JSON.stringify(scenes.parkPerspectives.hotspots)"),
+);
+for (let i = 0; i < c019Spots.length; i++)
+  for (let j = i + 1; j < c019Spots.length; j++) {
+    const a = c019Spots[i],
+      b = c019Spots[j],
+      overlap =
+        a.x < b.x + b.w &&
+        a.x + a.w > b.x &&
+        a.y < b.y + b.h &&
+        a.y + a.h > b.y;
+    assert.equal(overlap, false, `C019 overlap: ${a.id} / ${b.id}`);
+  }
+v240.run(
+  "switchCase('C019');home=false;render();handleC019Click({dataset:{action:'next'}})",
+);
+assert.equal(v240.run("state.scene"), 1);
+assert.ok(
+  v240.nodes["#app"].innerHTML.includes("dua saksi") ||
+    v240.nodes["#app"].innerHTML.includes("Temu bual Xiao Feng"),
+);
+v240.run(
+  "handleC019Click({dataset:{object:'xiao feng perspektif'}});handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'ayyash perspektif'}});handleC019Click({dataset:{action:'next'}})",
+);
+assert.equal(v240.run("state.cluesFound"), 2);
+assert.equal(v240.run("state.scene"), 3);
+v240.run(
+  "handleC019Click({dataset:{object:'meja pendaftaran depan'}});handleC019Click({dataset:{object:'kawasan persediaan belakang'}})",
+);
+assert.equal(v240.run("state.solved[3]"), true);
+v240.run(
+  "handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'pelan kawasan aktiviti'}});handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'jadual rasmi aktiviti'}});handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{object:'log penganjur aktiviti'}})",
+);
+assert.equal(v240.run("state.cluesFound"), 5);
+assert.equal(
+  v240.run("Object.values(state.solved).filter(Boolean).length>=5"),
+  true,
+);
+v240.run(
+  "handleC019Click({dataset:{action:'next'}});state.viewpoints={xiao:0,ayyash:1};state.compatibility=1;handleC019Click({dataset:{action:'c019-compare-check'}})",
+);
+assert.equal(v240.run("wrong"), true);
+assert.equal(v240.run("!!state.solved[7]"), false);
+v240.run(
+  "state.compatibility=0;handleC019Click({dataset:{action:'c019-compare-check'}})",
+);
+assert.equal(v240.run("state.solved[7]"), true);
+v240.run("handleC019Click({dataset:{action:'c019-review'}})");
+assert.equal(v240.run("state.sourceOpen"), true);
+assert.equal(v240.run("state.viewpoints.xiao"), 0);
+v240.run(
+  "handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{c019Inference:'0'}})",
+);
+assert.equal(v240.run("wrong"), true);
+v240.run("handleC019Click({dataset:{c019Inference:'1'}})");
+assert.equal(v240.run("state.solved[8]"), true);
+v240.run(
+  "handleC019Click({dataset:{action:'next'}});state.evidence=['chair','colour'];handleC019Click({dataset:{action:'c019-evidence-check'}})",
+);
+assert.equal(v240.run("wrong"), true);
+v240.run(
+  "state.evidence=['plan','log'];handleC019Click({dataset:{action:'c019-evidence-check'}})",
+);
+assert.equal(v240.run("state.solved[9]"), true);
+assert.ok(
+  v240.run("c019Timeline()").includes("9:20") &&
+    v240.run("c019Timeline()").includes("9:40") &&
+    v240.run("c019Timeline()").includes("10:00"),
+);
+v240.run(
+  "handleC019Click({dataset:{action:'next'}});handleC019Click({dataset:{c019Theory:'0'}})",
+);
+assert.equal(v240.run("state.status"), "in_progress");
+v240.run("handleC019Click({dataset:{c019Theory:'2'}})");
+assert.equal(v240.run("state.status"), "completed");
+assert.equal(v240.run("state.scene"), 11);
+assert.equal(v240.run("state.cluesFound"), 5);
+assert.equal(v240.run("state.stars"), 5);
+assert.equal(v240.run("state.xpEarned"), 520);
+assert.equal(
+  v240.run("achievementDefinitions.find(a=>a.id==='A25').unlocked()"),
+  true,
+);
+assert.equal(
+  v240.nodes["#app"].innerHTML.includes(
+    "Kandungan Fail Keempat setakat ini: 4/5 kes.",
+  ),
+  true,
+);
+assert.equal(v240.nodes["#app"].innerHTML.includes("C020"), false);
+v240.run("openCaseArc=3;accordionActiveCase=activeCase");
+assert.ok(v240.run("caseShelf()").includes("<b>2/5</b>"));
+const best240 = v240.run("cases.C019.record.xpEarned");
+v240.run("handleC019Click({dataset:{action:'replay'}})");
+assert.equal(v240.run("state.scene"), 0);
+assert.equal(v240.run("cases.C019.record.xpEarned"), best240);
+v240.run(
+  "state.scene=7;state.cluesFound=5;state.viewpoints={xiao:0,ayyash:1};state.compatibility=0;state.sourceOpen=true;cases.C019.run=state;persist()",
+);
+v240 = boot(false, true, true, true, true);
+assert.equal(v240.run("state.scene"), 7);
+assert.equal(v240.run("state.viewpoints.ayyash"), 1);
+assert.equal(v240.run("state.sourceOpen"), true);
+assert.equal(v240.run("KEY"), "detektif-bahasa-v1");
+v240.run("c019Hint();c019Hint();c019Hint()");
+assert.equal(v240.run("state.hintLevels.c019"), 3);
+assert.equal(v240.run("state.hintsUsed"), 3);
+const before240Review = v240.run(
+  "JSON.stringify([state.scene,state.viewpoints,state.compatibility,state.evidence,state.hintsUsed])",
+);
+v240.run("caseClueReviewHtml()");
+assert.equal(
+  v240.run(
+    "JSON.stringify([state.scene,state.viewpoints,state.compatibility,state.evidence,state.hintsUsed])",
+  ),
+  before240Review,
+);
+v240.run(
+  "cases.C019.record={status:'completed',stars:5,xpEarned:520};restartCurrentCaseRun()",
+);
+assert.equal(v240.run("state.scene"), 0);
+assert.equal(v240.run("cases.C019.record.xpEarned"), 520);
+assert.equal(
+  v240.run("characters.xiaoFeng.relatedCases.includes('C019')"),
+  true,
+);
+assert.equal(v240.run("characters.ayyash.relatedCases.includes('C019')"), true);
+assert.equal(v240.run("locations.park.relatedCases.includes('C019')"), true);
+for (const asset of [
+  "assets/locations/taman-pondok-aktiviti.webp",
+  "assets/achievements/a25.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.equal(fs.readFileSync(asset).subarray(0, 4).toString("ascii"), "RIFF");
+  assert.ok(fs.readFileSync("server.js", "utf8").includes(asset));
+}
+v240.run(
+  "for(const c of allCases)cases[c.id].record={status:'completed',stars:c.maxStars,xpEarned:c.maxXP};achievementsOpen=true;renderAchievements()",
+);
+assert.equal(
+  v240.run('(app.innerHTML.match(/aria-label=\\"A25,/g)||[]).length'),
+  1,
+);
+assert.equal(v240.run("app.innerHTML.includes('19 / 19')"), true);
+assert.equal(v240.run("app.innerHTML.includes('81 / 81')"), true);
+assert.equal(v240.run("getTotalBestXP()"), 6470);
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+console.log(
+  "PASS: v2.4.0 C018 neutral source copy, C019 five clues, Banding Perspektif, time/place reasoning, evidence, save/replay, A25 and C001–C018 regression.",
+);
+const releaseHtml = fs.readFileSync("index.html", "utf8"),
+  releaseGame = fs.readFileSync("game.js", "utf8"),
+  releaseCss = fs.readFileSync("style.css", "utf8");
+assert.ok(releaseHtml.includes('data-release="v2.11.0"'));
+assert.ok(
+  releaseHtml.includes('application-name" content="Detektif Bahasa v2.11.0"'),
+);
+for (const asset of [
+  "style.css",
+  "mechanics.js",
+  "game.js",
+  "arc2.js",
+  "arc3.js",
+  "arc4.js",
+  "arc5.js",
+  "arc6.js",
+  "arc7.js",
+  "lensa.js",
+])
+  assert.ok(
+    releaseHtml.includes(`${asset}?v=2.11.0`),
+    `${asset} release query`,
+  );
+assert.equal(
+  releaseGame.includes(
+    "const KEY='detektif-bahasa-v1',RELEASE='v2.11.0 by Zil-el-Saif'",
+  ),
+  true,
+);
+assert.ok(releaseGame.includes("function titleNavigationHtml()"));
+assert.ok(releaseGame.includes('data-title-navigation-action="resume"'));
+assert.ok(releaseGame.includes('data-title-navigation-action="agency"'));
+assert.equal(releaseGame.includes("data-title-resume"), false);
+assert.equal(releaseGame.includes("data-title-enter"), false);
+assert.equal(releaseGame.includes("openTitleDestination"), false);
+assert.equal(releaseCss.includes(".title-actions"), false);
+assert.equal(releaseCss.includes(".title-primary"), false);
+assert.equal(releaseCss.includes(".title-secondary"), false);
+assert.ok(releaseCss.includes(".title-navigation-button{"));
+assert.ok(releaseCss.includes("min-height:56px"));
+assert.ok(releaseCss.includes("touch-action:manipulation"));
+for (const malformed of [
+  { cases: "broken", activeCase: "C019" },
+  { cases: { C001: "broken" }, activeCase: "C001" },
+  42,
+]) {
+  store = { "detektif-bahasa-v1": JSON.stringify(malformed) };
+  const resilient = boot(true, true, true, true, true);
+  assert.equal(
+    resilient.nodes["#app"].innerHTML.includes("title-screen"),
+    true,
+  );
+  assert.equal(resilient.run("KEY"), "detektif-bahasa-v1");
+  assert.equal(resilient.run("cases.C001.run.caseId"), "C001");
+  assert.equal(
+    resilient.nodes["#app"].innerHTML.includes(
+      'data-title-navigation-action="agency"',
+    ),
+    true,
+  );
+}
+store = {};
+let titleQa = boot(true, true, true, true, true),
+  titleHtml = titleQa.nodes["#app"].innerHTML;
+assert.equal(titleQa.run("hasResumableRun()"), false);
+assert.equal(
+  titleHtml.includes('data-title-navigation-action="resume"'),
+  false,
+);
+assert.equal(
+  (titleHtml.match(/data-title-navigation-action=/g) || []).length,
+  1,
+);
+assert.equal(titleHtml.includes('data-title-navigation-action="agency"'), true);
+titleQa.click({ titleNavigationAction: "agency" });
+assert.equal(titleQa.run("home"), true);
+assert.equal(titleQa.run("titleOpen"), false);
+const lateRuns = [
+  ["C001", 1],
+  ["C006", 2],
+  ["C015", 3],
+  ["C016", 4],
+  ["C017", 5],
+  ["C018", 6],
+  ["C019", 7],
+];
+for (const [id, scene] of lateRuns) {
+  store = {};
+  let nav = boot(true, true, true, true, true);
+  nav.run(
+    `activeCase='${id}';state=cases['${id}'].run;state.status='in_progress';state.scene=${scene};state.cluesFound=1;cases['${id}'].run=state;persist();titleOpen=true;render()`,
+  );
+  let html = nav.nodes["#app"].innerHTML;
+  assert.equal(
+    (html.match(/data-title-navigation-action="resume"/g) || []).length,
+    1,
+    `${id} one resume control`,
+  );
+  assert.equal(
+    (html.match(/data-title-navigation-action="agency"/g) || []).length,
+    1,
+    `${id} one agency control`,
+  );
+  nav.click({ titleNavigationAction: "resume" });
+  assert.equal(nav.run("activeCase"), id);
+  assert.equal(nav.run("home"), false);
+  assert.equal(nav.run("state.scene"), scene);
+  nav.run("titleOpen=true;render()");
+  nav.click({ titleNavigationAction: "agency" });
+  assert.equal(nav.run("home"), true);
+  assert.equal(nav.run("state.scene"), scene);
+}
+store = {};
+titleQa = boot(true, true, true, true, true);
+titleQa.run(
+  "activeCase='C019';state=cases.C019.run;state.scene=4;state.cluesFound=3;cases.C019.run=state;persist();titleOpen=true;render()",
+);
+titleQa = boot(true, true, true, true, true);
+assert.equal(titleQa.run("activeCase"), "C019");
+assert.equal(
+  titleQa.nodes["#app"].innerHTML.includes("SAMBUNG SIASATAN"),
+  true,
+);
+assert.equal(titleQa.run("activateTitleNavigation('resume')"), true);
+assert.equal(titleQa.run("activateTitleNavigation('resume')"), false);
+assert.equal(titleQa.run("state.scene"), 4);
+titleQa.run(
+  "titleOpen=true;state.scene=0;state.cluesFound=0;state.solved={};cases.C019.record=null;render()",
+);
+assert.equal(titleQa.run("activateTitleNavigation('resume')"), true);
+assert.equal(titleQa.run("home"), true);
+assert.ok(
+  releaseCss.includes(
+    ".title-background,.title-shade{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}",
+  ),
+);
+assert.ok(releaseCss.includes("pointer-events:none;filter:drop-shadow"));
+assert.equal(
+  fs.readFileSync("index.html", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+assert.equal(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+  true,
+);
+console.log(
+  "PASS: v2.4.2 rebuilt title navigation, one-action lifecycle, C001/C006/C015-C019 resume, independent Agensi entry, malformed-save recovery and C001-C019 regression.",
+);
+store = {};
+let legacyTitle = boot(true, true, true, true, true);
+legacyTitle.run(
+  "activeCase='C005';state=fresh5();state.scene=1;cases.C005.run=state;cases.C005.record={caseId:'C005',status:'completed',stars:5,xpEarned:220};cases.C001.run={...fresh1(),scene:2};cases.C001.record={caseId:'C001',status:'completed',stars:3,xpEarned:150};cases.C018.run={...fresh18(),scene:3,cluesFound:1,solved:{1:true,2:true},sourceReady:true};cases.C018.record=null;persist();titleOpen=true;render()",
+);
+const legacyRecords = legacyTitle.run(
+    "JSON.stringify(Object.fromEntries(Object.entries(cases).map(([id,value])=>[id,value.record||null])))",
+  ),
+  legacyC018 = legacyTitle.run("JSON.stringify(cases.C018.run)");
+assert.equal(
+  legacyTitle.nodes["#app"].innerHTML.includes(
+    'data-title-navigation-action="agency"',
+  ),
+  true,
+);
+legacyTitle.click({ titleNavigationAction: "agency" });
+assert.equal(legacyTitle.run("titleOpen"), false);
+assert.equal(legacyTitle.run("home"), true);
+assert.equal(legacyTitle.run("activeCase"), "C005");
+assert.equal(legacyTitle.run("state.scene"), 1);
+legacyTitle.run("titleOpen=true;render()");
+legacyTitle.click({ titleNavigationAction: "resume" });
+assert.equal(legacyTitle.run("titleOpen"), false);
+assert.equal(legacyTitle.run("home"), false);
+assert.equal(legacyTitle.run("activeCase"), "C005");
+assert.equal(legacyTitle.run("state.scene"), 1);
+assert.equal(
+  legacyTitle.run(
+    "JSON.stringify(Object.fromEntries(Object.entries(cases).map(([id,value])=>[id,value.record||null])))",
+  ),
+  legacyRecords,
+);
+assert.equal(legacyTitle.run("JSON.stringify(cases.C018.run)"), legacyC018);
+for (const id of ["C003", "C004"]) {
+  legacyTitle.run(
+    `activeCase='${id}';state=cases['${id}'].run;state.scene=1;state.status='in_progress';titleOpen=true;home=true;render()`,
+  );
+  legacyTitle.click({ titleNavigationAction: "agency" });
+  assert.equal(
+    legacyTitle.run("titleOpen"),
+    false,
+    `${id} title listener guard`,
+  );
+}
+assert.equal(legacyTitle.run("allCases.length"), 19);
+assert.equal(legacyTitle.run("Object.keys(locations).length"), 12);
+assert.equal(legacyTitle.run("Object.keys(characters).length"), 24);
+assert.equal(legacyTitle.run("achievementDefinitions.length"), 25);
+assert.equal(legacyTitle.run("getMaximumStars()"), 81);
+assert.equal(legacyTitle.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 6470);
+console.log(
+  "PASS: v2.4.3 legacy C003-C005 listener isolation, C005 replay resume, C018 partial preservation and historical record integrity.",
+);
+store = {};
+let visual244 = boot(false, true, true, true, true);
+visual244.run(
+  "activeCase='C018';state=fresh18();cases.C018.run=state;record=null;home=false;render()",
+);
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp"),
+  false,
+  "finished poster hidden before solution",
+);
+assert.equal(visual244.run("c018PosterAvailable()"), false);
+assert.equal(visual244.run("c018Headlines[0]"), "Jom Bertukar Buku Cerita!");
+assert.equal(visual244.run("c018Clues.length"), 5);
+assert.equal(visual244.run("c018Meta.maxStars"), 4);
+assert.equal(visual244.run("c018Meta.maxXP"), 480);
+visual244.run(
+  "state.scene=12;state.cluesFound=5;state.solved={1:true,2:true,3:true,4:true,5:true,6:true,7:true,8:true,9:true,10:true,11:true};state.mainMessage=0;state.headline=0;state.support=['bring','exchange'];state.titleStripReady=true;render()",
+);
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp"),
+  false,
+);
+const attemptsBeforePoster = visual244.run("state.attempts");
+visual244.run(
+  "handleC018Click({dataset:{object:'ruang tajuk kosong'},hasAttribute:()=>false})",
+);
+assert.equal(visual244.run("state.titlePlaced"), true);
+assert.equal(visual244.run("state.solved[12]"), true);
+assert.equal(visual244.run("c018PosterOpen"), true);
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp?v=2.4.4"),
+  true,
+);
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("Teruskan Siasatan"),
+  true,
+);
+assert.equal(visual244.run("state.cluesFound"), 5);
+assert.equal(visual244.run("state.status"), "in_progress");
+assert.equal(visual244.run("state.attempts"), attemptsBeforePoster + 1);
+visual244.click({ action: "c018-poster-close" });
+assert.equal(visual244.run("c018PosterOpen"), false);
+assert.equal(visual244.run("state.attempts"), attemptsBeforePoster + 1);
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("Lihat Poster Siap"),
+  true,
+);
+visual244.click({ action: "c018-poster-open" });
+assert.equal(visual244.run("c018PosterOpen"), true);
+assert.equal(visual244.run("state.attempts"), attemptsBeforePoster + 1);
+visual244.click({ action: "c018-poster-continue" });
+assert.equal(visual244.run("state.scene"), 13);
+assert.equal(visual244.run("state.status"), "in_progress");
+visual244.run("completeC018();home=true;render()");
+const completedRecord244 = visual244.run("JSON.stringify(cases.C018.record)"),
+  completedXp244 = visual244.run("cases.C018.record.xpEarned");
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("Lihat Poster Siap"),
+  true,
+);
+visual244.click({ action: "c018-poster-open" });
+visual244.click({ action: "c018-poster-close" });
+assert.equal(
+  visual244.run("JSON.stringify(cases.C018.record)"),
+  completedRecord244,
+);
+assert.equal(visual244.run("cases.C018.record.xpEarned"), completedXp244);
+visual244.run(
+  "state=fresh18();cases.C018.run=state;record=cases.C018.record;home=true;render()",
+);
+assert.equal(
+  visual244.run("c018PosterAvailable()"),
+  true,
+  "historical record unlocks poster review",
+);
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("Lihat Poster Siap"),
+  true,
+);
+visual244.click({ action: "c018-poster-open" });
+assert.equal(
+  visual244.nodes["#app"].innerHTML.includes("c018-poster-siap.webp?v=2.4.4"),
+  true,
+);
+assert.equal(visual244.run("state.scene"), 0);
+assert.equal(visual244.run("state.cluesFound"), 0);
+const visual244Game = fs.readFileSync("game.js", "utf8"),
+  visual244Arc3 = fs.readFileSync("arc3.js", "utf8"),
+  visual244Arc5 = fs.readFileSync("arc5.js", "utf8"),
+  visual244Server = fs.readFileSync("server.js", "utf8"),
+  visual244Css = fs.readFileSync("style.css", "utf8");
+for (const asset of [
+  "assets/posters/c018-poster-siap.webp",
+  "assets/characters/cikgu-farah.webp",
+  "assets/locations/perpustakaan-sudut-hebahan.webp",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.equal(fs.readFileSync(asset).subarray(0, 4).toString("ascii"), "RIFF");
+  assert.equal(visual244Server.includes(asset), true);
+}
+assert.equal(
+  visual244Game.includes("portrait:'assets/characters/cikgu-farah.webp'"),
+  true,
+);
+assert.equal(
+  visual244Game.includes(
+    "character.id==='farah'?`${character.portrait}?v=2.4.4`",
+  ),
+  true,
+);
+assert.equal(
+  visual244Arc3.includes("assets/characters/cikgu-farah.webp?v=2.4.4"),
+  true,
+);
+assert.equal(
+  visual244Arc5.includes("assets/characters/cikgu-farah.webp?v=2.4.4"),
+  true,
+);
+assert.equal(visual244Game.includes("assets/cikgu-farah.svg"), false);
+assert.equal(visual244Arc3.includes("assets/cikgu-farah.svg"), false);
+assert.equal(visual244Arc5.includes("assets/cikgu-farah.svg"), false);
+assert.ok(visual244Css.includes("@keyframes poster-reveal-in"));
+assert.ok(
+  visual244Css.includes(
+    "@media(prefers-reduced-motion:reduce){.poster-reveal-card,.poster-sparkles i{animation:none!important}",
+  ),
+);
+assert.equal(visual244.run("allCases.length"), 19);
+assert.equal(visual244.run("Object.keys(locations).length"), 12);
+assert.equal(visual244.run("Object.keys(characters).length"), 24);
+assert.equal(visual244.run("achievementDefinitions.length"), 25);
+assert.equal(visual244.run("getMaximumStars()"), 81);
+assert.equal(visual244.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 6470);
+assert.equal(visual244.run("KEY"), "detektif-bahasa-v1");
+console.log(
+  "PASS: v2.4.6 C018 finished-poster gating/review, historical completion access, reward safety, Cikgu Farah canonical references and C001-C019 invariants.",
+);
+store = {};
+let lensa = boot(false, true, true, true, true);
+assert.equal(lensa.run("Object.keys(lensaActivities).length"), 20);
+assert.equal(lensa.run("validateLensaActivities()"), true);
+assert.deepEqual(
+  JSON.parse(lensa.run("JSON.stringify(Object.keys(lensaActivities))")),
+  Array.from({ length: 20 }, (_, i) => "C" + String(i + 6).padStart(3, "0")),
+);
+for (const id of Array.from(
+  { length: 16 },
+  (_, i) => "C" + String(i + 6).padStart(3, "0"),
+)) {
+  assert.equal(lensa.run(`lensaActivities.${id}.caseId`), id);
+  assert.ok(
+    lensa.run(
+      `lensaActivities.${id}.sourceReference.length>0&&lensaActivities.${id}.sourceExcerpt.length>0`,
+    ),
+  );
+  assert.ok(
+    lensa.run(
+      `['select-word','choice','order','multi-choice'].includes(lensaActivities.${id}.interactionType)`,
+    ),
+  );
+}
+assert.equal(
+  lensa.run(
+    "activeCase='C006';state=cases.C006.run;record=null;state.cluesFound=0;isLensaUnlocked()",
+  ),
+  false,
+);
+assert.equal(
+  lensa.run(
+    "lensaView=true;lensaDialogHtml().includes('Sumber belum ditemui')",
+  ),
+  true,
+);
+assert.equal(
+  lensa.run("lensaDialogHtml().includes(lensaActivities.C006.sourceExcerpt)"),
+  false,
+  "locked activity hides source",
+);
+lensa.run(
+  "state.cluesFound=2;lensaView=true;lensaFeedback='';lensaWrong=false",
+);
+assert.equal(lensa.run("isLensaUnlocked()"), true);
+assert.equal(
+  lensa.run(
+    "activeCase='C014';state=cases.C014.run;record=null;state.cluesFound=5;state.scene=5;isLensaUnlocked()",
+  ),
+  false,
+  "C014 decoded location stays hidden before code completion",
+);
+assert.equal(lensa.run("state.scene=6;isLensaUnlocked()"), true);
+assert.equal(
+  lensa.run(
+    "activeCase='C015';state=cases.C015.run;record=null;state.cluesFound=4;state.scene=5;isLensaUnlocked()",
+  ),
+  false,
+  "C015 decoded instruction stays hidden before code completion",
+);
+assert.equal(lensa.run("state.scene=6;isLensaUnlocked()"), true);
+assert.equal(
+  lensa.run(
+    "activeCase='C018';state=cases.C018.run;record=null;state.cluesFound=5;state.scene=9;isLensaUnlocked()",
+  ),
+  false,
+  "C018 answer headline stays hidden before headline completion",
+);
+assert.equal(lensa.run("state.scene=10;isLensaUnlocked()"), true);
+lensa.run(
+  "activeCase='C006';state=cases.C006.run;record=null;state.cluesFound=2",
+);
+const lensaRewardBefore = JSON.parse(
+  lensa.run(
+    "JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound,achievements:achievementDefinitions.length})",
+  ),
+);
+lensa.run("answerLensa(0)");
+assert.equal(lensa.run("lensaWrong"), true);
+assert.equal(
+  lensa.run("lensaFeedback===lensaActivities.C006.wrongAnswerFeedback"),
+  true,
+);
+assert.equal(lensa.run("isLensaCompleted()"), false);
+lensa.run("answerLensa(4)");
+assert.equal(lensa.run("isLensaCompleted()"), true);
+assert.equal(lensa.run("lensaFeedback.includes('Meletakkan')"), true);
+assert.deepEqual(
+  JSON.parse(
+    lensa.run(
+      "JSON.stringify({xp:state.xpEarned,stars:state.stars,clues:state.cluesFound,achievements:achievementDefinitions.length})",
+    ),
+  ),
+  lensaRewardBefore,
+);
+const c006RecordBefore = lensa.run("JSON.stringify(cases.C006.record)");
+lensa.run("restartCurrentCaseRun()");
+assert.equal(lensa.run("lensaBahasa.C006.completed"), true);
+assert.equal(lensa.run("JSON.stringify(cases.C006.record)"), c006RecordBefore);
+let lensaRefresh = boot(false, true, true, true, true);
+assert.equal(
+  lensaRefresh.run("lensaBahasa.C006.completed"),
+  true,
+  "completion survives refresh",
+);
+assert.equal(
+  lensaRefresh.run(
+    "activeCase='C018';state=cases.C018.run;record={status:'completed',xpEarned:480,stars:4};cases.C018.record=record;isLensaUnlocked()",
+  ),
+  true,
+);
+assert.equal(
+  lensaRefresh.run("isLensaCompleted()"),
+  false,
+  "historical case completion grants access, not language completion",
+);
+const historicalReward = lensaRefresh.run("JSON.stringify(cases.C018.record)");
+lensaRefresh.run("completeLensa(lensaActivities.C018)");
+lensaRefresh.run("completeLensa(lensaActivities.C018)");
+assert.equal(
+  lensaRefresh.run("JSON.stringify(cases.C018.record)"),
+  historicalReward,
+  "repeated language completion does not alter case record",
+);
+store = {
+  "detektif-bahasa-v1": JSON.stringify({
+    version: 2,
+    activeCase: "C006",
+    cases: {},
+    muted: false,
+  }),
+};
+let lensaLegacy = boot(false, true, true, true, true);
+assert.equal(
+  lensaLegacy.run("JSON.stringify(lensaBahasa)"),
+  "{}",
+  "legacy save without Lensa data loads",
+);
+assert.equal(lensaLegacy.run("allCases.length"), 19);
+assert.equal(lensaLegacy.run("Object.keys(locations).length"), 12);
+assert.equal(lensaLegacy.run("Object.keys(characters).length"), 24);
+assert.equal(lensaLegacy.run("achievementDefinitions.length"), 25);
+assert.equal(lensaLegacy.run("getMaximumStars()"), 81);
+assert.equal(lensaLegacy.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 6470);
+const lensaSource = fs.readFileSync("lensa.js", "utf8"),
+  lensaIndex = fs.readFileSync("index.html", "utf8");
+assert.ok(
+  lensaSource.includes("document.addEventListener?.('click'"),
+  "body-level modal uses one delegated listener",
+);
+assert.equal(
+  lensaSource.includes("app.addEventListener('click'"),
+  false,
+  "Lensa listener is not confined to app subtree",
+);
+assert.ok(lensaSource.includes("function renderLensaOverlay()"));
+assert.ok(
+  lensaSource.includes("document.body?.insertAdjacentHTML?document.body:app"),
+);
+assert.ok(lensaSource.includes("classList?.add('lensa-modal-open')"));
+assert.ok(lensaSource.includes("window.scrollTo?.(0,lensaScrollY)"));
+assert.ok(lensaSource.includes("preventScroll:true"));
+assert.ok(lensaSource.includes("event.key!=='Tab'"));
+assert.ok(lensaIndex.includes("lensa.js?v=2.11.0"));
+assert.ok(
+  /['\"]\/lensa\.js['\"]\s*:\s*['\"]lensa\.js['\"]/.test(
+    fs.readFileSync("server.js", "utf8"),
+  ),
+);
+assert.ok(releaseCss.includes(".lensa-modal-open{overflow:hidden!important}"));
+assert.ok(releaseCss.includes(".lensa-dialog{position:fixed;inset:0"));
+assert.ok(releaseCss.includes("100dvh"));
+assert.equal(
+  releaseCss.includes("+\n/* v2.4.5 — Lensa Bahasa */"),
+  false,
+  "no stray relative selector before modal rule",
+);
+console.log(
+  "PASS: v2.4.6 Lensa Bahasa 15-case mapping, locks, feedback/retry, persistence, historical access and reward/progression isolation.",
+);
+store = {};
+const gallery246 = boot(false, true, true, true, true);
+gallery246.run("achievementsOpen=true;titleOpen=false;renderAchievements()");
+const galleryHtml = gallery246.nodes["#app"].innerHTML;
+assert.equal(
+  (galleryHtml.match(/class="achievement-section"/g) || []).length,
+  4,
+);
+assert.equal((galleryHtml.match(/class="achievement-grid"/g) || []).length, 4);
+assert.deepEqual(
+  [...galleryHtml.matchAll(/data-achievement-arc="(\d)"/g)].map((match) =>
+    Number(match[1]),
+  ),
+  [1, 2, 3, 4],
+);
+for (let index = 1; index <= 4; index++)
+  assert.ok(
+    galleryHtml.indexOf(`data-achievement-arc="${index}"`) <
+      galleryHtml.indexOf(`data-achievement-arc="${index + 1}"`) || index === 4,
+  );
+for (let id = 1; id <= 25; id++) {
+  const code = `A${String(id).padStart(2, "0")}`;
+  assert.equal(
+    (galleryHtml.match(new RegExp(`aria-label="${code},`, "g")) || []).length,
+    1,
+    `${code} rendered once`,
+  );
+}
+const galleryParts = galleryHtml.split(/data-achievement-arc="\d"/).slice(1);
+assert.deepEqual(
+  galleryParts.map((part) => (part.match(/aria-label="A\d\d,/g) || []).length),
+  [9, 6, 6, 4],
+);
+assert.ok(
+  galleryHtml.includes('src="assets/achievements/a22.svg"'),
+  "A22 keeps its configured SVG artwork",
+);
+assert.ok(galleryHtml.includes("0 / 19"));
+assert.ok(galleryHtml.includes("0 / 81"));
+assert.equal(gallery246.run("KEY"), "detektif-bahasa-v1");
+assert.equal(gallery246.run("achievementDefinitions.length"), 25);
+const galleryCss = fs.readFileSync("style.css", "utf8");
+assert.ok(galleryCss.includes(".achievement-hero{grid-column:auto}"));
+assert.ok(galleryCss.includes("@media(max-width:999px)"));
+assert.ok(galleryCss.includes("@media(max-width:599px)"));
+console.log(
+  "PASS: v2.4.6 independent four-arc achievement sections, exact 9/6/6/4 grouping, non-spanning cards and save-key integrity.",
+);
+store = {};
+const c020 = boot(true, true, true, true, true, true);
+assert.equal(c020.run("allCases.length"), 20);
+assert.equal(c020.run("Object.keys(locations).length"), 12);
+assert.equal(c020.run("Object.keys(characters).length"), 24);
+assert.equal(c020.run("achievementDefinitions.length"), 27);
+assert.equal(c020.run("getMaximumStars()"), 86);
+assert.equal(c020.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 7020);
+assert.equal(c020.run("Object.keys(lensaActivities).length"), 20);
+assert.equal(c020.run("c020Meta.title"), "Misteri Mesej Terakhir Bayuraya");
+assert.equal(c020.run("c020Meta.maxXP"), 550);
+assert.equal(c020.run("c020Meta.maxStars"), 5);
+assert.equal(c020.run("c020Clues.length"), 5);
+assert.equal(c020.run("isCaseUnlocked(19)"), false);
+validateScene(c020, "communityInformation", [
+  "draf arahan lama",
+  "sampul cebisan mesej",
+  "kad kaunter maklumat",
+  "log pindaan rasmi",
+  "catatan dua saksi",
+  "papan acara",
+  "pintu dewan utama",
+]);
+assert.deepEqual(JSON.parse(c020.run("JSON.stringify(c020Fragments)")), [
+  "Untuk sesi penutup,",
+  "ambil kad kumpulan di kaunter maklumat",
+  "mulai 2.45 petang.",
+  "Tunggu di ruang legar sebelum masuk ke Dewan Utama",
+  "pada 3.15 petang.",
+]);
+assert.equal(
+  c020.run("c020Statements.map(x=>x.answer).join()"),
+  "supported,conflict,unknown,conflict",
+);
+c020.run(
+  "for(const id of ['C016','C017','C018','C019'])cases[id].record={caseId:id,status:'completed',stars:1,xpEarned:1};",
+);
+assert.equal(c020.run("isCaseUnlocked(19)"), true);
+c020.run("switchCase('C020');home=false;render()");
+const c20 = (data) =>
+  c020.run(`handleC020Click({dataset:${JSON.stringify(data)}})`);
+c20({ action: "next" });
+assert.equal(c020.run("state.scene"), 1);
+c20({ object: "papan acara" });
+assert.equal(c020.run("state.cluesFound"), 0);
+assert.equal(c020.run("wrong"), true);
+for (const target of [
+  "draf arahan lama",
+  "log pindaan rasmi",
+  "sampul cebisan mesej",
+  "kad kaunter maklumat",
+  "catatan dua saksi",
+]) {
+  c20({ object: target });
+  c20({ action: "next" });
+}
+assert.equal(c020.run("state.scene"), 6);
+assert.equal(c020.run("state.cluesFound"), 5);
+assert.equal(
+  c020.run("isLensaUnlocked()"),
+  false,
+  "Lensa hidden before message verification",
+);
+for (const i of [3, 1, 4, 0, 2]) c20({ c020Fragment: String(i) });
+c20({ action: "c020-message-check" });
+assert.equal(c020.run("state.messageVerified"), false);
+assert.equal(c020.run("wrong"), true);
+c20({ action: "c020-clear" });
+for (const i of [0, 1, 2, 3, 4]) c20({ c020Fragment: String(i) });
+c20({ action: "c020-message-check" });
+assert.equal(c020.run("state.messageVerified"), true);
+assert.equal(c020.run("state.cluesFound"), 5);
+c20({ action: "next" });
+assert.equal(c020.run("isLensaUnlocked()"), true);
+c20({ c020Status: "unknown" });
+c20({ action: "c020-classify" });
+assert.equal(c020.run("state.classification.completed[0]"), false);
+for (const answer of ["supported", "conflict", "unknown", "conflict"]) {
+  c20({ c020Status: answer });
+  c20({ action: "c020-classify" });
+}
+assert.equal(c020.run("state.classification.completed.every(Boolean)"), true);
+c20({ action: "next" });
+c20({ c020Main: "1" });
+assert.equal(c020.run("!!state.solved[8]"), false);
+c20({ c020Main: "0" });
+c20({ action: "next" });
+c20({ c020Perspective: "0" });
+assert.equal(c020.run("!!state.solved[9]"), false);
+c20({ c020Perspective: "2" });
+c20({ action: "next" });
+c020.run("state.links=['corroborated','superseded','compatible','originated']");
+c20({ action: "c020-evidence-check" });
+assert.equal(c020.run("!!state.solved[10]"), false);
+c020.run("state.links=['superseded','corroborated','originated','compatible']");
+c20({ action: "c020-evidence-check" });
+c20({ action: "next" });
+c20({ c020Theory: "0" });
+assert.equal(c020.run("state.status"), "in_progress");
+c20({ c020Theory: "2" });
+assert.equal(c020.run("state.status"), "completed");
+assert.equal(c020.run("state.cluesFound"), 5);
+assert.equal(c020.run("state.xpEarned"), 550);
+assert.equal(c020.run("state.stars"), 5);
+assert.equal(
+  c020.run("achievementDefinitions.find(a=>a.id==='A26').unlocked()"),
+  true,
+);
+assert.equal(
+  c020.run("achievementDefinitions.find(a=>a.id==='A27').unlocked()"),
+  true,
+);
+const c020Record = c020.run("JSON.stringify(cases.C020.record)"),
+  c020Xp = c020.run("getTotalBestXP()");
+c20({ action: "replay" });
+assert.equal(c020.run("state.cluesFound"), 0);
+assert.equal(c020.run("JSON.stringify(cases.C020.record)"), c020Record);
+assert.equal(c020.run("getTotalBestXP()"), c020Xp);
+c020.run("achievementsOpen=true;renderAchievements()");
+const gallery250 = c020.nodes["#app"].innerHTML;
+assert.equal(
+  (gallery250.match(/class="achievement-section"/g) || []).length,
+  4,
+);
+assert.equal((gallery250.match(/aria-label="A26,/g) || []).length, 1);
+assert.equal((gallery250.match(/aria-label="A27,/g) || []).length, 1);
+const groups250 = gallery250.split(/data-achievement-arc="\d"/).slice(1);
+assert.deepEqual(
+  groups250.map((part) => (part.match(/aria-label="A\d\d,/g) || []).length),
+  [9, 6, 6, 6],
+);
+assert.equal(c020.run("KEY"), "detektif-bahasa-v1");
+assert.equal(
+  fs.existsSync("assets/locations/balai-komuniti-ruang-maklumat.webp"),
+  true,
+);
+assert.equal(fs.existsSync("assets/achievements/a26.webp"), true);
+assert.equal(fs.existsSync("assets/achievements/a27.webp"), true);
+store = {
+  "detektif-bahasa-v1": JSON.stringify({
+    version: 2,
+    activeCase: "C019",
+    cases: {
+      C019: {
+        run: { caseId: "C019", scene: 2, status: "in_progress" },
+        record: null,
+      },
+    },
+    muted: false,
+    lensaBahasa: { C006: { completed: true } },
+  }),
+};
+const legacy250 = boot(true, true, true, true, true, true);
+assert.equal(legacy250.run("!!cases.C020.run"), true);
+assert.equal(legacy250.run("cases.C019.run.scene"), 2);
+assert.equal(legacy250.run("lensaBahasa.C006.completed"), true);
+console.log(
+  "PASS: v2.5.2 C020 five-clue finale, source-first puzzles, Lensa timing, A26/A27, 9/6/6/6 gallery, replay and legacy-save compatibility.",
+);
+store = {};
+const c021 = boot(true, true, true, true, true, true, true);
+assert.equal(c021.run("allCases.length"), 21);
+assert.equal(c021.run("achievementDefinitions.length"), 28);
+assert.equal(c021.run("getMaximumStars()"), 90);
+assert.equal(c021.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 7540);
+assert.equal(c021.run("Object.keys(lensaActivities).length"), 20);
+assert.equal(c021.run("KEY"), "detektif-bahasa-v1");
+assert.equal(c021.run("c021Meta.title"), "Misteri Si Ringan Tulang");
+assert.equal(c021.run("c021Meta.maxXP"), 520);
+assert.equal(c021.run("c021Meta.maxStars"), 4);
+assert.equal(c021.run("c021Clues.length"), 5);
+assert.equal(c021.run("isCaseUnlocked(20)"), false);
+assert.equal(c021.run("caseArcDefinitions[4].name"), "FAIL KELIMA");
+assert.equal(c021.run("caseArcDefinitions[4].ids.join()"), "C021");
+assert.equal(
+  c021.run("achievementDefinitions.some(a=>/^A(29|3[0-3])$/.test(a.id))"),
+  false,
+);
+assert.equal(
+  c021
+    .run(
+      "JSON.stringify(normalizeC021({foundClues:[0,99,'x'],evidenceLinks:['rajin']}))",
+    )
+    .includes("99"),
+  false,
+);
+validateScene(c021, "parkFigurative", [
+  "nota sukarelawan",
+  "rekod tugasan",
+  "album aktiviti",
+  "kad meja sambutan",
+  "rekod barang",
+]);
+assert.equal(c021.run("c021Kanta.kk1.options[1]"), "Orang yang rajin bekerja.");
+assert.equal(
+  c021.run("c021Kanta.kk2.options[1]"),
+  "Oleh-oleh yang dibawa daripada perjalanan.",
+);
+c021.run(
+  "cases.C020.record={caseId:'C020',status:'completed',stars:5,xpEarned:550};cases.C020.run.status='completed'",
+);
+assert.equal(c021.run("isCaseUnlocked(20)"), true);
+c021.run("switchCase('C021');home=false;state.scene=1;render()");
+assert.equal(c021.run("c021Ready()"), false);
+const shelf021 = c021.run("caseShelf()");
+assert.equal((shelf021.match(/class="case-arc-toggle"/g) || []).length, 5);
+assert.equal((shelf021.match(/FAIL KELIMA/g) || []).length, 1);
+assert.equal((shelf021.match(/JEJAK MAKNA BAYURAYA/g) || []).length, 1);
+assert.equal((shelf021.match(/data-case="C021"/g) || []).length, 1);
+assert.equal((shelf021.match(/id="case-arc-panel-4"/g) || []).length, 1);
+const c21 = (data) =>
+  c021.run(`handleC021Click({dataset:${JSON.stringify(data)}})`);
+for (const id of [
+  "album aktiviti",
+  "nota sukarelawan",
+  "rekod barang",
+  "rekod tugasan",
+  "kad meja sambutan",
+])
+  c21({ object: id });
+assert.equal(c021.run("state.foundClues.length"), 5);
+assert.equal(c021.run("state.cluesFound"), 5);
+assert.equal(c021.run("state.foundClues.join(',')"), "0,1,2,3,4");
+c21({ c021Action: "kk1" });
+c21({ c021KantaAnswer: "0", kanta: "kk1" });
+assert.equal(c021.run("wrong"), true);
+assert.equal(c021.run("state.kanta.kk1.completed"), false);
+c21({ c021KantaAnswer: "1", kanta: "kk1" });
+c21({ c021KantaEvidence: "0", kanta: "kk1" });
+c21({ c021Action: "validate-kanta", kanta: "kk1" });
+assert.equal(c021.run("state.kanta.kk1.completed"), false);
+c21({ c021KantaEvidence: "1", kanta: "kk1" });
+c21({ c021Action: "validate-kanta", kanta: "kk1" });
+assert.equal(c021.run("state.kanta.kk1.completed"), true);
+c21({ c021Action: "return-investigation" });
+c21({ c021Action: "kk2" });
+c21({ c021KantaAnswer: "1", kanta: "kk2" });
+c21({ c021KantaEvidence: "3", kanta: "kk2" });
+c21({ c021KantaEvidence: "4", kanta: "kk2" });
+c21({ c021Action: "validate-kanta", kanta: "kk2" });
+assert.equal(c021.run("state.kanta.kk2.completed"), true);
+c21({ c021Action: "board" });
+assert.equal(
+  c021.run("c021Board().includes('Bagaimana cara menggunakan Papan Bukti?')"),
+  true,
+);
+c21({ c021Action: "board-help" });
+assert.equal(c021.run("state.hintsUsed"), 0);
+c21({ c021BoardEvidence: "0" });
+c21({ c021Action: "check-board-step" });
+assert.equal(c021.run("wrong"), true);
+assert.equal(c021.run("feedback.includes('rekod kerja')"), true);
+c21({ c021BoardEvidence: "1" });
+c21({ c021Action: "check-board-step" });
+assert.equal(c021.run("state.evidenceLinks[0]"), "rajin");
+for (const n of ["0", "1", "2"]) c21({ c021BoardEvidence: n });
+c21({ c021Action: "check-board-step" });
+assert.equal(c021.run("state.evidenceLinks[1]"), "r03");
+for (const n of ["3", "4"]) c21({ c021BoardEvidence: n });
+c21({ c021Action: "check-board-step" });
+assert.equal(c021.run("state.evidenceLinks[2]"), "oleh-oleh");
+assert.equal(c021.run("state.scene"), 4);
+c21({ c021Action: "finish-board" });
+assert.equal(c021.run("state.scene"), 5);
+assert.equal(c021.run("c021Ready()"), true);
+c21({ c021Deduction: "identity:0" });
+assert.equal(c021.run("state.scene"), 5);
+c21({ c021Deduction: "identity:1" });
+assert.equal(c021.run("state.scene"), 6);
+c21({ c021Deduction: "reception:2" });
+assert.equal(c021.run("state.status"), "in_progress");
+c21({ c021Deduction: "reception:1" });
+assert.equal(c021.run("state.status"), "completed");
+assert.equal(c021.run("state.scene"), 7);
+assert.equal(c021.run("state.cluesFound"), 5);
+assert.equal(c021.run("state.xpEarned"), 520);
+assert.equal(c021.run("state.stars"), 4);
+assert.equal(
+  c021.run("achievementDefinitions.find(a=>a.id==='A28').unlocked()"),
+  true,
+);
+assert.equal(c021.run("caseShelf().includes('1/5')"), true);
+assert.equal(c021.run("lensaActivities.C021.answerData.exercises.length"), 3);
+assert.equal(
+  c021.run("lensaActivities.C021.answerData.exercises[0].question"),
+  "Ayat manakah menggunakan simpulan bahasa ringan tulang dengan tepat?",
+);
+assert.equal(c021.run("isLensaUnlocked('C021')"), true);
+c021.run("activeCase='C021';answerLensa(1)");
+assert.equal(c021.run("lensaBahasa.C021.step"), 1);
+c021.run("answerLensa(0)");
+assert.equal(c021.run("lensaBahasa.C021.step"), 2);
+c021.run("answerLensa(0)");
+assert.equal(c021.run("lensaBahasa.C021.completed"), true);
+assert.equal(c021.run("state.xpEarned"), 520);
+const c021Best = c021.run("cases.C021.record.xpEarned");
+c21({ action: "replay" });
+assert.equal(c021.run("state.cluesFound"), 0);
+assert.equal(c021.run("cases.C021.record.xpEarned"), c021Best);
+c021.run(
+  "state=fresh21();cases.C021.run=state;state.hintsUsed=1;completeC021()",
+);
+assert.equal(c021.run("state.xpEarned"), 490);
+assert.equal(c021.run("cases.C021.record.xpEarned"), 520);
+assert.equal(c021.run("isHistoricallyComplete('C020')"), true);
+const savedC021 = store["detektif-bahasa-v1"];
+const c021Reload = boot(true, true, true, true, true, true, true);
+assert.equal(c021Reload.run("cases.C021.record.xpEarned"), 520);
+assert.equal(c021Reload.run("lensaBahasa.C021.completed"), true);
+assert.equal(c021Reload.run("cases.C020.record.status"), "completed");
+store = {
+  "detektif-bahasa-v1": JSON.stringify({
+    version: 2,
+    activeCase: "C001",
+    cases: {
+      C001: {
+        run: { caseId: "C001", status: "completed" },
+        record: {
+          caseId: "C001",
+          status: "completed",
+          stars: 3,
+          xpEarned: 150,
+        },
+      },
+    },
+    muted: true,
+  }),
+};
+const legacy28 = boot(true, true, true, true, true, true, true);
+assert.equal(legacy28.run("cases.C001.record.xpEarned"), 150);
+assert.equal(legacy28.run("cases.C021.run.caseId"), "C021");
+assert.equal(legacy28.run("cases.C021.record"), null);
+assert.equal(legacy28.run("muted"), true);
+for (const asset of [
+  "assets/locations/taman-persiapan-c021.webp",
+  "assets/achievements/a28.svg",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.ok(fs.statSync(asset).size > 500);
+  assert.equal(fs.readFileSync("server.js", "utf8").includes(asset), true);
+}
+assert.equal(c021.run("scenes.parkFigurative.image.endsWith('.webp')"), true);
+const release28 = fs.readFileSync("index.html", "utf8");
+assert.ok(release28.includes("arc7.js?v=2.11.0"));
+assert.ok(release28.includes("v2.11.0 by Zil-el-Saif"));
+assert.ok(
+  fs.readFileSync("README.md", "utf8").includes("v2.11.0 by Zil-el-Saif"),
+);
+store = { "detektif-bahasa-v1": savedC021 };
+let c022 = boot(true, true, true, true, true, true, true, true);
+assert.equal(c022.run("allCases.length"), 22);
+assert.equal(c022.run("achievementDefinitions.length"), 29);
+assert.equal(c022.run("getMaximumStars()"), 94);
+assert.equal(c022.run("allCases.reduce((sum,c)=>sum+c.maxXP,0)"), 8080);
+assert.equal(c022.run("Object.keys(lensaActivities).length"), 20);
+assert.equal(c022.run("KEY"), "detektif-bahasa-v1");
+assert.equal(c022.run("isCaseUnlocked(21)"), true);
+assert.equal(c022.run("c022Meta.maxXP"), 540);
+assert.equal(c022.run("c022Meta.maxStars"), 4);
+assert.equal(c022.run("c022Clues.length"), 5);
+assert.equal(c022.run("Object.keys(c022Sources).length"), 5);
+assert.equal(c022.run("c022Matches.length"), 5);
+assert.equal(c022.run("caseArcDefinitions.length"), 5);
+assert.equal(c022.run("caseArcDefinitions[4].ids.join()"), "C021,C022");
+assert.equal(
+  c022.run("caseShelf().includes('KES 023–025 · AKAN DATANG')"),
+  true,
+);
+assert.equal(
+  c022.run(
+    "JSON.stringify(normalizeC022({foundClues:[0,0,99],cluesFound:5})).includes('99')",
+  ),
+  false,
+);
+validateScene(c022, "hallProps", [
+  "senarai prop asal",
+  "rak peralatan",
+  "buku inventori",
+  "catatan persiapan",
+  "senarai semakan akhir",
+]);
+c022.run("switchCase('C022');home=false;render()");
+const c22 = (data) =>
+  c022.run(`handleC022Click({dataset:${JSON.stringify(data)}})`);
+for (const object of [
+  "senarai prop asal",
+  "rak peralatan",
+  "buku inventori",
+  "catatan persiapan",
+  "senarai semakan akhir",
+])
+  c22({ object: object });
+assert.equal(c022.run("state.cluesFound"), 5);
+assert.equal(c022.run("state.foundClues.length"), 5);
+c22({ c022Action: "matches" });
+c22({ c022Classifier: "keping", objectId: "pensel" });
+c22({ c022Action: "verify-match", objectId: "pensel" });
+assert.equal(c022.run("wrong"), true);
+for (const [id, answer] of [
+  ["pensel", "batang"],
+  ["kain", "helai"],
+  ["kad", "keping"],
+  ["tali", "utas"],
+  ["kasut", "pasang"],
+]) {
+  c22({ c022Station: id });
+  c22({ c022Classifier: answer, objectId: id });
+  c22({ c022Action: "verify-match", objectId: id });
+}
+assert.equal(c022.run("c022AllMatches()"), true);
+c22({ c022Action: "board" });
+c22({ c022BoardEvidence: "0" });
+c22({ c022Action: "check-board-step" });
+assert.equal(c022.run("wrong"), true);
+c22({ c022BoardEvidence: "1" });
+c22({ c022Action: "check-board-step" });
+for (const n of [1, 2]) c22({ c022BoardEvidence: String(n) });
+c22({ c022Action: "check-board-step" });
+for (const n of [2, 3, 4]) c22({ c022BoardEvidence: String(n) });
+c22({ c022Action: "check-board-step" });
+assert.equal(
+  c022.run("state.evidenceLinks.join('|')"),
+  "draft|available|verified",
+);
+c22({ c022Action: "finish-board" });
+assert.equal(c022.run("state.scene"), 4);
+c22({ c022Deduction: "cause:0" });
+assert.equal(c022.run("wrong"), true);
+c22({ c022Deduction: "cause:1" });
+assert.equal(c022.run("state.scene"), 5);
+c22({ c022Deduction: "complete:2" });
+assert.equal(c022.run("state.status"), "in_progress");
+c22({ c022Deduction: "complete:0" });
+assert.equal(c022.run("state.status"), "completed");
+assert.equal(c022.run("state.cluesFound"), 5);
+assert.equal(c022.run("state.xpEarned"), 540);
+assert.equal(c022.run("state.stars"), 4);
+assert.equal(
+  c022.run("achievementDefinitions.find(a=>a.id==='A29').unlocked()"),
+  true,
+);
+assert.equal(c022.run("isLensaUnlocked('C022')"), true);
+c022.run("activeCase='C022';answerLensa(0);answerLensa(1);answerLensa(2)");
+assert.equal(c022.run("lensaBahasa.C022.completed"), true);
+const c022Best = c022.run("cases.C022.record.xpEarned");
+c22({ action: "replay" });
+assert.equal(c022.run("state.cluesFound"), 0);
+assert.equal(c022.run("cases.C022.record.xpEarned"), c022Best);
+const savedC022 = store["detektif-bahasa-v1"];
+c022 = boot(true, true, true, true, true, true, true, true);
+assert.equal(c022.run("cases.C022.record.xpEarned"), 540);
+assert.equal(c022.run("lensaBahasa.C022.completed"), true);
+assert.equal(c022.run("cases.C021.record.status"), "completed");
+assert.equal(store["detektif-bahasa-v1"], savedC022);
+for (const asset of [
+  "assets/locations/balai-persiapan-c022.webp",
+  "assets/achievements/a29.svg",
+]) {
+  assert.equal(fs.existsSync(asset), true);
+  assert.ok(fs.statSync(asset).size > 500);
+  assert.equal(fs.readFileSync("server.js", "utf8").includes(asset), true);
+}
+console.log(
+  "PASS: v2.9.0 C022, five sources, Padanan Objek, guided evidence, two deductions, Lensa C022, A29, replay and legacy-save compatibility.",
+);

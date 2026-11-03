@@ -1,6 +1,14 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.11.1 by Zil-el-Saif**. Naik taraf penceritaan visual ini menambah enam ilustrasi pendidikan premium untuk KES 024 dan menyatukan adegan resolusi KES 022–024 tanpa mengubah gameplay.
+Versi setempat: **v2.12.0 by Zil-el-Saif**. KES 025 melengkapkan Fail Kelima melalui lima sumber rasmi, empat stesen Peta Makna, papan bukti, peta akhir dan Buku Jejak Makna Bayuraya.
+
+## v2.12.0 — C025 Misteri Peta Jejak Makna
+
+- Grand finale Fail Kelima di Dataran Bayuraya.
+- Tepat lima petunjuk dan lapan validasi pendidikan merentas simpulan bahasa, penjodoh bilangan, ejaan dan konteks.
+- Papan Bukti Berpandu, susunan Peta Jejak Makna, dua deduksi dan buku semakan kekal.
+- A32 Penyatu Makna dan A33 Fail Kelima Lengkap.
+- Aset premium tempatan, simpanan `detektif-bahasa-v1` dan rekod C001–C024 dikekalkan.
 
 ## v2.11.1 — Visual Storytelling Upgrade
 

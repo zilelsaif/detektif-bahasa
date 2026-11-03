@@ -9,9 +9,9 @@ const index = fs.readFileSync("index.html", "utf8");
 const game = fs.readFileSync("game.js", "utf8");
 const server = fs.readFileSync("server.js", "utf8");
 
-assert.ok(index.includes('data-release="v2.11.1"'));
-assert.ok(index.includes("visual-storytelling.js?v=2.11.1"));
-assert.ok(game.includes("RELEASE='v2.11.1 by Zil-el-Saif'"));
+assert.ok(index.includes('data-release="v2.12.0"'));
+assert.ok(index.includes("visual-storytelling.js?v=2.12.0"));
+assert.ok(game.includes("RELEASE='v2.12.0 by Zil-el-Saif'"));
 assert.ok(game.includes("KEY='detektif-bahasa-v1'"));
 
 const education = [

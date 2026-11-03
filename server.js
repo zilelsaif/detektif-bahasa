@@ -1,1 +1,317 @@
-const http=require("node:http"),fs=require("node:fs"),path=require("node:path"),port=Number(process.env.PORT||4173);http.createServer((s,a)=>{const e=decodeURIComponent(s.url.split("?")[0]),t={"/arc10.js":"arc10.js","/assets/locations/dataran-pameran-c024.webp":"assets/locations/dataran-pameran-c024.webp","/assets/achievements/a31.svg":"assets/achievements/a31.svg","/character-presentation.js":"character-presentation.js","/arc9.js":"arc9.js","/assets/locations/perpustakaan-penyunting-c023.webp":"assets/locations/perpustakaan-penyunting-c023.webp","/assets/achievements/a30.svg":"assets/achievements/a30.svg","/arc8.js":"arc8.js","/assets/locations/balai-persiapan-c022.webp":"assets/locations/balai-persiapan-c022.webp","/assets/achievements/a29.svg":"assets/achievements/a29.svg","/arc7.js":"arc7.js","/assets/locations/taman-persiapan-c021.webp":"assets/locations/taman-persiapan-c021.webp","/assets/achievements/a28.svg":"assets/achievements/a28.svg","/zilteroka.js":"zilteroka.js","/assets/branding/zilteroka-logo.webp":"assets/branding/zilteroka-logo.webp","/assets/branding/zilteroka-icon.webp":"assets/branding/zilteroka-icon.webp","/assets/branding/zilteroka-qr.webp":"assets/branding/zilteroka-qr.webp","/assets/branding/zilteroka-games/kedai-matematik.webp":"assets/branding/zilteroka-games/kedai-matematik.webp","/assets/branding/zilteroka-games/makmal-cilik.webp":"assets/branding/zilteroka-games/makmal-cilik.webp","/assets/branding/zilteroka-games/mata-helang.webp":"assets/branding/zilteroka-games/mata-helang.webp","/assets/branding/zilteroka-games/kubikata.webp":"assets/branding/zilteroka-games/kubikata.webp","/assets/branding/zilteroka-games/sirah-quest.webp":"assets/branding/zilteroka-games/sirah-quest.webp","/character-gallery.js":"character-gallery.js","/character-gallery.css":"character-gallery.css","/assets/characters/mugshots/klu.webp":"assets/characters/mugshots/klu.webp","/assets/characters/mugshots/aynaa.webp":"assets/characters/mugshots/aynaa.webp","/assets/characters/poses/aynaa.webp":"assets/characters/poses/aynaa.webp","/assets/characters/mugshots/farah.webp":"assets/characters/mugshots/farah.webp","/assets/characters/poses/farah.webp":"assets/characters/poses/farah.webp","/assets/characters/mugshots/hakim.webp":"assets/characters/mugshots/hakim.webp","/assets/characters/poses/hakim.webp":"assets/characters/poses/hakim.webp","/assets/characters/mugshots/meiLing.webp":"assets/characters/mugshots/meiLing.webp","/assets/characters/poses/meiLing.webp":"assets/characters/poses/meiLing.webp","/assets/characters/mugshots/librarian.webp":"assets/characters/mugshots/librarian.webp","/assets/characters/poses/librarian.webp":"assets/characters/poses/librarian.webp","/assets/characters/mugshots/ammar.webp":"assets/characters/mugshots/ammar.webp","/assets/characters/poses/ammar.webp":"assets/characters/poses/ammar.webp","/assets/characters/mugshots/sofia.webp":"assets/characters/mugshots/sofia.webp","/assets/characters/poses/sofia.webp":"assets/characters/poses/sofia.webp","/assets/characters/mugshots/shopWorker.webp":"assets/characters/mugshots/shopWorker.webp","/assets/characters/poses/shopWorker.webp":"assets/characters/poses/shopWorker.webp","/assets/characters/mugshots/ivy.webp":"assets/characters/mugshots/ivy.webp","/assets/characters/poses/ivy.webp":"assets/characters/poses/ivy.webp","/assets/characters/mugshots/kumar.webp":"assets/characters/mugshots/kumar.webp","/assets/characters/poses/kumar.webp":"assets/characters/poses/kumar.webp","/assets/characters/mugshots/maria.webp":"assets/characters/mugshots/maria.webp","/assets/characters/poses/maria.webp":"assets/characters/poses/maria.webp","/assets/characters/mugshots/azzam.webp":"assets/characters/mugshots/azzam.webp","/assets/characters/poses/azzam.webp":"assets/characters/poses/azzam.webp","/assets/characters/mugshots/pakRahim.webp":"assets/characters/mugshots/pakRahim.webp","/assets/characters/poses/pakRahim.webp":"assets/characters/poses/pakRahim.webp","/assets/characters/mugshots/kakSuri.webp":"assets/characters/mugshots/kakSuri.webp","/assets/characters/poses/kakSuri.webp":"assets/characters/poses/kakSuri.webp","/assets/characters/mugshots/encikHafiz.webp":"assets/characters/mugshots/encikHafiz.webp","/assets/characters/poses/encikHafiz.webp":"assets/characters/poses/encikHafiz.webp","/assets/characters/mugshots/drHana.webp":"assets/characters/mugshots/drHana.webp","/assets/characters/poses/drHana.webp":"assets/characters/poses/drHana.webp","/assets/characters/mugshots/puanSuraya.webp":"assets/characters/mugshots/puanSuraya.webp","/assets/characters/poses/puanSuraya.webp":"assets/characters/poses/puanSuraya.webp","/assets/characters/mugshots/ayyash.webp":"assets/characters/mugshots/ayyash.webp","/assets/characters/poses/ayyash.webp":"assets/characters/poses/ayyash.webp","/assets/characters/mugshots/affan.webp":"assets/characters/mugshots/affan.webp","/assets/characters/poses/affan.webp":"assets/characters/poses/affan.webp","/assets/characters/mugshots/xiaoFeng.webp":"assets/characters/mugshots/xiaoFeng.webp","/assets/characters/poses/xiaoFeng.webp":"assets/characters/poses/xiaoFeng.webp","/assets/characters/mugshots/arissa.webp":"assets/characters/mugshots/arissa.webp","/assets/characters/poses/arissa.webp":"assets/characters/poses/arissa.webp","/assets/characters/mugshots/emah.webp":"assets/characters/mugshots/emah.webp","/assets/characters/poses/emah.webp":"assets/characters/poses/emah.webp","/assets/characters/mugshots/jagjit.webp":"assets/characters/mugshots/jagjit.webp","/assets/characters/poses/jagjit.webp":"assets/characters/poses/jagjit.webp","/":"index.html","/index.html":"index.html","/style.css":"style.css","/game.js":"game.js","/assets/klu.svg":"assets/klu.svg","/assets/aynaa.svg":"assets/aynaa.svg","/assets/ammar.svg":"assets/ammar.svg","/assets/sofia.svg":"assets/sofia.svg","/assets/ivy.svg":"assets/ivy.svg","/assets/kumar.svg":"assets/kumar.svg","/assets/maria.svg":"assets/maria.svg","/assets/azzam.svg":"assets/azzam.svg","/assets/pak-rahim.svg":"assets/pak-rahim.svg","/assets/shop-worker.svg":"assets/shop-worker.svg","/assets/cikgu-farah.svg":"assets/cikgu-farah.svg","/assets/hakim.svg":"assets/hakim.svg","/assets/mei-ling.svg":"assets/mei-ling.svg","/assets/pustakawan.svg":"assets/pustakawan.svg","/assets/characters/aynaa.webp":"assets/characters/aynaa.webp","/assets/characters/cikgu-farah.webp":"assets/characters/cikgu-farah.webp","/assets/characters/hakim.webp":"assets/characters/hakim.webp","/assets/characters/mei-ling.webp":"assets/characters/mei-ling.webp","/assets/characters/pustakawan.webp":"assets/characters/pustakawan.webp","/assets/characters/ammar.webp":"assets/characters/ammar.webp","/assets/characters/sofia.webp":"assets/characters/sofia.webp","/assets/characters/shop-worker.webp":"assets/characters/shop-worker.webp","/assets/characters/ivy.webp":"assets/characters/ivy.webp","/assets/characters/kumar.webp":"assets/characters/kumar.webp","/assets/characters/maria.webp":"assets/characters/maria.webp","/assets/characters/azzam.webp":"assets/characters/azzam.webp","/assets/characters/pak-rahim.webp":"assets/characters/pak-rahim.webp","/assets/bayuraya.svg":"assets/bayuraya.svg","/assets/agency-details.svg":"assets/agency-details.svg","/assets/locations/classroom-bayuraya.svg":"assets/locations/classroom-bayuraya.svg","/assets/locations/library-bayuraya.svg":"assets/locations/library-bayuraya.svg","/assets/locations/kedai-matematik-bayuraya.svg":"assets/locations/kedai-matematik-bayuraya.svg","/assets/locations/library-reading-corner.svg":"assets/locations/library-reading-corner.svg","/assets/locations/taman-bayuraya.svg":"assets/locations/taman-bayuraya.svg","/assets/locations/dataran-hari-bayuraya.svg":"assets/locations/dataran-hari-bayuraya.svg","/assets/locations/peta-bayuraya.svg":"assets/locations/peta-bayuraya.svg","/assets/locations/peta-bayuraya.webp":"assets/locations/peta-bayuraya.webp","/assets/locations/classroom-bayuraya.webp":"assets/locations/classroom-bayuraya.webp","/assets/locations/library-bayuraya.webp":"assets/locations/library-bayuraya.webp","/assets/locations/kedai-matematik-bayuraya.webp":"assets/locations/kedai-matematik-bayuraya.webp","/assets/locations/library-reading-corner.webp":"assets/locations/library-reading-corner.webp","/assets/locations/taman-bayuraya.webp":"assets/locations/taman-bayuraya.webp","/assets/locations/dataran-hari-bayuraya.webp":"assets/locations/dataran-hari-bayuraya.webp","/mechanics.js":"mechanics.js","/arc2.js":"arc2.js","/arc3.js":"arc3.js","/arc4.js":"arc4.js","/arc5.js":"arc5.js","/arc6.js":"arc6.js","/lensa.js":"lensa.js","/assets/characters/emah.webp":"assets/characters/emah.webp","/assets/characters/jagjit.webp":"assets/characters/jagjit.webp","/assets/cases/c005.webp":"assets/cases/c005.webp","/assets/cases/c004.webp":"assets/cases/c004.webp","/assets/cases/c003.webp":"assets/cases/c003.webp","/assets/cases/c002.webp":"assets/cases/c002.webp","/assets/cases/c001.webp":"assets/cases/c001.webp","/assets/locations/perpustakaan-sudut-hebahan.webp":"assets/locations/perpustakaan-sudut-hebahan.webp","/assets/posters/c018-poster-siap.webp":"assets/posters/c018-poster-siap.webp","/assets/achievements/a24.webp":"assets/achievements/a24.webp","/assets/achievements/a25.webp":"assets/achievements/a25.webp","/assets/achievements/a26.webp":"assets/achievements/a26.webp","/assets/achievements/a27.webp":"assets/achievements/a27.webp","/assets/locations/balai-komuniti-ruang-maklumat.webp":"assets/locations/balai-komuniti-ruang-maklumat.webp","/assets/locations/taman-pondok-aktiviti.webp":"assets/locations/taman-pondok-aktiviti.webp","/assets/achievements/a22.svg":"assets/achievements/a22.svg","/assets/locations/ruang-latihan-bayuraya.webp":"assets/locations/ruang-latihan-bayuraya.webp","/assets/locations/kedai-matematik-rekod.webp":"assets/locations/kedai-matematik-rekod.webp","/assets/achievements/a23.webp":"assets/achievements/a23.webp","/assets/locations/dataran-jejak-rahsia.webp":"assets/locations/dataran-jejak-rahsia.webp","/assets/characters/arissa.webp":"assets/characters/arissa.webp","/assets/locations/stesen-bas-bayuraya.webp":"assets/locations/stesen-bas-bayuraya.webp","/assets/locations/galeri-warisan-bayuraya.webp":"assets/locations/galeri-warisan-bayuraya.webp","/assets/locations/kedai-matematik-pembungkusan.webp":"assets/locations/kedai-matematik-pembungkusan.webp","/assets/characters/ayyash.webp":"assets/characters/ayyash.webp","/assets/characters/affan.webp":"assets/characters/affan.webp","/assets/characters/xiao-feng.webp":"assets/characters/xiao-feng.webp","/assets/locations/balai-komuniti-bilik-persediaan.webp":"assets/locations/balai-komuniti-bilik-persediaan.webp","/assets/locations/kedai-roti-bayuraya.webp":"assets/locations/kedai-roti-bayuraya.webp","/assets/locations/pasar-bayuraya.webp":"assets/locations/pasar-bayuraya.webp","/assets/locations/klinik-haiwan-bayuraya.webp":"assets/locations/klinik-haiwan-bayuraya.webp","/assets/locations/balai-komuniti-bayuraya.webp":"assets/locations/balai-komuniti-bayuraya.webp","/assets/characters/kak-suri.webp":"assets/characters/kak-suri.webp","/assets/characters/encik-hafiz.webp":"assets/characters/encik-hafiz.webp","/assets/characters/dr-hana.webp":"assets/characters/dr-hana.webp","/assets/characters/puan-suraya.webp":"assets/characters/puan-suraya.webp","/assets/ui/title-bayuraya.webp":"assets/ui/title-bayuraya.webp","/assets/support/sokong-detektif-bahasa.png":"assets/support/sokong-detektif-bahasa.png",...Object.fromEntries(Array.from({length:21},(s,a)=>{const e=`assets/achievements/a${String(a+1).padStart(2,"0")}.webp`;return[`/${e}`,e]})),"/visual-storytelling.js":"visual-storytelling.js","/assets/locations/balai-resolusi-c022.webp":"assets/locations/balai-resolusi-c022.webp","/assets/locations/perpustakaan-resolusi-c023.webp":"assets/locations/perpustakaan-resolusi-c023.webp","/assets/locations/dataran-resolusi-c024.webp":"assets/locations/dataran-resolusi-c024.webp","/assets/education/c024-v01-bulan.webp":"assets/education/c024-v01-bulan.webp","/assets/education/c024-v02-kalendar.webp":"assets/education/c024-v02-kalendar.webp","/assets/education/c024-v03-mata-membaca.webp":"assets/education/c024-v03-mata-membaca.webp","/assets/education/c024-v04-mata-pertandingan.webp":"assets/education/c024-v04-mata-pertandingan.webp","/assets/education/c024-v05-kaki-berjalan.webp":"assets/education/c024-v05-kaki-berjalan.webp","/assets/education/c024-v06-kaki-meja.webp":"assets/education/c024-v06-kaki-meja.webp"};if(!t[e])return a.writeHead(404),a.end("Not found");a.setHeader("Content-Type",e.endsWith(".svg")?"image/svg+xml":e.endsWith(".webp")?"image/webp":e.endsWith(".png")?"image/png":e.endsWith(".css")?"text/css":e.endsWith(".js")?"text/javascript":"text/html; charset=utf-8"),fs.createReadStream(path.join(__dirname,t[e])).pipe(a)}).listen(port,"127.0.0.1",()=>console.log(`Detektif Bahasa: http://127.0.0.1:${port}`));
+const http = require("node:http"),
+  fs = require("node:fs"),
+  path = require("node:path"),
+  port = Number(process.env.PORT || 4173);
+http
+  .createServer((s, a) => {
+    const e = decodeURIComponent(s.url.split("?")[0]),
+      t = {
+        "/arc11.js": "arc11.js",
+        "/assets/locations/dataran-jejak-makna-c025.webp":
+          "assets/locations/dataran-jejak-makna-c025.webp",
+        "/assets/locations/dataran-finale-c025.webp":
+          "assets/locations/dataran-finale-c025.webp",
+        "/assets/achievements/a32.svg": "assets/achievements/a32.svg",
+        "/assets/achievements/a33.svg": "assets/achievements/a33.svg",
+        "/arc10.js": "arc10.js",
+        "/assets/locations/dataran-pameran-c024.webp":
+          "assets/locations/dataran-pameran-c024.webp",
+        "/assets/achievements/a31.svg": "assets/achievements/a31.svg",
+        "/character-presentation.js": "character-presentation.js",
+        "/arc9.js": "arc9.js",
+        "/assets/locations/perpustakaan-penyunting-c023.webp":
+          "assets/locations/perpustakaan-penyunting-c023.webp",
+        "/assets/achievements/a30.svg": "assets/achievements/a30.svg",
+        "/arc8.js": "arc8.js",
+        "/assets/locations/balai-persiapan-c022.webp":
+          "assets/locations/balai-persiapan-c022.webp",
+        "/assets/achievements/a29.svg": "assets/achievements/a29.svg",
+        "/arc7.js": "arc7.js",
+        "/assets/locations/taman-persiapan-c021.webp":
+          "assets/locations/taman-persiapan-c021.webp",
+        "/assets/achievements/a28.svg": "assets/achievements/a28.svg",
+        "/zilteroka.js": "zilteroka.js",
+        "/assets/branding/zilteroka-logo.webp":
+          "assets/branding/zilteroka-logo.webp",
+        "/assets/branding/zilteroka-icon.webp":
+          "assets/branding/zilteroka-icon.webp",
+        "/assets/branding/zilteroka-qr.webp":
+          "assets/branding/zilteroka-qr.webp",
+        "/assets/branding/zilteroka-games/kedai-matematik.webp":
+          "assets/branding/zilteroka-games/kedai-matematik.webp",
+        "/assets/branding/zilteroka-games/makmal-cilik.webp":
+          "assets/branding/zilteroka-games/makmal-cilik.webp",
+        "/assets/branding/zilteroka-games/mata-helang.webp":
+          "assets/branding/zilteroka-games/mata-helang.webp",
+        "/assets/branding/zilteroka-games/kubikata.webp":
+          "assets/branding/zilteroka-games/kubikata.webp",
+        "/assets/branding/zilteroka-games/sirah-quest.webp":
+          "assets/branding/zilteroka-games/sirah-quest.webp",
+        "/character-gallery.js": "character-gallery.js",
+        "/character-gallery.css": "character-gallery.css",
+        "/assets/characters/mugshots/klu.webp":
+          "assets/characters/mugshots/klu.webp",
+        "/assets/characters/mugshots/aynaa.webp":
+          "assets/characters/mugshots/aynaa.webp",
+        "/assets/characters/poses/aynaa.webp":
+          "assets/characters/poses/aynaa.webp",
+        "/assets/characters/mugshots/farah.webp":
+          "assets/characters/mugshots/farah.webp",
+        "/assets/characters/poses/farah.webp":
+          "assets/characters/poses/farah.webp",
+        "/assets/characters/mugshots/hakim.webp":
+          "assets/characters/mugshots/hakim.webp",
+        "/assets/characters/poses/hakim.webp":
+          "assets/characters/poses/hakim.webp",
+        "/assets/characters/mugshots/meiLing.webp":
+          "assets/characters/mugshots/meiLing.webp",
+        "/assets/characters/poses/meiLing.webp":
+          "assets/characters/poses/meiLing.webp",
+        "/assets/characters/mugshots/librarian.webp":
+          "assets/characters/mugshots/librarian.webp",
+        "/assets/characters/poses/librarian.webp":
+          "assets/characters/poses/librarian.webp",
+        "/assets/characters/mugshots/ammar.webp":
+          "assets/characters/mugshots/ammar.webp",
+        "/assets/characters/poses/ammar.webp":
+          "assets/characters/poses/ammar.webp",
+        "/assets/characters/mugshots/sofia.webp":
+          "assets/characters/mugshots/sofia.webp",
+        "/assets/characters/poses/sofia.webp":
+          "assets/characters/poses/sofia.webp",
+        "/assets/characters/mugshots/shopWorker.webp":
+          "assets/characters/mugshots/shopWorker.webp",
+        "/assets/characters/poses/shopWorker.webp":
+          "assets/characters/poses/shopWorker.webp",
+        "/assets/characters/mugshots/ivy.webp":
+          "assets/characters/mugshots/ivy.webp",
+        "/assets/characters/poses/ivy.webp": "assets/characters/poses/ivy.webp",
+        "/assets/characters/mugshots/kumar.webp":
+          "assets/characters/mugshots/kumar.webp",
+        "/assets/characters/poses/kumar.webp":
+          "assets/characters/poses/kumar.webp",
+        "/assets/characters/mugshots/maria.webp":
+          "assets/characters/mugshots/maria.webp",
+        "/assets/characters/poses/maria.webp":
+          "assets/characters/poses/maria.webp",
+        "/assets/characters/mugshots/azzam.webp":
+          "assets/characters/mugshots/azzam.webp",
+        "/assets/characters/poses/azzam.webp":
+          "assets/characters/poses/azzam.webp",
+        "/assets/characters/mugshots/pakRahim.webp":
+          "assets/characters/mugshots/pakRahim.webp",
+        "/assets/characters/poses/pakRahim.webp":
+          "assets/characters/poses/pakRahim.webp",
+        "/assets/characters/mugshots/kakSuri.webp":
+          "assets/characters/mugshots/kakSuri.webp",
+        "/assets/characters/poses/kakSuri.webp":
+          "assets/characters/poses/kakSuri.webp",
+        "/assets/characters/mugshots/encikHafiz.webp":
+          "assets/characters/mugshots/encikHafiz.webp",
+        "/assets/characters/poses/encikHafiz.webp":
+          "assets/characters/poses/encikHafiz.webp",
+        "/assets/characters/mugshots/drHana.webp":
+          "assets/characters/mugshots/drHana.webp",
+        "/assets/characters/poses/drHana.webp":
+          "assets/characters/poses/drHana.webp",
+        "/assets/characters/mugshots/puanSuraya.webp":
+          "assets/characters/mugshots/puanSuraya.webp",
+        "/assets/characters/poses/puanSuraya.webp":
+          "assets/characters/poses/puanSuraya.webp",
+        "/assets/characters/mugshots/ayyash.webp":
+          "assets/characters/mugshots/ayyash.webp",
+        "/assets/characters/poses/ayyash.webp":
+          "assets/characters/poses/ayyash.webp",
+        "/assets/characters/mugshots/affan.webp":
+          "assets/characters/mugshots/affan.webp",
+        "/assets/characters/poses/affan.webp":
+          "assets/characters/poses/affan.webp",
+        "/assets/characters/mugshots/xiaoFeng.webp":
+          "assets/characters/mugshots/xiaoFeng.webp",
+        "/assets/characters/poses/xiaoFeng.webp":
+          "assets/characters/poses/xiaoFeng.webp",
+        "/assets/characters/mugshots/arissa.webp":
+          "assets/characters/mugshots/arissa.webp",
+        "/assets/characters/poses/arissa.webp":
+          "assets/characters/poses/arissa.webp",
+        "/assets/characters/mugshots/emah.webp":
+          "assets/characters/mugshots/emah.webp",
+        "/assets/characters/poses/emah.webp":
+          "assets/characters/poses/emah.webp",
+        "/assets/characters/mugshots/jagjit.webp":
+          "assets/characters/mugshots/jagjit.webp",
+        "/assets/characters/poses/jagjit.webp":
+          "assets/characters/poses/jagjit.webp",
+        "/": "index.html",
+        "/index.html": "index.html",
+        "/style.css": "style.css",
+        "/game.js": "game.js",
+        "/assets/klu.svg": "assets/klu.svg",
+        "/assets/aynaa.svg": "assets/aynaa.svg",
+        "/assets/ammar.svg": "assets/ammar.svg",
+        "/assets/sofia.svg": "assets/sofia.svg",
+        "/assets/ivy.svg": "assets/ivy.svg",
+        "/assets/kumar.svg": "assets/kumar.svg",
+        "/assets/maria.svg": "assets/maria.svg",
+        "/assets/azzam.svg": "assets/azzam.svg",
+        "/assets/pak-rahim.svg": "assets/pak-rahim.svg",
+        "/assets/shop-worker.svg": "assets/shop-worker.svg",
+        "/assets/cikgu-farah.svg": "assets/cikgu-farah.svg",
+        "/assets/hakim.svg": "assets/hakim.svg",
+        "/assets/mei-ling.svg": "assets/mei-ling.svg",
+        "/assets/pustakawan.svg": "assets/pustakawan.svg",
+        "/assets/characters/aynaa.webp": "assets/characters/aynaa.webp",
+        "/assets/characters/cikgu-farah.webp":
+          "assets/characters/cikgu-farah.webp",
+        "/assets/characters/hakim.webp": "assets/characters/hakim.webp",
+        "/assets/characters/mei-ling.webp": "assets/characters/mei-ling.webp",
+        "/assets/characters/pustakawan.webp":
+          "assets/characters/pustakawan.webp",
+        "/assets/characters/ammar.webp": "assets/characters/ammar.webp",
+        "/assets/characters/sofia.webp": "assets/characters/sofia.webp",
+        "/assets/characters/shop-worker.webp":
+          "assets/characters/shop-worker.webp",
+        "/assets/characters/ivy.webp": "assets/characters/ivy.webp",
+        "/assets/characters/kumar.webp": "assets/characters/kumar.webp",
+        "/assets/characters/maria.webp": "assets/characters/maria.webp",
+        "/assets/characters/azzam.webp": "assets/characters/azzam.webp",
+        "/assets/characters/pak-rahim.webp": "assets/characters/pak-rahim.webp",
+        "/assets/bayuraya.svg": "assets/bayuraya.svg",
+        "/assets/agency-details.svg": "assets/agency-details.svg",
+        "/assets/locations/classroom-bayuraya.svg":
+          "assets/locations/classroom-bayuraya.svg",
+        "/assets/locations/library-bayuraya.svg":
+          "assets/locations/library-bayuraya.svg",
+        "/assets/locations/kedai-matematik-bayuraya.svg":
+          "assets/locations/kedai-matematik-bayuraya.svg",
+        "/assets/locations/library-reading-corner.svg":
+          "assets/locations/library-reading-corner.svg",
+        "/assets/locations/taman-bayuraya.svg":
+          "assets/locations/taman-bayuraya.svg",
+        "/assets/locations/dataran-hari-bayuraya.svg":
+          "assets/locations/dataran-hari-bayuraya.svg",
+        "/assets/locations/peta-bayuraya.svg":
+          "assets/locations/peta-bayuraya.svg",
+        "/assets/locations/peta-bayuraya.webp":
+          "assets/locations/peta-bayuraya.webp",
+        "/assets/locations/classroom-bayuraya.webp":
+          "assets/locations/classroom-bayuraya.webp",
+        "/assets/locations/library-bayuraya.webp":
+          "assets/locations/library-bayuraya.webp",
+        "/assets/locations/kedai-matematik-bayuraya.webp":
+          "assets/locations/kedai-matematik-bayuraya.webp",
+        "/assets/locations/library-reading-corner.webp":
+          "assets/locations/library-reading-corner.webp",
+        "/assets/locations/taman-bayuraya.webp":
+          "assets/locations/taman-bayuraya.webp",
+        "/assets/locations/dataran-hari-bayuraya.webp":
+          "assets/locations/dataran-hari-bayuraya.webp",
+        "/mechanics.js": "mechanics.js",
+        "/arc2.js": "arc2.js",
+        "/arc3.js": "arc3.js",
+        "/arc4.js": "arc4.js",
+        "/arc5.js": "arc5.js",
+        "/arc6.js": "arc6.js",
+        "/lensa.js": "lensa.js",
+        "/assets/characters/emah.webp": "assets/characters/emah.webp",
+        "/assets/characters/jagjit.webp": "assets/characters/jagjit.webp",
+        "/assets/cases/c005.webp": "assets/cases/c005.webp",
+        "/assets/cases/c004.webp": "assets/cases/c004.webp",
+        "/assets/cases/c003.webp": "assets/cases/c003.webp",
+        "/assets/cases/c002.webp": "assets/cases/c002.webp",
+        "/assets/cases/c001.webp": "assets/cases/c001.webp",
+        "/assets/locations/perpustakaan-sudut-hebahan.webp":
+          "assets/locations/perpustakaan-sudut-hebahan.webp",
+        "/assets/posters/c018-poster-siap.webp":
+          "assets/posters/c018-poster-siap.webp",
+        "/assets/achievements/a24.webp": "assets/achievements/a24.webp",
+        "/assets/achievements/a25.webp": "assets/achievements/a25.webp",
+        "/assets/achievements/a26.webp": "assets/achievements/a26.webp",
+        "/assets/achievements/a27.webp": "assets/achievements/a27.webp",
+        "/assets/locations/balai-komuniti-ruang-maklumat.webp":
+          "assets/locations/balai-komuniti-ruang-maklumat.webp",
+        "/assets/locations/taman-pondok-aktiviti.webp":
+          "assets/locations/taman-pondok-aktiviti.webp",
+        "/assets/achievements/a22.svg": "assets/achievements/a22.svg",
+        "/assets/locations/ruang-latihan-bayuraya.webp":
+          "assets/locations/ruang-latihan-bayuraya.webp",
+        "/assets/locations/kedai-matematik-rekod.webp":
+          "assets/locations/kedai-matematik-rekod.webp",
+        "/assets/achievements/a23.webp": "assets/achievements/a23.webp",
+        "/assets/locations/dataran-jejak-rahsia.webp":
+          "assets/locations/dataran-jejak-rahsia.webp",
+        "/assets/characters/arissa.webp": "assets/characters/arissa.webp",
+        "/assets/locations/stesen-bas-bayuraya.webp":
+          "assets/locations/stesen-bas-bayuraya.webp",
+        "/assets/locations/galeri-warisan-bayuraya.webp":
+          "assets/locations/galeri-warisan-bayuraya.webp",
+        "/assets/locations/kedai-matematik-pembungkusan.webp":
+          "assets/locations/kedai-matematik-pembungkusan.webp",
+        "/assets/characters/ayyash.webp": "assets/characters/ayyash.webp",
+        "/assets/characters/affan.webp": "assets/characters/affan.webp",
+        "/assets/characters/xiao-feng.webp": "assets/characters/xiao-feng.webp",
+        "/assets/locations/balai-komuniti-bilik-persediaan.webp":
+          "assets/locations/balai-komuniti-bilik-persediaan.webp",
+        "/assets/locations/kedai-roti-bayuraya.webp":
+          "assets/locations/kedai-roti-bayuraya.webp",
+        "/assets/locations/pasar-bayuraya.webp":
+          "assets/locations/pasar-bayuraya.webp",
+        "/assets/locations/klinik-haiwan-bayuraya.webp":
+          "assets/locations/klinik-haiwan-bayuraya.webp",
+        "/assets/locations/balai-komuniti-bayuraya.webp":
+          "assets/locations/balai-komuniti-bayuraya.webp",
+        "/assets/characters/kak-suri.webp": "assets/characters/kak-suri.webp",
+        "/assets/characters/encik-hafiz.webp":
+          "assets/characters/encik-hafiz.webp",
+        "/assets/characters/dr-hana.webp": "assets/characters/dr-hana.webp",
+        "/assets/characters/puan-suraya.webp":
+          "assets/characters/puan-suraya.webp",
+        "/assets/ui/title-bayuraya.webp": "assets/ui/title-bayuraya.webp",
+        "/assets/support/sokong-detektif-bahasa.png":
+          "assets/support/sokong-detektif-bahasa.png",
+        ...Object.fromEntries(
+          Array.from({ length: 21 }, (s, a) => {
+            const e = `assets/achievements/a${String(a + 1).padStart(2, "0")}.webp`;
+            return [`/${e}`, e];
+          }),
+        ),
+        "/visual-storytelling.js": "visual-storytelling.js",
+        "/assets/locations/balai-resolusi-c022.webp":
+          "assets/locations/balai-resolusi-c022.webp",
+        "/assets/locations/perpustakaan-resolusi-c023.webp":
+          "assets/locations/perpustakaan-resolusi-c023.webp",
+        "/assets/locations/dataran-resolusi-c024.webp":
+          "assets/locations/dataran-resolusi-c024.webp",
+        "/assets/education/c024-v01-bulan.webp":
+          "assets/education/c024-v01-bulan.webp",
+        "/assets/education/c024-v02-kalendar.webp":
+          "assets/education/c024-v02-kalendar.webp",
+        "/assets/education/c024-v03-mata-membaca.webp":
+          "assets/education/c024-v03-mata-membaca.webp",
+        "/assets/education/c024-v04-mata-pertandingan.webp":
+          "assets/education/c024-v04-mata-pertandingan.webp",
+        "/assets/education/c024-v05-kaki-berjalan.webp":
+          "assets/education/c024-v05-kaki-berjalan.webp",
+        "/assets/education/c024-v06-kaki-meja.webp":
+          "assets/education/c024-v06-kaki-meja.webp",
+      };
+    if (!t[e]) return (a.writeHead(404), a.end("Not found"));
+    (a.setHeader(
+      "Content-Type",
+      e.endsWith(".svg")
+        ? "image/svg+xml"
+        : e.endsWith(".webp")
+          ? "image/webp"
+          : e.endsWith(".png")
+            ? "image/png"
+            : e.endsWith(".css")
+              ? "text/css"
+              : e.endsWith(".js")
+                ? "text/javascript"
+                : "text/html; charset=utf-8",
+    ),
+      fs.createReadStream(path.join(__dirname, t[e])).pipe(a));
+  })
+  .listen(port, "127.0.0.1", () =>
+    console.log(`Detektif Bahasa: http://127.0.0.1:${port}`),
+  );
