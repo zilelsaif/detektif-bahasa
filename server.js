@@ -13,23 +13,29 @@ http
           "assets/locations/dataran-finale-c025.webp",
         "/assets/achievements/a32.svg": "assets/achievements/a32.svg",
         "/assets/achievements/a33.svg": "assets/achievements/a33.svg",
+        "/assets/achievements/a32.webp": "assets/achievements/a32.webp",
+        "/assets/achievements/a33.webp": "assets/achievements/a33.webp",
         "/arc10.js": "arc10.js",
         "/assets/locations/dataran-pameran-c024.webp":
           "assets/locations/dataran-pameran-c024.webp",
         "/assets/achievements/a31.svg": "assets/achievements/a31.svg",
+        "/assets/achievements/a31.webp": "assets/achievements/a31.webp",
         "/character-presentation.js": "character-presentation.js",
         "/arc9.js": "arc9.js",
         "/assets/locations/perpustakaan-penyunting-c023.webp":
           "assets/locations/perpustakaan-penyunting-c023.webp",
         "/assets/achievements/a30.svg": "assets/achievements/a30.svg",
+        "/assets/achievements/a30.webp": "assets/achievements/a30.webp",
         "/arc8.js": "arc8.js",
         "/assets/locations/balai-persiapan-c022.webp":
           "assets/locations/balai-persiapan-c022.webp",
         "/assets/achievements/a29.svg": "assets/achievements/a29.svg",
+        "/assets/achievements/a29.webp": "assets/achievements/a29.webp",
         "/arc7.js": "arc7.js",
         "/assets/locations/taman-persiapan-c021.webp":
           "assets/locations/taman-persiapan-c021.webp",
         "/assets/achievements/a28.svg": "assets/achievements/a28.svg",
+        "/assets/achievements/a28.webp": "assets/achievements/a28.webp",
         "/zilteroka.js": "zilteroka.js",
         "/assets/branding/zilteroka-logo.webp":
           "assets/branding/zilteroka-logo.webp",

@@ -1,6 +1,12 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.12.0 by Zil-el-Saif**. KES 025 melengkapkan Fail Kelima melalui lima sumber rasmi, empat stesen Peta Makna, papan bukti, peta akhir dan Buku Jejak Makna Bayuraya.
+Versi setempat: **v2.12.1 by Zil-el-Saif**. Enam pencapaian Fail Kelima kini menggunakan emblem WebP premium tanpa mengubah kandungan, ganjaran atau simpanan permainan.
+
+## v2.12.1 — Premium Achievement Emblems
+
+- Menggantikan paparan SVG rata A28–A33 dengan enam medal WebP transparen 512×512 yang sekeluarga dengan A25–A27.
+- A32 menerima hierarki visual kes utama; A33 menjadi crest finale Fail Kelima.
+- ID, nama, penerangan, unlock logic, jumlah pencapaian dan kunci simpanan `detektif-bahasa-v1` kekal.
 
 ## v2.12.0 — C025 Misteri Peta Jejak Makna
 
