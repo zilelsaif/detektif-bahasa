@@ -1,5 +1,6 @@
 // Regression marker for the accepted baseline: const KEY='detektif-bahasa-v1',RELEASE='v2.11.0 by Zil-el-Saif'
-const KEY='detektif-bahasa-v1',RELEASE='v2.12.1 by Zil-el-Saif';
+const KEY='detektif-bahasa-v1',RELEASE='v2.13.0 by Zil-el-Saif';
+if(typeof ProfileStore!=='undefined')ProfileStore.bootstrap();
 const clues1=['Beg masih berada di kelas ketika rehat bermula.','Aynaa ialah pemilik beg merah.','Cikgu Farah membawa sebuah beg merah selepas rehat.','Beg merah dilihat di Perpustakaan Bayuraya.','Cikgu Farah menemui beg yang tertinggal lalu menyerahkannya kepada pustakawan.'];
 const clues2=['Pesanan Ammar berada di dalam beg biru kecil dengan pelekat roket.','Pesanan Sofia berada di dalam beg merah jambu besar dengan reben putih.','Beg biru kecil berpelekat roket kini berlabel SOFIA.','Beg merah jambu besar bereben putih kini berlabel AMMAR.','Dua label terjatuh berhampiran rak pengambilan lalu dipasang semula tanpa memeriksa penerangan beg.'];
 const fragments=['Letakkan kotak kad cerita','di atas meja kecil','di belakang rak biru','selepas waktu rehat.'];
@@ -14,7 +15,7 @@ const fresh4=()=>({caseId:'C004',status:'in_progress',scene:0,cluesFound:0,hints
 const fresh5=()=>({caseId:'C005',status:'in_progress',scene:0,cluesFound:0,hintsUsed:0,attempts:0,stars:0,xpEarned:0,completedAt:null,solved:{},hintLevels:{},errors:{},objects:[],sceneProgress:{bayurayaFestival:[]},sequence:[],statementChecks:{},links:['','','','']});
 const freshSecond=id=>({caseId:id,status:'in_progress',scene:0,cluesFound:0,hintsUsed:0,attempts:0,stars:0,xpEarned:0,completedAt:null,solved:{},hintLevels:{},errors:{},objects:[],sceneProgress:{},sequence:[],statementChecks:{},links:['','','','']});
 const fresh6=()=>freshSecond('C006'),fresh7=()=>freshSecond('C007'),fresh8=()=>freshSecond('C008'),fresh9=()=>freshSecond('C009'),fresh10=()=>freshSecond('C010');
-let saved;try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch{}
+let saved;try{saved=typeof ProfileStore!=='undefined'&&ProfileStore.activeId()?ProfileStore.loadActiveSnapshot():JSON.parse(localStorage.getItem(KEY)||'null')}catch{}
 const isSaveObject=value=>!!value&&typeof value==='object'&&!Array.isArray(value);
 if(!isSaveObject(saved))saved=null;
 if(saved?.cases!==undefined&&!isSaveObject(saved.cases))saved={...saved,cases:null};
@@ -25,7 +26,7 @@ cases.C001??={run:fresh1(),record:null};cases.C002??={run:fresh2(),record:null};
 for(const [id,maker] of Object.entries({C006:fresh6,C007:fresh7,C008:fresh8,C009:fresh9,C010:fresh10})){cases[id]??={run:maker(),record:null};cases[id].run={...maker(),...cases[id].run,sceneProgress:{...(cases[id].run?.sceneProgress||{})},sequence:[...(cases[id].run?.sequence||[])],statementChecks:{...(cases[id].run?.statementChecks||{})},links:[...(cases[id].run?.links||['','','',''])]}}
 let activeCase=['C002','C003','C004','C005'].includes(saved?.activeCase)?saved.activeCase:'C001',state=cases[activeCase].run,record=cases[activeCase].record||null,clues=activeCase==='C001'?clues1:activeCase==='C002'?clues2:activeCase==='C003'?clues3:activeCase==='C004'?clues4:clues5,muted=!!saved?.muted,home=true,file=false,feedback='',wrong=false,storageError=false,audio;
 const app=document.querySelector('#app');
-function persist(){try{cases[activeCase]={run:state,record};localStorage.setItem(KEY,JSON.stringify({version:2,activeCase,cases,muted,...(typeof lensaBahasa==='undefined'?{}:{lensaBahasa})}))}catch{storageError=true}}
+function persist(){try{cases[activeCase]={run:state,record};const snapshot={version:2,activeCase,cases,muted,...(typeof lensaBahasa==='undefined'?{}:{lensaBahasa})};if(typeof ProfileStore!=='undefined'&&ProfileStore.activeId()){const result=ProfileStore.saveActive(snapshot);if(!result.ok)storageError=true}else if(typeof ProfileStore==='undefined')localStorage.setItem(KEY,JSON.stringify(snapshot))}catch{storageError=true}}
 function unlocked2(){return cases.C001.run.status==='completed'||cases.C001.record?.status==='completed'}
 function unlocked3(){return cases.C002.run.status==='completed'||cases.C002.record?.status==='completed'}
 function unlocked4(){return cases.C003.run.status==='completed'||cases.C003.record?.status==='completed'}

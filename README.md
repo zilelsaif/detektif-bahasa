@@ -1,6 +1,16 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.12.1 by Zil-el-Saif**. Enam pencapaian Fail Kelima kini menggunakan emblem WebP premium tanpa mengubah kandungan, ganjaran atau simpanan permainan.
+Versi setempat: **v2.13.0 by Zil-el-Saif**. Sistem Profil Detektif membolehkan sehingga lima pemain berkongsi pelayar yang sama dengan kemajuan berasingan, di samping mod Tetamu sementara.
+
+Lihat [CHANGELOG.md](CHANGELOG.md) untuk sejarah release lengkap dari v2.5.2 hingga versi semasa.
+
+## v2.13.0 — Profil Detektif
+
+- Menambah sehingga lima profil setempat dengan nama, enam avatar detektif dan ringkasan kemajuan individu.
+- Menambah pilihan Tetamu berasaskan sesi, pertukaran profil, kemas kini profil, pengesahan padam dan eksport sandaran JSON.
+- Memindahkan simpanan lama secara selamat kepada `Detektif Asal` tanpa memadam kunci `detektif-bahasa-v1`.
+- Mengasingkan profil mengikut tab dan menyekat penulisan apabila revisi profil berubah dalam tab lain.
+- Mengekalkan KES 001–025, rekod, Lensa Bahasa, pencapaian, Watak, bunyi dan semua sistem permainan.
 
 ## v2.12.1 — Premium Achievement Emblems
 

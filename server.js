@@ -6,6 +6,9 @@ http
   .createServer((s, a) => {
     const e = decodeURIComponent(s.url.split("?")[0]),
       t = {
+        "/profile-store.js": "profile-store.js",
+        "/profiles.js": "profiles.js",
+        "/profiles.css": "profiles.css",
         "/arc11.js": "arc11.js",
         "/assets/locations/dataran-jejak-makna-c025.webp":
           "assets/locations/dataran-jejak-makna-c025.webp",
