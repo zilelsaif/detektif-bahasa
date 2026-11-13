@@ -3,6 +3,11 @@ class MemoryStorage{constructor(seed={}){this.data=new Map(Object.entries(seed))
 const fresh=(legacy=null)=>{global.localStorage=new MemoryStorage(legacy?{'detektif-bahasa-v1':JSON.stringify(legacy)}:{});global.sessionStorage=new MemoryStorage();delete require.cache[require.resolve('./profile-store.js')];return require('./profile-store.js')};
 const legacy={version:2,activeCase:'C025',cases:{C001:{run:{status:'completed'},record:{status:'completed',stars:3,xpEarned:150}},C025:{run:{status:'in_progress',scene:4},record:null}},muted:true,lensaBahasa:{seen:['C001']},futureField:{kept:true}};
 {
+ const store=fresh();assert.equal(store.CLASSIC_AVATARS.length,6);assert.equal(store.PORTRAIT_AVATARS.length,12);assert.equal(store.AVATARS.length,18);
+ for(const avatar of [...store.CLASSIC_AVATARS,...store.PORTRAIT_AVATARS]){const result=store.create(avatar,avatar,{version:2,cases:{}});assert.equal(result.ok,true,avatar);assert.equal(store.registry().profiles.at(-1).avatar,avatar);store.remove(result.profile.id)}
+ const raw={schemaVersion:1,profiles:[{id:'corrupt',name:'Rosak',avatar:'tidak-wujud',createdAt:'x',updatedAt:'x'}],migration:{status:'none'}};localStorage.setItem(store.REGISTRY_KEY,JSON.stringify(raw));assert.equal(store.registry().profiles[0].avatar,'lensa');assert.equal(localStorage.getItem(store.REGISTRY_KEY),JSON.stringify(raw),'reading invalid metadata must not silently overwrite the raw registry');
+}
+{
  const store=fresh(legacy),reg=store.bootstrap();
  assert.equal(reg.profiles.length,1);assert.equal(reg.profiles[0].name,'Detektif Asal');assert.equal(reg.migration.status,'complete');
  assert.deepEqual(JSON.parse(localStorage.getItem(store.LEGACY_KEY)),legacy,'legacy backup must remain byte-equivalent as data');
@@ -42,5 +47,6 @@ const legacy={version:2,activeCase:'C025',cases:{C001:{run:{status:'completed'},
  for(const [profile,snapshot] of[[pa,a],[pb,b],[pc,c]]){store.select(profile.id);assert.deepEqual(store.loadActiveSnapshot(),snapshot)}
  store.select(pb.id);assert.equal(store.saveActive({...b,cases:{C001:{run:{status:'in_progress',scene:2},record:null}}}).ok,true);store.select(pa.id);assert.deepEqual(store.loadActiveSnapshot(),a,'advanced profile must remain byte-for-byte unchanged');store.select(pc.id);assert.deepEqual(store.loadActiveSnapshot(),c,'partial case and learning activity must restore');
  assert.deepEqual(store.exportProfile(pa.id).save.snapshot,a,'backup must contain the complete snapshot');
+ const before=store.readEnvelope(pa.id).snapshot;assert.equal(store.update(pa.id,{name:'Player A Baharu',avatar:'detektif-12'}).ok,true);assert.equal(store.registry().profiles.find(p=>p.id===pa.id).avatar,'detektif-12');assert.deepEqual(store.readEnvelope(pa.id).snapshot,before,'changing avatar must not mutate gameplay progress');assert.equal(store.update(pa.id,{name:'Player A Lagi',avatar:'detektif-12'}).profile.avatar,'detektif-12','renaming must retain selected avatar');
 }
 console.log('v2.13.0 profile storage: PASS');

@@ -1,6 +1,6 @@
 # Changelog Detektif Bahasa
 
-Dokumen ini merekodkan perubahan rasmi dari **v2.5.2** hingga versi semasa, **v2.13.0**. Tarikh bagi release terdahulu mengikut tag Git rasmi; v2.13.0 ialah binaan QA setempat yang belum dikomit. Kunci simpanan lama `detektif-bahasa-v1` dikekalkan sebagai sandaran migrasi.
+Dokumen ini merekodkan perubahan dari **v2.5.2** hingga binaan semasa, **v2.14.0**. v2.14.0 masih menjalani QA setempat. Kunci simpanan lama `detektif-bahasa-v1` kekal sebagai sandaran migrasi.
 
 ## Ringkasan perkembangan
 
@@ -20,6 +20,32 @@ Dokumen ini merekodkan perubahan rasmi dari **v2.5.2** hingga versi semasa, **v2
 | v2.12.0 | 4 November 2026 | KES 025 dan finale Fail Kelima |
 | v2.12.1 | 4 November 2026 | Emblem pencapaian premium A28–A33 |
 | v2.13.0 | 13 November 2026 | Profil Detektif berbilang pengguna setempat |
+| v2.14.0 | 13 November 2026 | 12 potret premium Avatar Detektif Cilik |
+
+---
+
+## v2.14.0 — Avatar Detektif Cilik
+
+**Tarikh:** 13 November 2026
+**Jenis:** Visual dan profile-experience release setempat
+
+### Ditambah
+
+- Dua belas potret pemain WebP telus 512×512 dengan ID `detektif-01` hingga `detektif-12`.
+- Kategori **Watak Detektif** dan **Simbol Klasik**, pratonton avatar serta indikator pilihan yang tidak bergantung pada warna sahaja.
+- Fallback kepada simbol Lensa apabila imej potret gagal dimuatkan.
+
+### Keserasian
+
+- Enam ID avatar v2.13.0 kekal sah dan dipaparkan tanpa migrasi.
+- Perubahan nama atau avatar hanya mengemas kini metadata profil; sampul simpanan permainan kekal byte-for-byte sama.
+- Galeri menggunakan lazy loading, sementara Muka Depan hanya memuat potret profil aktif.
+- Jumlah aset baharu ialah 437,896 bait (kira-kira 428 KiB).
+
+### Dikekalkan
+
+- 25 kes, lima Fail Kes, 125 petunjuk, 24 NPC, 33 pencapaian dan 20 Lensa Bahasa.
+- 109 bintang maksimum, 9,870 XP terbaik maksimum dan semua mekanik v2.13.0.
 
 ---
 
@@ -310,7 +336,7 @@ Dokumen ini merekodkan perubahan rasmi dari **v2.5.2** hingga versi semasa, **v2
 
 ---
 
-## Keadaan semasa dalam binaan setempat v2.13.0
+## Keadaan semasa dalam binaan setempat v2.14.0
 
 - **Kes:** 25, dibahagikan kepada lima Fail Kes.
 - **Petunjuk rasmi:** 125.
@@ -325,5 +351,5 @@ Dokumen ini merekodkan perubahan rasmi dari **v2.5.2** hingga versi semasa, **v2
 
 ## Rujukan
 
-Dokumen implementasi, validasi bahasa dan QA terperinci bagi setiap release berada dalam folder [`docs/`](docs/). Sejarah release rasmi boleh disemak melalui tag Git `v2.5.2` hingga `v2.12.1`; v2.13.0 masih merupakan binaan QA setempat dan belum mempunyai tag.
+Dokumen implementasi, validasi bahasa dan QA terperinci bagi setiap release berada dalam folder [`docs/`](docs/). Sejarah terdahulu boleh disemak melalui Git; v2.14.0 masih merupakan binaan QA setempat dan belum dikomit oleh tugas ini.
 

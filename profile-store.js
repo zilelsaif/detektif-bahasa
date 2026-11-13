@@ -1,7 +1,9 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ProfileStore=api})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const REGISTRY_KEY='detektif-bahasa-profiles-v1',SAVE_PREFIX='detektif-bahasa-profile-v1:',TAB_KEY='detektif-bahasa-active-profile-v1',GUEST_KEY='detektif-bahasa-guest-v1',LEGACY_KEY='detektif-bahasa-v1',MAX_PROFILES=5,MAX_NAME=16,SCHEMA=1;
-const AVATARS=['lensa','nota','kompas','bintang','lampu','peta'];
+const CLASSIC_AVATARS=['lensa','nota','kompas','bintang','lampu','peta'];
+const PORTRAIT_AVATARS=Array.from({length:12},(_,index)=>`detektif-${String(index+1).padStart(2,'0')}`);
+const AVATARS=[...PORTRAIT_AVATARS,...CLASSIC_AVATARS];
 let storageError='',conflict=null,damagedProfile=null;
 const now=()=>new Date().toISOString();
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
@@ -36,5 +38,5 @@ function reloadActive(){const id=activeId(),data=id&&readEnvelope(id);if(data){s
 function summary(id){const data=readEnvelope(id),cases=data?.snapshot?.cases||{},entries=Object.values(cases).filter(object),completed=entries.filter(c=>c?.record?.status==='completed'||c?.run?.status==='completed').length,stars=entries.reduce((sum,c)=>sum+Number(c?.record?.stars||c?.run?.stars||0),0),xp=entries.reduce((sum,c)=>sum+Number(c?.record?.xpEarned||c?.run?.xpEarned||0),0);return{completed,stars,xp,activeCase:data?.snapshot?.activeCase||'C001'}}
 function exportProfile(id){const profile=id==='guest'?activeProfile():registry().profiles.find(p=>p.id===id),data=readEnvelope(id);if(!profile||!data)return null;return{format:'detektif-bahasa-profile-backup',schemaVersion:SCHEMA,exportedAt:now(),profile:clone(profile),save:clone(data)}}
 function getError(){return storageError}function getConflict(){return conflict}
-return{REGISTRY_KEY,SAVE_PREFIX,TAB_KEY,GUEST_KEY,LEGACY_KEY,MAX_PROFILES,MAX_NAME,AVATARS,bootstrap,registry,activeId,activeProfile,loadActiveSnapshot,select,create,update,remove,saveActive,reloadActive,summary,exportProfile,validateName,getError,getConflict,readEnvelope,clearTab,_test:{cleanRegistry,migrateLegacy,envelope,validSnapshot}};
+return{REGISTRY_KEY,SAVE_PREFIX,TAB_KEY,GUEST_KEY,LEGACY_KEY,MAX_PROFILES,MAX_NAME,AVATARS,CLASSIC_AVATARS,PORTRAIT_AVATARS,bootstrap,registry,activeId,activeProfile,loadActiveSnapshot,select,create,update,remove,saveActive,reloadActive,summary,exportProfile,validateName,getError,getConflict,readEnvelope,clearTab,_test:{cleanRegistry,migrateLegacy,envelope,validSnapshot}};
 });

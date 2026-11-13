@@ -9,6 +9,13 @@ http
         "/profile-store.js": "profile-store.js",
         "/profiles.js": "profiles.js",
         "/profiles.css": "profiles.css",
+        ...Object.fromEntries(
+          Array.from({ length: 12 }, (_, index) => {
+            const id = String(index + 1).padStart(2, "0"),
+              file = `assets/avatars/detektif-${id}.webp`;
+            return [`/${file}`, file];
+          }),
+        ),
         "/arc11.js": "arc11.js",
         "/assets/locations/dataran-jejak-makna-c025.webp":
           "assets/locations/dataran-jejak-makna-c025.webp",

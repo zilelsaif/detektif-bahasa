@@ -1,8 +1,16 @@
 # Detektif Bahasa
 
-Versi setempat: **v2.13.0 by Zil-el-Saif**. Sistem Profil Detektif membolehkan sehingga lima pemain berkongsi pelayar yang sama dengan kemajuan berasingan, di samping mod Tetamu sementara.
+Versi setempat: **v2.14.0 by Zil-el-Saif**. Galeri Profil Detektif kini menawarkan 12 potret Detektif Cilik premium di samping enam simbol klasik, tanpa mengubah kemajuan pemain.
 
 Lihat [CHANGELOG.md](CHANGELOG.md) untuk sejarah release lengkap dari v2.5.2 hingga versi semasa.
+
+## v2.14.0 — Avatar Detektif Cilik
+
+- Menambah 12 potret pemain WebP telus 512×512 dengan ID stabil `detektif-01` hingga `detektif-12`.
+- Memisahkan pemilih kepada **Watak Detektif** dan **Simbol Klasik**, lengkap dengan pratonton, status pilihan, navigasi papan kekunci dan sasaran sentuhan 44px.
+- Mengekalkan semua enam ID v2.13.0: `lensa`, `nota`, `kompas`, `bintang`, `lampu` dan `peta`.
+- Memuatkan galeri secara lazy, menggunakan potret aktif sahaja di Muka Depan, dan menyediakan fallback Lensa jika imej gagal.
+- Perubahan avatar hanya mengemas kini metadata profil; snapshot kes, skor, rekod, Lensa Bahasa dan pencapaian tidak disentuh.
 
 ## v2.13.0 — Profil Detektif
 
